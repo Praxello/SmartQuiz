@@ -39,7 +39,7 @@ public class QuizActivity extends AppCompatActivity {
     SmartQuiz smartQuiz;
     public static final String TAG="QuizActivity";
     QuizBO quizBO;
-    ArrayList<QuestionBO> questionBO=new ArrayList<>();
+    ArrayList<QuestionBO> questionBO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +50,24 @@ public class QuizActivity extends AppCompatActivity {
         //basic intialisation...
         initViews();
 
+        Log.e(TAG, "onCreate:size getIntent "+getIntent().getExtras().getParcelableArrayList("data_test") );
+
         if(getIntent().getParcelableExtra("data")!=null)
         {
-            //quizBO=getIntent().getParcelableExtra("data");
-            questionBO=getIntent().getParcelableExtra("data");
-
+            quizBO=getIntent().getParcelableExtra("data");
+            loadQuizFragment();
         }
 
-        loadQuizFragment();
+        if(getIntent().getParcelableExtra("data_test")!=null)
+        {
+            //quizBO=getIntent().getParcelableExtra("data");
+            questionBO=getIntent().getExtras().getParcelableArrayList("data_test") ;
+            Log.e(TAG, "onCreate: arraylist size"+questionBO.size() );
+        }
+
+
+
+     //
         //Log.e(TAG, "onCreate: "+quizBO.getQuestions().get(0));
 
 
@@ -136,8 +146,13 @@ public class QuizActivity extends AppCompatActivity {
     public void loadQuizFragment() {
         QuizFragment quizFragment = new QuizFragment();
         Bundle bundle = new Bundle();
-       // bundle.putParcelable("question", quizBO.getQuestions().get(currentQuesPos));
-        bundle.putParcelable("question", questionBO.get(0));
+        if(getIntent().getParcelableExtra("data")!=null){
+            bundle.putParcelable("question", quizBO.getQuestions().get(currentQuesPos));
+        }else if(getIntent().getExtras().getParcelableArrayList("data_test")!=null ){
+            bundle.putParcelable("question",questionBO.get(currentQuesPos));
+        }
+
+        //bundle.putParcelable("question", questionBO.get(currentQuesPos));
         quizFragment.setArguments(bundle);
         loadFragment(quizFragment);
     }

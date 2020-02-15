@@ -33,6 +33,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     public LinearLayout llTakeTest;
     SmartQuiz smartQuiz;
     private static String TAG="DashBoardActivity";
+    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +78,11 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                             etQuizID.requestFocus();
                             etQuizID.setFocusable(true);
                         }else{
-                            //loadTest(etQuizID.getText().toString());
+                            loadTest(etQuizID.getText().toString());
                         }
                     }
                 });
-                AlertDialog alertDialog = builder.create();
+                 alertDialog = builder.create();
                 alertDialog.show();
 
                 break;
@@ -93,17 +94,17 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onSuccess(Object object) {
                         GetExamResponse getExamResponse=(GetExamResponse) object;
-
+                        alertDialog.dismiss();
                         Log.e(TAG, "onSuccess: "+getExamResponse.getResponsecode());
                         Log.e(TAG, "onSuccess: "+getExamResponse.getMessage());
-                        Log.e(TAG, "onSuccess: "+getExamResponse.getData());
+                        Log.e(TAG, "onSuccess: "+getExamResponse.getData().size());
 
                         if(getExamResponse.getResponsecode()==200){
                             Intent intent=new Intent(DashBoardActivity.this, QuizActivity.class);
-                            intent.putExtra("data",getExamResponse.getData());
+                            intent.putParcelableArrayListExtra("data_test",getExamResponse.getData());
                             startActivity(intent);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                           overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                             overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
 
                         }else{
                             Toast.makeText(DashBoardActivity.this, getExamResponse.getMessage(), Toast.LENGTH_SHORT).show();

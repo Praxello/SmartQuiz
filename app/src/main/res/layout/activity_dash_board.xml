@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.DashBoardActivity">
-
-
+    
     <ImageView
         android:id="@+id/ivbackgroundimg"
         android:layout_width="match_parent"
