@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">SmartQuiz</string>
+    <string name="general_quiz">General Quiz</string>
+    <string name="take_a_test">Take a test</string>
+    <string name="my_score">My Score</string>
+    <string name="account">Account</string>
+    <string name="logout">Logout</string>
+    <string name="about">About</string>
+    <string name="select_an_answer">SELECT AN ANSWER</string>
+    <string name="description">DESCRIPTION</string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="login">Login</string>
+    <string name="smart_quiz">Smart Quiz</string>
+</resources>

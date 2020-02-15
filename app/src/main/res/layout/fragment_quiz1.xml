@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/ivbackgroundimg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin200"
+        android:background="@drawable/smartquizbg"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/tv_question_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin40"
+        android:layout_marginTop="@dimen/margin50"
+        android:text="Question # 01"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_question_no"
+        android:layout_marginLeft="@dimen/margin40"
+        android:layout_marginTop="@dimen/margin5"
+        android:maxLines="5"
+        android:text="PHP Stand for?"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.PopupMenu.Small"
+        android:textColor="@color/white"
+        android:textStyle="bold|italic" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ivbackgroundimg"
+        android:layout_marginLeft="@dimen/margin30"
+        android:layout_marginTop="-30dp"
+        android:layout_marginRight="@dimen/margin30"
+        android:layout_weight="1"
+        android:elevation="@dimen/margin5"
+        app:cardCornerRadius="@dimen/margin1"
+        app:cardElevation="@dimen/margin5"
+        app:cardPreventCornerOverlap="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_select_an_answer"
+                android:text="@string/select_an_answer"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/margin5"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:id="@+id/cardview1"
+                android:elevation="@dimen/margin5"
+                app:cardCornerRadius="@dimen/margin10"
+                app:cardElevation="@dimen/margin5"
+                android:layout_margin="@dimen/margin10"
+                app:cardPreventCornerOverlap="true"
+                android:layout_marginTop="@dimen/margin10">
+
+                <RelativeLayout
+                    android:id="@+id/rlOption1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin10"
+                        android:id="@+id/ll_img1"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:background="@drawable/circle_background"
+                        android:backgroundTint="@color/deepgreen800"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/margin10"
+                            android:gravity="center"
+                            android:src="@drawable/ic_alphabet_a" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvOption1"
+                        android:layout_toRightOf="@id/ll_img1"
+                        android:text="@string/general_quiz"
+                        android:padding="@dimen/margin10"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse" />
+
+                    <View
+                        android:layout_width="@dimen/margin50"
+                        android:layout_height="@dimen/margin5"
+                        android:background="@color/deepgreen800"
+                        android:layout_toRightOf="@id/ll_img1"
+                        android:layout_marginLeft="@dimen/margin10"
+                        android:layout_below="@id/tvOption1"
+                        android:id="@+id/view2"/>
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:id="@+id/cardview2"
+                android:elevation="@dimen/margin5"
+                app:cardCornerRadius="@dimen/margin10"
+                app:cardElevation="@dimen/margin5"
+                android:layout_margin="@dimen/margin10"
+                app:cardPreventCornerOverlap="true"
+                android:layout_marginTop="@dimen/margin10">
+
+                <RelativeLayout
+                    android:id="@+id/rlOption2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ll_img2"
+                        android:layout_marginLeft="@dimen/margin10"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:background="@drawable/circle_background"
+                        android:backgroundTint="@color/deepPurple800"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/margin10"
+                            android:gravity="center"
+                            android:src="@drawable/ic_alphabet_b" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvOption2"
+                        android:layout_toRightOf="@id/ll_img2"
+                        android:text="@string/general_quiz"
+                        android:padding="@dimen/margin10"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse" />
+
+                    <View
+                        android:layout_width="@dimen/margin50"
+                        android:layout_height="@dimen/margin5"
+                        android:background="@color/deepPurple800"
+                        android:layout_toRightOf="@id/ll_img2"
+                        android:layout_marginLeft="@dimen/margin10"
+                        android:layout_below="@id/tvOption2"
+                      />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:id="@+id/cardview3"
+                android:elevation="@dimen/margin5"
+                app:cardCornerRadius="@dimen/margin10"
+                app:cardElevation="@dimen/margin5"
+                android:layout_margin="@dimen/margin10"
+                app:cardPreventCornerOverlap="true"
+                android:layout_marginTop="@dimen/margin10">
+
+                <RelativeLayout
+                    android:id="@+id/rlOption3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ll_img3"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/margin10"
+                        android:gravity="center"
+                        android:background="@drawable/circle_background"
+                        android:backgroundTint="@color/deepOrange800"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/margin10"
+                            android:gravity="center"
+                            android:src="@drawable/ic_letter_c" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvOption3"
+                        android:layout_toRightOf="@id/ll_img3"
+                        android:text="@string/general_quiz"
+                        android:padding="@dimen/margin10"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse" />
+
+                    <View
+                        android:layout_width="@dimen/margin50"
+                        android:layout_height="@dimen/margin5"
+                        android:background="@color/deepOrange800"
+                        android:layout_toRightOf="@id/ll_img3"
+                        android:layout_marginLeft="@dimen/margin10"
+                        android:layout_below="@id/tvOption3"
+                       />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:id="@+id/cardview4"
+                android:elevation="@dimen/margin5"
+                app:cardCornerRadius="@dimen/margin10"
+                app:cardElevation="@dimen/margin5"
+                android:layout_margin="@dimen/margin10"
+                app:cardPreventCornerOverlap="true"
+                android:layout_marginTop="@dimen/margin10">
+
+                <RelativeLayout
+                    android:id="@+id/rlOption4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ll_img4"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="@dimen/margin10"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:background="@drawable/circle_background"
+                        android:backgroundTint="@color/yellow800"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/margin10"
+                            android:gravity="center"
+                            android:src="@drawable/ic_letter_d" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvOption4"
+                        android:layout_toRightOf="@id/ll_img4"
+                        android:text="@string/general_quiz"
+                        android:padding="@dimen/margin10"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse" />
+
+                    <View
+                        android:layout_width="@dimen/margin50"
+                        android:layout_height="@dimen/margin5"
+                        android:background="@color/yellow800"
+                        android:layout_toRightOf="@id/ll_img4"
+                        android:layout_marginLeft="@dimen/margin10"
+                        android:layout_below="@id/tvOption4" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvTimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentLeft="true" />
+
+                <TextView
+                    android:id="@+id/tvNext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:drawableEnd="@drawable/ic_keyboard_arrow_right_white_24dp"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="Next"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentRight="true"
+                    android:drawableRight="@drawable/ic_keyboard_arrow_right_white_24dp" />
+            </RelativeLayout>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:id="@+id/cardview5"
+                android:elevation="@dimen/margin5"
+                app:cardCornerRadius="@dimen/margin10"
+                app:cardElevation="@dimen/margin5"
+                android:layout_margin="@dimen/margin10"
+                app:cardPreventCornerOverlap="true"
+                android:layout_marginTop="@dimen/margin10">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textSize="@dimen/textsize12"
+                    android:text="@string/description"
+                    android:visibility="visible"
+                     />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/margin20">
+
+                    <ImageView
+                        android:id="@+id/ivAnswer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_lightbulb"
+                        tools:ignore="VectorDrawableCompat" />
+
+                    <TextView
+                        android:id="@+id/tvAnswer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textsize12"
+                        android:text="@string/select_an_answer"
+                        android:visibility="gone"
+                        android:layout_marginLeft="12dp" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin170">170dp</dimen>
+    <dimen name="margin10">10dp</dimen>
+    <dimen name="margin1">1dp</dimen>
+    <dimen name="margin30">30dp</dimen>
+    <dimen name="margin5">5dp</dimen>
+    <dimen name="margin3">3dp</dimen>
+    <dimen name="margin15">15dp</dimen>
+    <dimen name="margin50">50dp</dimen>
+    <dimen name="margin220">220dp</dimen>
+    <dimen name="margin250">250dp</dimen>
+    <dimen name="margin40">40dp</dimen>
+    <dimen name="textsize12">12sp</dimen>
+    <dimen name="margin200">200dp</dimen>
+    <dimen name="textsize15">15sp</dimen>
+    <dimen name="margin60">60dp</dimen>
+    <dimen name="margin100">100dp</dimen>
+    <dimen name="textsize40">40sp</dimen>
+</resources>

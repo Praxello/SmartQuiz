@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.DashBoardActivity">
+
+
+    <ImageView
+        android:id="@+id/ivbackgroundimg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin250"
+        android:background="@drawable/smartquizbg"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/smart_quiz"
+        android:id="@+id/tv_title"
+        android:textColor="@color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
+        android:textStyle="bold"
+        android:textSize="60sp"
+        android:layout_marginTop="@dimen/margin100"
+        android:gravity="center_horizontal" />
+
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ivbackgroundimg"
+        android:layout_marginLeft="@dimen/margin30"
+        android:layout_marginTop="-50dp"
+        android:layout_marginRight="@dimen/margin30"
+        android:layout_marginBottom="@dimen/margin30"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context=".activity.LoginActivity">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin10"
+            android:background="#9e9e9e"
+            android:elevation="@dimen/margin10"
+            app:cardCornerRadius="@dimen/margin15"
+            app:cardElevation="@dimen/margin10"
+            app:cardPreventCornerOverlap="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin15"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etMobileNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/email_address"
+                            android:imeOptions="actionNext"
+                            android:inputType="textEmailAddress" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin10">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin10"
+                            android:hint="@string/password"
+                            android:imeOptions="actionDone"
+                            android:inputType="textPassword"
+                            android:maxLength="6" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/tv_forgotpassword"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginTop="@dimen/margin5"
+                        android:layout_marginRight="@dimen/margin5"
+                        android:layout_marginBottom="@dimen/margin5"
+                        android:text="@string/forgot_password"
+                        android:textSize="@dimen/textsize15" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnlogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin10"
+                        android:background="@color/colorPrimaryDark"
+                        android:text="@string/login"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="@dimen/margin60"
+                    android:layout_height="@dimen/margin40"
+                    android:gravity="bottom"
+                    android:src="@drawable/praxello"
+                    android:layout_marginTop="@dimen/margin60"
+                    />
+
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

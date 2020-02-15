@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:id="@+id/cardview"
+            android:elevation="@dimen/margin5"
+            app:cardCornerRadius="@dimen/margin10"
+            app:cardElevation="@dimen/margin5"
+            android:layout_margin="@dimen/margin5"
+            app:cardPreventCornerOverlap="true">
+
+            <View
+                android:layout_width="@dimen/margin5"
+                android:layout_height="match_parent"
+                android:background="@color/deepgreen800"
+                android:id="@+id/view1"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_type"
+                android:text="@string/general_quiz"
+                android:padding="@dimen/margin10"
+                android:layout_marginLeft="@dimen/margin30"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin1"
+                android:background="@color/deepgreen800"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin5"
+                android:layout_marginLeft="@dimen/margin20"
+                android:layout_marginRight="@dimen/margin15"
+                android:id="@+id/view2"/>
+
+        </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>
