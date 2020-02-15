@@ -61,4 +61,8 @@ dependencies {
     //Zoomin effect to ImageView
     implementation 'com.commit451:PhotoView:1.2.4'
 
+    //Material dialogue dependency
+    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
+
+
 }

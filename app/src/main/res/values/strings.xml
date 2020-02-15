@@ -13,4 +13,6 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="login">Login</string>
     <string name="smart_quiz">Smart Quiz</string>
+    <string name="submit">Submit</string>
+    <string name="quiz_id">Quiz Id</string>
 </resources>

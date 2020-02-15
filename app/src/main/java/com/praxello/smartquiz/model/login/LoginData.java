@@ -1,5 +1,7 @@
 package com.praxello.smartquiz.model.login;
 
+import androidx.annotation.NonNull;
+
 public class LoginData {
     public String userId;
     public String salutation;
@@ -153,5 +155,11 @@ public class LoginData {
 
     public void setIsActive(String isActive) {
         this.isActive = isActive;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "userId"+this.userId+"\n saluation"+getSalutation()+"\n name"+getFirstName()+"\n second name"+getLastName();
     }
 }

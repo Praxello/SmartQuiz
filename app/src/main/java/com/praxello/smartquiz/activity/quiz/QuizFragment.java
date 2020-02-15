@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,15 +14,26 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
+import com.praxello.smartquiz.AllKeys;
+import com.praxello.smartquiz.CommonMethods;
 import com.praxello.smartquiz.R;
 import com.praxello.smartquiz.activity.PreViewActivity;
-import com.praxello.smartquiz.activity.retrofit.SmartQuiz;
+import com.praxello.smartquiz.services.ApiRequestHelper;
+import com.praxello.smartquiz.services.SmartQuiz;
 import com.praxello.smartquiz.model.allquestion.QuestionBO;
+import com.praxello.smartquiz.model.quiz.UserData;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.ButterKnife;
 
 public class QuizFragment extends Fragment implements View.OnClickListener {
@@ -127,12 +139,16 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         }
 
         if (question.getQuestionType() == 1) {
-            Glide.with(getContext()).load(question.getMediaUrl()).into(ivBackgroundImage);
+            if (question.getMediaUrl() != null || !question.getMediaUrl().equals("")) {
+                Glide.with(getContext()).load(question.getMediaUrl()).into(ivBackgroundImage);
+            }
             tvSelectAnAnswer.setText("Que:- " + question.getQuestion());
             tvQuestionNo.setVisibility(View.GONE);
             tvQuestion.setVisibility(View.GONE);
-        }else if(question.getQuestionType()==2){
-            Glide.with(getContext()).load("https://img.youtube.com/vi/"+(question.getMediaUrl())+"/0.jpg").into(ivBackgroundImage);
+        } else if (question.getQuestionType() == 2) {
+            if (question.getMediaUrl() != null || !question.getMediaUrl().equals("")) {
+                Glide.with(getContext()).load("https://img.youtube.com/vi/" + (question.getMediaUrl()) + "/0.jpg").into(ivBackgroundImage);
+            }
             tvSelectAnAnswer.setText("Que:- " + question.getQuestion());
             tvQuestionNo.setVisibility(View.GONE);
             tvQuestion.setVisibility(View.GONE);
@@ -225,7 +241,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
                 Log.e(TAG, "onViewCreated: "+map );
                 savequiz(map);*/
-                //  savequiz(CommonMethods.getPrefrence(getContext(), AllKeys.USER_ID),""+((QuizActivity) getContext()).totalScore);
+                  savequiz("1",""+((QuizActivity) getContext()).totalScore,""+question.quizId);
             } else {
                 ((QuizActivity) getContext()).currentQuesPos++;
                 ((QuizActivity) getContext()).loadQuizFragment();
@@ -237,15 +253,15 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivbackgroundimg:
-                if (question.getQuestionType() == 1) {
+                if (question.getQuestionType() == 1 && !question.getMediaUrl().equals("")) {
                     Intent intent = new Intent(getContext(), PreViewActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("image_url",question.mediaUrl);
+                    intent.putExtra("image_url", question.mediaUrl);
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
 
-                }else if(question.getQuestionType()==2){
-                    startActivityForResult(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v="+question.getMediaUrl())),100);
+                } else if (question.getQuestionType() == 2 && !question.getMediaUrl().equals("")) {
+                    startActivityForResult(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + question.getMediaUrl())), 100);
                 }
                 break;
         }
@@ -254,30 +270,33 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==200){
-            Log.e(TAG, "onActivityResult: start timer" );
+        if (requestCode == 200) {
+            Log.e(TAG, "onActivityResult: start timer");
         }
     }
 
-    /*  private void savequiz(String userid,String score) {
+      private void savequiz(String userid,String score,String quizid) {
         if (CommonMethods.isNetworkAvailable(getContext())) {
             //CustomProgressDialog pd = new CustomProgressDialog(mContext);
             //pd.show();
-            WRFApp.getApiRequestHelper().savequiz(userid,score, new ApiRequestHelper.OnRequestComplete() {
+            Map<String,String> params=new HashMap<>();
+            params.put("userid",userid);
+            params.put("score",score);
+            params.put("quizid",quizid);
+            smartQuiz.getApiRequestHelper().savequiz(params, new ApiRequestHelper.OnRequestComplete() {
                 @Override
                 public void onSuccess(Object object) {
                     //if (pd.isShowing()) pd.dismiss();/
-                    UserData userData = (UserData) object;
-                    //Log.e("in", "success");
+                    UserData userData = (UserData) object;Log.e("in", "success");
 
-                   // Log.e(TAG, "onSuccess: "+userData.getMessage() );
-                    //Log.e(TAG, "onSuccess: "+userData.getResponsecode() );
+                    Log.e(TAG, "onSuccess: "+userData.getMessage() );
+                    Log.e(TAG, "onSuccess: "+userData.getResponsecode() );
                     if (userData != null) {
                         if (userData.getResponsecode() == 200) {
                             Toast.makeText(getContext(), "Answers submitted", Toast.LENGTH_SHORT).show();
                             new MaterialDialog.Builder(getContext())
                                     .title("Your score")
-                                    .content(((QuizActivity) getContext()).totalScore + "/" + ((QuizActivity) getContext()).questionData.getQuestions().size())
+                                    .content(((QuizActivity) getContext()).totalScore + "/" + ((QuizActivity) getContext()).quizBO.getQuestions().size())
                                     .positiveText("Ok")
                                     .cancelable(false)
                                     .onPositive((dialog, which) -> ((QuizActivity) getContext()).finish())
@@ -287,7 +306,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                             Toast.makeText(getContext(), userData.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(getContext(),AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -301,7 +320,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         } else {
             Toast.makeText(getContext(), AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
         }
-    }*/
+    }
 
     private void playAudio(boolean isCorrect) {
         MediaPlayer mp = MediaPlayer.create(getContext(), isCorrect ? R.raw.correct : R.raw.wrong);
@@ -353,74 +372,98 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                 break;
         }
 
-        if (question.getAnswer() == 1 && selectedAnswerIndex == 1) {
-            // ivOption1.setVisibility(View.VISIBLE);
-            cardView1.setVisibility(View.VISIBLE);
-            cardView1.setBackgroundColor(getResources().getColor(R.color.green));
-            cardView2.setVisibility(View.GONE);
-            cardView3.setVisibility(View.GONE);
-            cardView4.setVisibility(View.GONE);
-        } else {
-            cardView1.setVisibility(View.VISIBLE);
-            cardView1.setBackgroundColor(getResources().getColor(R.color.green));
-            cardView2.setVisibility(View.VISIBLE);
-            cardView2.setBackgroundColor(getResources().getColor(R.color.red));
-            tvOption2.setText(temp);
-            cardView3.setVisibility(View.GONE);
-            cardView4.setVisibility(View.GONE);
-        }
+        switch (question.getAnswer()) {
 
+            case 1:
+                if (selectedAnswerIndex == 1) {
+                    cardView1.setVisibility(View.VISIBLE);
+                    cardView1.setBackgroundColor(getResources().getColor(R.color.green));
+                    cardView2.setVisibility(View.GONE);
+                    cardView3.setVisibility(View.GONE);
+                    cardView4.setVisibility(View.GONE);
+                } else {
+                    cardView1.setVisibility(View.VISIBLE);
+                    cardView1.setBackgroundColor(getResources().getColor(R.color.green));
+                    if(!temp.equals("")) {
+                        cardView4.setVisibility(View.VISIBLE);
+                        cardView4.setBackgroundColor(getResources().getColor(R.color.red));
+                        tvOption4.setText(temp);
+                    }else{
+                        cardView4.setVisibility(View.GONE);
+                    }
+                    cardView3.setVisibility(View.GONE);
+                    cardView4.setVisibility(View.GONE);
+                }
+                break;
 
-        if (question.getAnswer() == 2 && selectedAnswerIndex == 2) {
-            // ivOption2.setVisibility(View.VISIBLE);
-            cardView2.setVisibility(View.VISIBLE);
-            cardView2.setBackgroundColor(getResources().getColor(R.color.green));
-            cardView1.setVisibility(View.GONE);
-            cardView3.setVisibility(View.GONE);
-            cardView4.setVisibility(View.GONE);
-        } else {
-            cardView2.setVisibility(View.VISIBLE);
-            cardView2.setBackgroundColor(getResources().getColor(R.color.green));
-            cardView1.setVisibility(View.VISIBLE);
-            cardView1.setBackgroundColor(getResources().getColor(R.color.red));
-            tvOption1.setText(temp);
-            cardView3.setVisibility(View.GONE);
-            cardView4.setVisibility(View.GONE);
-        }
+            case 2:
+                if (selectedAnswerIndex == 2) {
+                    // ivOption2.setVisibility(View.VISIBLE);
+                    cardView2.setVisibility(View.VISIBLE);
+                    cardView2.setBackgroundColor(getResources().getColor(R.color.green));
+                    cardView1.setVisibility(View.GONE);
+                    cardView3.setVisibility(View.GONE);
+                    cardView4.setVisibility(View.GONE);
+                } else {
+                    cardView2.setVisibility(View.VISIBLE);
+                    cardView2.setBackgroundColor(getResources().getColor(R.color.green));
+                    if(!temp.equals("")) {
+                        cardView4.setVisibility(View.VISIBLE);
+                        cardView4.setBackgroundColor(getResources().getColor(R.color.red));
+                        tvOption4.setText(temp);
+                    }else{
+                        cardView4.setVisibility(View.GONE);
+                    }
+                    cardView3.setVisibility(View.GONE);
+                    cardView1.setVisibility(View.GONE);
+                }
+                break;
 
+            case 3:
+                if (selectedAnswerIndex == 3) {
+                    //ivOption3.setVisibility(View.VISIBLE);
+                    cardView3.setVisibility(View.VISIBLE);
+                    cardView3.setBackgroundColor(getResources().getColor(R.color.green));
+                    cardView1.setVisibility(View.GONE);
+                    cardView2.setVisibility(View.GONE);
+                    cardView4.setVisibility(View.GONE);
+                } else {
+                    cardView3.setVisibility(View.VISIBLE);
+                    cardView3.setBackgroundColor(getResources().getColor(R.color.green));
+                    if(!temp.equals("")) {
+                        cardView4.setVisibility(View.VISIBLE);
+                        cardView4.setBackgroundColor(getResources().getColor(R.color.red));
+                        tvOption4.setText(temp);
+                    }else{
+                        cardView4.setVisibility(View.GONE);
+                    }
+                    cardView3.setVisibility(View.GONE);
+                    cardView1.setVisibility(View.GONE);
+                }
+                break;
 
-        if (question.getAnswer() == 3 && selectedAnswerIndex == 2) {
-            //ivOption3.setVisibility(View.VISIBLE);
-            cardView3.setVisibility(View.VISIBLE);
-            cardView3.setBackgroundColor(getResources().getColor(R.color.green));
-            cardView1.setVisibility(View.GONE);
-            cardView2.setVisibility(View.GONE);
-            cardView4.setVisibility(View.GONE);
-        } else {
-            cardView3.setVisibility(View.VISIBLE);
-            cardView3.setBackgroundColor(getResources().getColor(R.color.green));
-            cardView2.setVisibility(View.VISIBLE);
-            cardView2.setBackgroundColor(getResources().getColor(R.color.red));
-            tvOption2.setText(temp);
-            cardView1.setVisibility(View.GONE);
-            cardView4.setVisibility(View.GONE);
-        }
-
-        if (question.getAnswer() == 4 && selectedAnswerIndex == 2) {
-            // ivOption4.setVisibility(View.VISIBLE);
-            cardView4.setVisibility(View.VISIBLE);
-            cardView4.setBackgroundColor(getResources().getColor(R.color.green));
-            cardView1.setVisibility(View.GONE);
-            cardView2.setVisibility(View.GONE);
-            cardView3.setVisibility(View.GONE);
-        } else {
-            cardView4.setVisibility(View.VISIBLE);
-            cardView4.setBackgroundColor(getResources().getColor(R.color.green));
-            cardView2.setVisibility(View.VISIBLE);
-            cardView2.setBackgroundColor(getResources().getColor(R.color.red));
-            tvOption2.setText(temp);
-            cardView3.setVisibility(View.GONE);
-            cardView1.setVisibility(View.GONE);
+            case 4:
+                if (selectedAnswerIndex == 4) {
+                    // ivOption4.setVisibility(View.VISIBLE);
+                    cardView4.setVisibility(View.VISIBLE);
+                    cardView4.setBackgroundColor(getResources().getColor(R.color.green));
+                    cardView1.setVisibility(View.GONE);
+                    cardView2.setVisibility(View.GONE);
+                    cardView3.setVisibility(View.GONE);
+                } else {
+                    cardView4.setVisibility(View.VISIBLE);
+                    cardView4.setBackgroundColor(getResources().getColor(R.color.green));
+                    if(!temp.equals("")) {
+                        cardView2.setVisibility(View.VISIBLE);
+                        cardView2.setBackgroundColor(getResources().getColor(R.color.red));
+                        tvOption2.setText(temp);
+                    }else{
+                        cardView2.setVisibility(View.GONE);
+                    }
+                    cardView3.setVisibility(View.GONE);
+                    cardView1.setVisibility(View.GONE);
+                }
+                break;
         }
     }
 

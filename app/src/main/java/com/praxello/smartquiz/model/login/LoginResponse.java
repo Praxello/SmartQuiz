@@ -32,5 +32,9 @@ public class LoginResponse {
         Message = message;
     }
 
-
+    @NonNull
+    @Override
+    public String toString() {
+        return "Data"+getData()+"\n response code"+getResponsecode()+"\n message "+getMessage();
+    }
 }

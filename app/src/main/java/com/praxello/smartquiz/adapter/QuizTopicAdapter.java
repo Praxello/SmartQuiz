@@ -15,12 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.praxello.smartquiz.R;
 import com.praxello.smartquiz.activity.QuizSubTopicsActivity;
-import com.praxello.smartquiz.model.QuizData;
-import com.praxello.smartquiz.model.allquestion.QuizBO;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

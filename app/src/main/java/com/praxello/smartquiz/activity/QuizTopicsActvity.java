@@ -1,5 +1,6 @@
 package com.praxello.smartquiz.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,18 +10,17 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 import com.praxello.smartquiz.AllKeys;
 import com.praxello.smartquiz.CommonMethods;
 import com.praxello.smartquiz.R;
-import com.praxello.smartquiz.activity.retrofit.ApiRequestHelper;
-import com.praxello.smartquiz.activity.retrofit.SmartQuiz;
+import com.praxello.smartquiz.services.ApiRequestHelper;
+import com.praxello.smartquiz.services.SmartQuiz;
 import com.praxello.smartquiz.adapter.QuizTopicAdapter;
-import com.praxello.smartquiz.model.QuizData;
 import com.praxello.smartquiz.model.allquestion.AllQuestionResponse;
 import com.praxello.smartquiz.model.allquestion.QuizBO;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,14 +32,11 @@ public class QuizTopicsActvity extends AppCompatActivity {
 
     @BindView(R.id.rv_type)
     RecyclerView rvType;
-    private ArrayList<QuizData> quizDataArrayList=new ArrayList<>();
     public AllQuestionResponse questionData;
-    public int totalScore = 0;
-    public int currentQuesPos = 0;
     SmartQuiz smartQuiz;
     public static final String TAG="QuizTopicsActivity";
     public static Map<String, List<QuizBO>> allQuestionDataMap;
-    ArrayList<QuizBO> temp1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,5 +108,22 @@ public class QuizTopicsActvity extends AppCompatActivity {
             Toast.makeText(QuizTopicsActvity.this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
     }
 }

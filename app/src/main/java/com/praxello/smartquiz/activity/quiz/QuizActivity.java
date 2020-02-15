@@ -3,29 +3,25 @@ package com.praxello.smartquiz.activity.quiz;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import com.praxello.smartquiz.AllKeys;
-import com.praxello.smartquiz.CommonMethods;
+
 import com.praxello.smartquiz.R;
-import com.praxello.smartquiz.activity.retrofit.ApiRequestHelper;
-import com.praxello.smartquiz.activity.retrofit.SmartQuiz;
+import com.praxello.smartquiz.model.allquestion.QuestionBO;
+import com.praxello.smartquiz.services.SmartQuiz;
 import com.praxello.smartquiz.model.allquestion.AllQuestionResponse;
 import com.praxello.smartquiz.model.allquestion.QuizBO;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 
@@ -43,6 +39,7 @@ public class QuizActivity extends AppCompatActivity {
     SmartQuiz smartQuiz;
     public static final String TAG="QuizActivity";
     QuizBO quizBO;
+    ArrayList<QuestionBO> questionBO=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +50,15 @@ public class QuizActivity extends AppCompatActivity {
         //basic intialisation...
         initViews();
 
-        quizBO=getIntent().getParcelableExtra("data");
+        if(getIntent().getParcelableExtra("data")!=null)
+        {
+            //quizBO=getIntent().getParcelableExtra("data");
+            questionBO=getIntent().getParcelableExtra("data");
+
+        }
 
         loadQuizFragment();
-        Log.e(TAG, "onCreate: "+quizBO.getQuestions().get(0));
+        //Log.e(TAG, "onCreate: "+quizBO.getQuestions().get(0));
 
 
        // allquestions();
@@ -134,7 +136,8 @@ public class QuizActivity extends AppCompatActivity {
     public void loadQuizFragment() {
         QuizFragment quizFragment = new QuizFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("question", quizBO.getQuestions().get(currentQuesPos));
+       // bundle.putParcelable("question", quizBO.getQuestions().get(currentQuesPos));
+        bundle.putParcelable("question", questionBO.get(0));
         quizFragment.setArguments(bundle);
         loadFragment(quizFragment);
     }
@@ -153,5 +156,10 @@ public class QuizActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
+    }
 
 }

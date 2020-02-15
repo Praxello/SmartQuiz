@@ -33,8 +33,8 @@ public class PreViewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setTitle("Preview");
 
-        toolbar.setTitleTextColor(Color.WHITE);
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+        toolbar.setTitleTextColor(Color.BLACK);
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
 
         if(!getIntent().getStringExtra("image_url").isEmpty()){

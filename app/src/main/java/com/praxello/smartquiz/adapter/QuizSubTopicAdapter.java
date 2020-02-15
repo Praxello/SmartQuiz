@@ -1,6 +1,5 @@
 package com.praxello.smartquiz.adapter;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,12 +13,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.praxello.smartquiz.R;
-import com.praxello.smartquiz.activity.QuizSubTopicsActivity;
 import com.praxello.smartquiz.activity.quiz.QuizActivity;
-import com.praxello.smartquiz.model.QuizData;
 import com.praxello.smartquiz.model.allquestion.QuizBO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

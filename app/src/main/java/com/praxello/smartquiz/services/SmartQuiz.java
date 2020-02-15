@@ -1,4 +1,4 @@
-package com.praxello.smartquiz.activity.retrofit;
+package com.praxello.smartquiz.services;
 
 import android.app.Application;
 import android.content.Context;
