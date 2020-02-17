@@ -114,6 +114,38 @@
                         android:background="@color/colorPrimaryDark"
                         android:text="@string/login"
                         android:textColor="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/margin10">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginTop="@dimen/margin5"
+                        android:layout_marginRight="@dimen/margin5"
+                        android:layout_marginBottom="@dimen/margin5"
+                        android:text="@string/don_t_have_account"
+                        android:textSize="@dimen/textsize15" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:id="@+id/tv_signup"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_marginTop="@dimen/margin5"
+                            android:layout_marginRight="@dimen/margin5"
+                            android:layout_marginBottom="@dimen/margin5"
+                            android:text="@string/signup"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/textsize16" />
+
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <ImageView

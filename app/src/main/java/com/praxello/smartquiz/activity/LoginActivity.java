@@ -17,8 +17,6 @@ import com.praxello.smartquiz.R;
 import com.praxello.smartquiz.services.ApiRequestHelper;
 import com.praxello.smartquiz.services.SmartQuiz;
 import com.praxello.smartquiz.model.login.LoginResponse;
-import java.util.HashMap;
-import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -32,7 +30,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     AppCompatButton btnLogIn;
     @BindView(R.id.tv_forgotpassword)
     TextView tvForgotPassword;
+    @BindView(R.id.tv_signup)
+    TextView tvSignUp;
     SmartQuiz smartQuiz;
+
     private static final String TAG="LoginActivity";
 
     @Override
@@ -50,6 +51,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void initViews(){
         btnLogIn.setOnClickListener(this);
         tvForgotPassword.setOnClickListener(this);
+        tvSignUp.setOnClickListener(this);
 
         TextView tvTitle = findViewById(R.id.tv_title);
         Typeface face = Typeface.createFromAsset(getAssets(), "fonts/greatvibes-regular.otf");
@@ -72,11 +74,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.tv_forgotpassword:
-              /*  Intent intent=new Intent(LoginActivity.this,ForgotPasswordActivity.class);
+                Intent intent=new Intent(LoginActivity.this,ForgotPasswordActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
-                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);*/
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                break;
+
+            case R.id.tv_signup:
+                intent=new Intent(LoginActivity.this,SignUpActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                break;
+
         }
     }
 
@@ -97,6 +108,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Log.e(TAG, "onSuccess: "+loginResponse.getData());
 
                 if(loginResponse.getResponsecode()==200){
+
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.USER_ID, loginResponse.getData().getUserId());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.FIRST_NAME, loginResponse.getData().getFirstName());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.LAST_NAME, loginResponse.getData().getLastName());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.USER_TYPE, loginResponse.getData().getUserType());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.MOBILE, loginResponse.getData().getMobile());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.EMAIL, loginResponse.getData().getEmail());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.CITY, loginResponse.getData().getCity());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.STATE, loginResponse.getData().getState());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.COUNTRY, loginResponse.getData().getCountry());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.PINCODE, loginResponse.getData().getPincode());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.DATEOFBIRTH, loginResponse.getData().getBirthDate());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.ADDRESS, loginResponse.getData().getAddress());
+                    CommonMethods.setPreference(LoginActivity.this, AllKeys.PASSWORD, loginResponse.getData().getPassword());
+
                     Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(LoginActivity.this,DashBoardActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

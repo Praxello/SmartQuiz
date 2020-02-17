@@ -4,9 +4,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +15,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.praxello.smartquiz.AllKeys;
+import com.praxello.smartquiz.CommonMethods;
 import com.praxello.smartquiz.R;
 import com.praxello.smartquiz.activity.quiz.QuizActivity;
 import com.praxello.smartquiz.model.GetExamResponse;
-import com.praxello.smartquiz.model.login.LoginResponse;
 import com.praxello.smartquiz.services.ApiRequestHelper;
 import com.praxello.smartquiz.services.SmartQuiz;
 
@@ -31,6 +32,9 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     public LinearLayout llGeneralQuiz;
     @BindView(R.id.ll_taketest)
     public LinearLayout llTakeTest;
+    @BindView(R.id.ll_logout)
+    public LinearLayout llLogOut;
+
     SmartQuiz smartQuiz;
     private static String TAG="DashBoardActivity";
     AlertDialog alertDialog;
@@ -49,6 +53,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     private void initViews() {
         llGeneralQuiz.setOnClickListener(this);
         llTakeTest.setOnClickListener(this);
+        llLogOut.setOnClickListener(this);
     }
 
     @Override
@@ -86,6 +91,41 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 alertDialog.show();
 
                 break;
+
+            case R.id.ll_logout:
+                new android.app.AlertDialog.Builder(DashBoardActivity.this)
+                        .setTitle(R.string.app_name)
+                        .setMessage("Are you sure you want to logout?")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Continue with delete operation
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.USER_ID, AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.FIRST_NAME, AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.LAST_NAME,AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.MOBILE, AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.EMAIL,AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.CITY,AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.STATE,AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.COUNTRY, AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.PINCODE, AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.DATEOFBIRTH,AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.ADDRESS, AllKeys.DNF);
+                                Intent intent=new Intent(DashBoardActivity.this,LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                                Toast.makeText(DashBoardActivity.this, "See you again!", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton("No", null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+                break;
         }
     }
 
@@ -101,7 +141,8 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
                         if(getExamResponse.getResponsecode()==200){
                             Intent intent=new Intent(DashBoardActivity.this, QuizActivity.class);
-                            intent.putParcelableArrayListExtra("data_test",getExamResponse.getData());
+                            //intent.putParcelableArrayListExtra("data_test",getExamResponse.getData());
+                            intent.putExtra("data",getExamResponse.getData());
                             startActivity(intent);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                              overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);

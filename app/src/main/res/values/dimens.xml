@@ -18,4 +18,7 @@
     <dimen name="margin100">100dp</dimen>
     <dimen name="textsize40">40sp</dimen>
     <dimen name="margin150dp">150dp</dimen>
+    <dimen name="textsize20">20sp</dimen>
+    <dimen name="textsize16">16sp</dimen>
+    <dimen name="textsize80">80sp</dimen>
 </resources>

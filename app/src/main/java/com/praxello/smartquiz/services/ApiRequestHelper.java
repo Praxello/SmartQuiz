@@ -84,6 +84,16 @@ public class ApiRequestHelper {
         call_api_test(onRequestComplete, call);
     }
 
+    public void forgetPassword(Map<String, String> params, final OnRequestComplete onRequestComplete) {
+        Call<UserData> call = WRFService.forgetpassword(params);
+        call_api_for_quiz(onRequestComplete, call);
+    }
+
+    public void adduserprofile(Map<String, String> params, final OnRequestComplete onRequestComplete) {
+        Call<UserData> call = WRFService.adduserprofile(params);
+        call_api_for_quiz(onRequestComplete, call);
+    }
+
     /*public void savequiz(String userid,String score,String quizid, final OnRequestComplete onRequestComplete) {
         Call<UserData> call = WRFService.savequiz(userid,score,quizid);
         call_api_for_quiz(onRequestComplete, call);

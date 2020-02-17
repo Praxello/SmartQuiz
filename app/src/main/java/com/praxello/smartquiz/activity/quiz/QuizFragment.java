@@ -19,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.praxello.smartquiz.AllKeys;
@@ -30,10 +29,8 @@ import com.praxello.smartquiz.services.ApiRequestHelper;
 import com.praxello.smartquiz.services.SmartQuiz;
 import com.praxello.smartquiz.model.allquestion.QuestionBO;
 import com.praxello.smartquiz.model.quiz.UserData;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.ButterKnife;
 
 public class QuizFragment extends Fragment implements View.OnClickListener {
@@ -76,6 +73,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         Bundle arguments = getArguments();
         if (arguments != null) {
             question = arguments.getParcelable("question");
+            Log.e(TAG, "onCreate: QuizFragment"+question );
         }
     }
 
@@ -134,9 +132,14 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         tvOption4.setText(question.getOption4());
         tvAnswer.setText(question.getAnswerDetails());
 
-        if (((QuizActivity) getContext()).quizBO.getQuestions().size() - 1 == ((QuizActivity) getContext()).currentQuesPos) {
-            tvNext.setText("Submit");
-        }
+            if (((QuizActivity) getContext()).questionBO.size() - 1 == ((QuizActivity) getContext()).currentQuesPos) {
+                tvNext.setText("Submit");
+            }
+
+            /*if (quizBOArrayList.size() - 1 == ((QuizActivity) getContext()).currentQuesPos) {
+                tvNext.setText("Submit");
+            }
+*/
 
         if (question.getQuestionType() == 1) {
             if (question.getMediaUrl() != null || !question.getMediaUrl().equals("")) {
@@ -234,7 +237,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getContext(), "Please answer the question", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (((QuizActivity) getContext()).quizBO.getQuestions().size() - 1 == ((QuizActivity) getContext()).currentQuesPos) {
+            if (((QuizActivity) getContext()).questionBO.size() - 1 == ((QuizActivity) getContext()).currentQuesPos) {
                /* Map<String, String> map = new HashMap<>();
                 map.put("userid", CommonMethods.getPrefrence(getContext(), AllKeys.USER_ID));
                 map.put("score", ""+((QuizActivity) getContext()).totalScore);

@@ -146,7 +146,8 @@ public class QuestionBO implements Parcelable {
     @NonNull
     @Override
     public String toString() {
-        return this.questionId+"";
+        return "question_id"+this.questionId+"\n questionType "+questionType+"\n quidId "+quizId+"\n question "+question+"\noption1 "+option1+
+                "\n option2 "+option2+"\n option3 "+option3+"\n option4 "+option4+ "\n answer"+ answer+"\n answerDetails "+answerDetails+"\n mediaUrl"+mediaUrl;
     }
 
     @Override

@@ -50,28 +50,15 @@ public class QuizActivity extends AppCompatActivity {
         //basic intialisation...
         initViews();
 
-        Log.e(TAG, "onCreate:size getIntent "+getIntent().getExtras().getParcelableArrayList("data_test") );
+        Log.e(TAG, "onCreate:size getIntent "+getIntent().getParcelableArrayListExtra("data_test") );
 
-        if(getIntent().getParcelableExtra("data")!=null)
-        {
-            quizBO=getIntent().getParcelableExtra("data");
+        if(getIntent().getParcelableArrayListExtra("data")!=null){
+            questionBO=getIntent().getParcelableArrayListExtra("data");
             loadQuizFragment();
         }
 
-        if(getIntent().getParcelableExtra("data_test")!=null)
-        {
-            //quizBO=getIntent().getParcelableExtra("data");
-            questionBO=getIntent().getExtras().getParcelableArrayList("data_test") ;
-            Log.e(TAG, "onCreate: arraylist size"+questionBO.size() );
-        }
-
-
-
-     //
         //Log.e(TAG, "onCreate: "+quizBO.getQuestions().get(0));
-
-
-       // allquestions();
+        // allquestions();
     }
 
     private void initViews(){
@@ -144,15 +131,10 @@ public class QuizActivity extends AppCompatActivity {
     }*/
 
     public void loadQuizFragment() {
+        Log.e(TAG, "loadQuizFragment: " );
         QuizFragment quizFragment = new QuizFragment();
         Bundle bundle = new Bundle();
-        if(getIntent().getParcelableExtra("data")!=null){
-            bundle.putParcelable("question", quizBO.getQuestions().get(currentQuesPos));
-        }else if(getIntent().getExtras().getParcelableArrayList("data_test")!=null ){
-            bundle.putParcelable("question",questionBO.get(currentQuesPos));
-        }
-
-        //bundle.putParcelable("question", questionBO.get(currentQuesPos));
+        bundle.putParcelable("question",questionBO.get(currentQuesPos));
         quizFragment.setArguments(bundle);
         loadFragment(quizFragment);
     }
