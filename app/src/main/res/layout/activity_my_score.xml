@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".activity.DashBoardActivity">
+
+    <!--<ImageView
+        android:id="@+id/ivbackgroundimg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin250"
+        android:background="@drawable/smartquizbg"
+        android:scaleType="fitXY" />-->
+
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar_scoreboard"/>
+
+
+    <!--<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Report card"
+        android:id="@+id/tv_title"
+        android:textColor="@color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
+        android:textStyle="italic|bold"
+        android:layout_marginLeft="@dimen/margin15"
+        android:layout_marginTop="@dimen/margin10"
+        android:gravity="left" />-->
+
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_scoreboard"
+        android:layout_above="@id/llbottom"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context=".activity.LoginActivity">
+
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/toolbar_title"
+                android:layout_margin="4dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llbottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnprogress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/margin5"
+            android:layout_margin="@dimen/margin1"
+            android:layout_marginTop="@dimen/margin10"
+            android:background="@color/green100"
+            android:text="@string/progress"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnscorecard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/margin5"
+            android:layout_margin="@dimen/margin1"
+            android:layout_marginTop="@dimen/margin10"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/scorecard"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</RelativeLayout>

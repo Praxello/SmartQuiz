@@ -4,6 +4,7 @@ import com.praxello.smartquiz.model.GetExamResponse;
 import com.praxello.smartquiz.model.allquestion.AllQuestionResponse;
 import com.praxello.smartquiz.model.login.LoginResponse;
 import com.praxello.smartquiz.model.quiz.UserData;
+import com.praxello.smartquiz.model.scorecard.ScoreCardResponse;
 
 import java.util.Map;
 
@@ -38,6 +39,11 @@ public interface WRFService {
     @FormUrlEncoded
     @POST("~tailor/smartquiz/user/userregister.php")
     Call<UserData> adduserprofile(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("~tailor/smartquiz/user/scorecard.php")
+    Call<ScoreCardResponse> getscorecard(@Field("userid") String userid);
+
 
 
 }

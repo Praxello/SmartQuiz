@@ -34,6 +34,8 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     public LinearLayout llTakeTest;
     @BindView(R.id.ll_logout)
     public LinearLayout llLogOut;
+    @BindView(R.id.ll_myscore)
+    public LinearLayout llMyScore;
 
     SmartQuiz smartQuiz;
     private static String TAG="DashBoardActivity";
@@ -54,6 +56,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         llGeneralQuiz.setOnClickListener(this);
         llTakeTest.setOnClickListener(this);
         llLogOut.setOnClickListener(this);
+        llMyScore.setOnClickListener(this);
     }
 
     @Override
@@ -61,6 +64,13 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.ll_generalquiz:
                 Intent intent = new Intent(DashBoardActivity.this, QuizTopicsActvity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                break;
+
+            case R.id.ll_myscore:
+                intent = new Intent(DashBoardActivity.this, MyScoreActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);

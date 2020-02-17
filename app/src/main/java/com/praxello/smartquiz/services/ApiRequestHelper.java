@@ -14,6 +14,7 @@ import com.praxello.smartquiz.model.GetExamResponse;
 import com.praxello.smartquiz.model.allquestion.AllQuestionResponse;
 import com.praxello.smartquiz.model.login.LoginResponse;
 import com.praxello.smartquiz.model.quiz.UserData;
+import com.praxello.smartquiz.model.scorecard.ScoreCardResponse;
 
 import java.io.IOException;
 import java.util.Map;
@@ -94,10 +95,38 @@ public class ApiRequestHelper {
         call_api_for_quiz(onRequestComplete, call);
     }
 
+    public void getscorecard(String userid, final OnRequestComplete onRequestComplete) {
+        Call<ScoreCardResponse> call = WRFService.getscorecard(userid);
+        call_api_for_scoreboard(onRequestComplete, call);
+    }
+
     /*public void savequiz(String userid,String score,String quizid, final OnRequestComplete onRequestComplete) {
         Call<UserData> call = WRFService.savequiz(userid,score,quizid);
         call_api_for_quiz(onRequestComplete, call);
     }*/
+
+    private void call_api_for_scoreboard(final OnRequestComplete onRequestComplete, Call<ScoreCardResponse> call) {
+        call.enqueue(new Callback<ScoreCardResponse>() {
+            @Override
+            public void onResponse(Call<ScoreCardResponse> call, Response<ScoreCardResponse> response) {
+                if (response.isSuccessful()) {
+                    onRequestComplete.onSuccess(response.body());
+                } else {
+                    try {
+                        onRequestComplete.onFailure(Html.fromHtml(response.errorBody().string()) + "");
+                    } catch (IOException e) {
+                        onRequestComplete.onFailure("Unproper Response");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ScoreCardResponse> call, Throwable t) {
+                handle_fail_response(t, onRequestComplete);
+            }
+        });
+    }
 
     private void call_api_for_quiz(final OnRequestComplete onRequestComplete, Call<UserData> call) {
         call.enqueue(new Callback<UserData>() {

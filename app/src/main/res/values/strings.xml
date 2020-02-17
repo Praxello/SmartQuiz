@@ -27,4 +27,12 @@
     <string name="country">Country</string>
     <string name="birthdate">Birthdate</string>
     <string name="pincode">Pincode</string>
+    <string name="progress">Progress</string>
+    <string name="scorecard">Scorecard</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title">Title:</string>
+    <string name="categoryid">CategoryID#:</string>
+    <string name="passingscore">Pass score#:</string>
 </resources>
