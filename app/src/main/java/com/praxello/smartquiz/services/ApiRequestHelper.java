@@ -95,6 +95,11 @@ public class ApiRequestHelper {
         call_api_for_quiz(onRequestComplete, call);
     }
 
+    public void updateuserprofile(Map<String, String> params, final OnRequestComplete onRequestComplete) {
+        Call<LoginResponse> call = WRFService.updateuserprofile(params);
+        call_api_for_update(onRequestComplete, call);
+    }
+
     public void getscorecard(String userid, final OnRequestComplete onRequestComplete) {
         Call<ScoreCardResponse> call = WRFService.getscorecard(userid);
         call_api_for_scoreboard(onRequestComplete, call);
@@ -150,6 +155,30 @@ public class ApiRequestHelper {
             }
         });
     }
+
+    private void call_api_for_update(final OnRequestComplete onRequestComplete, Call<LoginResponse> call) {
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful()) {
+                    onRequestComplete.onSuccess(response.body());
+                } else {
+                    try {
+                        onRequestComplete.onFailure(Html.fromHtml(response.errorBody().string()) + "");
+                    } catch (IOException e) {
+                        onRequestComplete.onFailure("Unproper Response");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                handle_fail_response(t, onRequestComplete);
+            }
+        });
+    }
+
 
     private void call_api_test(final OnRequestComplete onRequestComplete, Call<GetExamResponse> call) {
         call.enqueue(new Callback<GetExamResponse>() {

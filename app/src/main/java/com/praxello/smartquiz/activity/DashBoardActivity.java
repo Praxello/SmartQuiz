@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,10 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     public LinearLayout llLogOut;
     @BindView(R.id.ll_myscore)
     public LinearLayout llMyScore;
+    @BindView(R.id.ll_about)
+            public LinearLayout llAbout;
+    @BindView(R.id.ll_account)
+            public LinearLayout llAccount;
 
     SmartQuiz smartQuiz;
     private static String TAG="DashBoardActivity";
@@ -57,6 +62,8 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         llTakeTest.setOnClickListener(this);
         llLogOut.setOnClickListener(this);
         llMyScore.setOnClickListener(this);
+        llAbout.setOnClickListener(this);
+        llAccount.setOnClickListener(this);
     }
 
     @Override
@@ -77,7 +84,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.ll_taketest:
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(DashBoardActivity.this);
                 ViewGroup viewGroup = findViewById(android.R.id.content);
                 View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.layout_dialog_view, viewGroup, false);
@@ -101,6 +107,19 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 alertDialog.show();
 
                 break;
+
+            case R.id.ll_account:
+                intent = new Intent(DashBoardActivity.this, UpdateProfileActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                break;
+            case R.id.ll_about:
+               /* intent = new Intent(DashBoardActivity.this, DemoActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                break;*/
 
             case R.id.ll_logout:
                 new android.app.AlertDialog.Builder(DashBoardActivity.this)
@@ -168,4 +187,27 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                     }
                 });
          }
+
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 }

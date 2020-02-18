@@ -54,7 +54,8 @@ public class QuizSubTopicAdapter extends RecyclerView.Adapter<QuizSubTopicAdapte
             public void onClick(View v) {
                 Activity activity = (Activity) context;
                 Intent intent=new Intent(context, QuizActivity.class);
-                intent.putExtra("data",quizDataArrayList.get(position).getQuestions());
+                //intent.putExtra("data",quizDataArrayList.get(position).getQuestions());
+                intent.putExtra("data",quizDataArrayList.get(position));
                 context.startActivity(intent);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);

@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
@@ -25,6 +24,7 @@ import com.praxello.smartquiz.AllKeys;
 import com.praxello.smartquiz.CommonMethods;
 import com.praxello.smartquiz.R;
 import com.praxello.smartquiz.activity.PreViewActivity;
+import com.praxello.smartquiz.model.allquestion.QuizBO;
 import com.praxello.smartquiz.services.ApiRequestHelper;
 import com.praxello.smartquiz.services.SmartQuiz;
 import com.praxello.smartquiz.model.allquestion.QuestionBO;
@@ -60,6 +60,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     TextView tvSelectAnAnswer;
     private int selectedAnswerIndex = -1;
     //public Question question;
+    private QuizBO quizBO;
     public QuestionBO question;
     CountDownTimer cFirstTimer = null;
     boolean isQuestionAnswered = false;
@@ -73,7 +74,9 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         Bundle arguments = getArguments();
         if (arguments != null) {
             question = arguments.getParcelable("question");
-            Log.e(TAG, "onCreate: QuizFragment"+question );
+            quizBO=arguments.getParcelable("quiz_bo");
+            //Log.e(TAG, "onCreate: QuizFragment"+question );
+            //Log.e(TAG, "onCreate: quizBO "+quizBO.getQuestionTimeout() );
         }
     }
 
@@ -132,7 +135,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         tvOption4.setText(question.getOption4());
         tvAnswer.setText(question.getAnswerDetails());
 
-            if (((QuizActivity) getContext()).questionBO.size() - 1 == ((QuizActivity) getContext()).currentQuesPos) {
+            if (((QuizActivity) getContext()).quizBO.getQuestions().size() - 1 == ((QuizActivity) getContext()).currentQuesPos) {
                 tvNext.setText("Submit");
             }
 
@@ -176,6 +179,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             }
             disableClicks();
         });
+
         rlOption2.setOnClickListener(view1 -> {
             isQuestionAnswered = true;
             if (question.getAnswer() == 2) {
@@ -230,14 +234,18 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             }
             disableClicks();
         });
-        startFirstTimer(10);
+        Log.e(TAG, "onViewCreated: quiz question timout"+quizBO.getQuestionTimeout() );
+        if(quizBO.getQuestionTimeout()!=0){
+            startFirstTimer(quizBO.getQuestionTimeout());
+        }
+
 
         tvNext.setOnClickListener(view1 -> {
             if (!isQuestionAnswered) {
                 Toast.makeText(getContext(), "Please answer the question", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (((QuizActivity) getContext()).questionBO.size() - 1 == ((QuizActivity) getContext()).currentQuesPos) {
+            if (((QuizActivity) getContext()).quizBO.getQuestions().size() - 1 == ((QuizActivity) getContext()).currentQuesPos) {
                /* Map<String, String> map = new HashMap<>();
                 map.put("userid", CommonMethods.getPrefrence(getContext(), AllKeys.USER_ID));
                 map.put("score", ""+((QuizActivity) getContext()).totalScore);
@@ -395,7 +403,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                         cardView4.setVisibility(View.GONE);
                     }
                     cardView3.setVisibility(View.GONE);
-                    cardView4.setVisibility(View.GONE);
+                    cardView2.setVisibility(View.GONE);
                 }
                 break;
 
@@ -440,7 +448,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                     }else{
                         cardView4.setVisibility(View.GONE);
                     }
-                    cardView3.setVisibility(View.GONE);
+                    cardView2.setVisibility(View.GONE);
                     cardView1.setVisibility(View.GONE);
                 }
                 break;
@@ -471,7 +479,10 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     }
 
     private void disableClicks() {
-        cFirstTimer.cancel();
+        if(quizBO.getQuestionTimeout()!=0){
+            cFirstTimer.cancel();
+        }
+        //showCorrectAnswer();
         rlOption1.setFocusable(false);
         rlOption2.setFocusable(false);
         rlOption3.setFocusable(false);

@@ -22,14 +22,20 @@ import com.praxello.smartquiz.services.SmartQuiz;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 
 public class ScoreBoardFragment extends Fragment {
 
     private View view;
+    @BindView(R.id.rv_scoreboard)
     public RecyclerView rvScoreBoard;
     SmartQuiz smartQuiz;
     private static final String TAG="ScoreBoardFragment";
     ArrayList<ScoresBO> scoresBOArrayList;
+    private Unbinder unbinder=null;
 
     public ScoreBoardFragment() {
         // Required empty public constructor
@@ -41,9 +47,10 @@ public class ScoreBoardFragment extends Fragment {
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_score_board, container, false);
         smartQuiz = (SmartQuiz) getActivity().getApplication();
-
+        unbinder= ButterKnife.bind(this,view);
         //basic intialisation..
         initViews();
+
 
         if(scoresBOArrayList!=null){
             ScoreBoardAdapter scoreBoardAdapter=new ScoreBoardAdapter(getContext(),scoresBOArrayList);
@@ -57,12 +64,12 @@ public class ScoreBoardFragment extends Fragment {
     }
 
     private void initViews(){
-        rvScoreBoard=view.findViewById(R.id.rv_scoreboard);
+       // rvScoreBoard=view.findViewById(R.id.rv_scoreboard);
         rvScoreBoard.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void loadData(){
-        smartQuiz.getApiRequestHelper().getscorecard(CommonMethods.getPrefrence(getContext(), AllKeys.USER_ID),new ApiRequestHelper.OnRequestComplete() {
+        smartQuiz.getApiRequestHelper().getscorecard("1",new ApiRequestHelper.OnRequestComplete() {
             @Override
             public void onSuccess(Object object) {
                 ScoreCardResponse scoreCardResponse=(ScoreCardResponse) object;
@@ -75,6 +82,7 @@ public class ScoreBoardFragment extends Fragment {
                     Toast.makeText(getContext(), scoreCardResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     if(scoreCardResponse.getScores()!=null){
                         scoresBOArrayList=scoreCardResponse.getScores();
+                        //Log.e(TAG, "onSuccess: size of scoresBOArrayList "+scoresBOArrayList.size() );
                         ScoreBoardAdapter scoreBoardAdapter=new ScoreBoardAdapter(getContext(),scoresBOArrayList);
                         rvScoreBoard.setAdapter(scoreBoardAdapter);
                     }
@@ -90,4 +98,9 @@ public class ScoreBoardFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }

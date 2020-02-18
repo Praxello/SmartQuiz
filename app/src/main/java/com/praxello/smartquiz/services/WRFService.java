@@ -41,6 +41,10 @@ public interface WRFService {
     Call<UserData> adduserprofile(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
+    @POST("~tailor/smartquiz/user/updateprofile.php")
+    Call<LoginResponse> updateuserprofile(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
     @POST("~tailor/smartquiz/user/scorecard.php")
     Call<ScoreCardResponse> getscorecard(@Field("userid") String userid);
 

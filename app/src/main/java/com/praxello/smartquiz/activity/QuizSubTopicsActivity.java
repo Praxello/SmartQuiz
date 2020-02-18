@@ -26,7 +26,7 @@ public class QuizSubTopicsActivity extends AppCompatActivity {
     @BindView(R.id.rv_sub_type)
     RecyclerView rvSubType;
     private static final String TAG="QuizSubTopicsActivity";
-    private List<QuizBO> quizBOArrayList;
+    public static List<QuizBO> quizBOArrayList;
     String catergoryType;
 
     @Override

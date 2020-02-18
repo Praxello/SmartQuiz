@@ -52,8 +52,9 @@ public class QuizActivity extends AppCompatActivity {
 
         Log.e(TAG, "onCreate:size getIntent "+getIntent().getParcelableArrayListExtra("data_test") );
 
-        if(getIntent().getParcelableArrayListExtra("data")!=null){
-            questionBO=getIntent().getParcelableArrayListExtra("data");
+        if(getIntent().getParcelableExtra("data")!=null){
+            //questionBO=getIntent().getParcelableArrayListExtra("data");
+            quizBO=getIntent().getParcelableExtra("data");
             loadQuizFragment();
         }
 
@@ -134,7 +135,8 @@ public class QuizActivity extends AppCompatActivity {
         Log.e(TAG, "loadQuizFragment: " );
         QuizFragment quizFragment = new QuizFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("question",questionBO.get(currentQuesPos));
+        bundle.putParcelable("question",quizBO.getQuestions().get(currentQuesPos));
+        bundle.putParcelable("quiz_bo",quizBO);
         quizFragment.setArguments(bundle);
         loadFragment(quizFragment);
     }

@@ -1,24 +1,20 @@
 package com.praxello.smartquiz.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-
 import com.praxello.smartquiz.R;
-import com.praxello.smartquiz.activity.quiz.QuizFragment;
 import com.praxello.smartquiz.fragment.ProgressFragment;
 import com.praxello.smartquiz.fragment.ScoreBoardFragment;
-import com.praxello.smartquiz.widget.ColorArcProgressBar;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -29,7 +25,6 @@ public class MyScoreActivity extends AppCompatActivity implements View.OnClickLi
     @BindView(R.id.btnscorecard)
     AppCompatButton btnScoreCard;
     public static final String TAG="MyScoreActivity";
-    private String whichFragment="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +37,9 @@ public class MyScoreActivity extends AppCompatActivity implements View.OnClickLi
 
         ProgressFragment progressFragment= new ProgressFragment();
         loadFragment(progressFragment);
-
     }
 
     private void initViews(){
-
         Toolbar toolbar=findViewById(R.id.toolbar_scoreboard);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -54,7 +47,6 @@ public class MyScoreActivity extends AppCompatActivity implements View.OnClickLi
         toolbar.setTitle("ScoreBoard");
         toolbar.setTitleTextColor(Color.BLACK);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
-
 
         btnProgress.setOnClickListener(this);
         btnScoreCard.setOnClickListener(this);
@@ -64,19 +56,16 @@ public class MyScoreActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnprogress:
-                whichFragment="Progress";
-                loadProgressFragment();
+                loadFragment("Progress");
                 break;
 
-
             case R.id.btnscorecard:
-                whichFragment="Scorecard";
-                loadProgressFragment();
+                loadFragment("Scorecard");
                 break;
         }
     }
 
-    public void loadProgressFragment() {
+    public void loadFragment(String whichFragment) {
         if(whichFragment.equals("Progress")){
             ProgressFragment progressFragment= new ProgressFragment();
             loadFragment(progressFragment);
@@ -101,9 +90,19 @@ public class MyScoreActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
     }
-
 }
