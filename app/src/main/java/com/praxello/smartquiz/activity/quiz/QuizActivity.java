@@ -28,19 +28,13 @@ import butterknife.ButterKnife;
 
 public class QuizActivity extends AppCompatActivity {
 
-    //@BindView(R.id.progressBar)
     ProgressBar progressBar;
-    //@BindView(R.id.tv_error)
     TextView tvError;
-    //public QuestionData questionData;
-    public AllQuestionResponse questionData;
     public int totalScore = 0;
     public int currentQuesPos = 0;
     SmartQuiz smartQuiz;
     public static final String TAG = "QuizActivity";
     QuizBO quizBO;
-    QuizBOExam quizBOExam;
-    ArrayList<QuestionBO> questionBO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

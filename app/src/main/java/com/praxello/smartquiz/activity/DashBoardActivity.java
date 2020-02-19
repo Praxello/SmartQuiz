@@ -122,12 +122,13 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 startActivity(intent);
                 overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
                 break;
+
             case R.id.ll_about:
-               /* intent = new Intent(DashBoardActivity.this, DemoActivity.class);
+                intent = new Intent(DashBoardActivity.this, MyQuizActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
-                break;*/
+                break;
 
             case R.id.iv_share:
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);

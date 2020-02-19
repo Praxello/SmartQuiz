@@ -68,4 +68,7 @@ dependencies {
     //Horizontal progressview dependency
     implementation 'com.moos:Material-ProgressView:1.0.6'
 
+    //Sliding recycler view
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+
 }
