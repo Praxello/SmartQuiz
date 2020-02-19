@@ -95,12 +95,21 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <ImageView
+                        <!--<ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="@dimen/margin10"
                             android:gravity="center"
-                            android:src="@drawable/ic_alphabet_a" />
+                            android:src="@drawable/ic_alphabet_a" />-->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/margin10"
+                            android:gravity="center"
+                            android:text="A"
+                            android:textSize="@dimen/textsize30"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"/>
 
                     </LinearLayout>
 
@@ -157,12 +166,21 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <ImageView
+                       <!-- <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="@dimen/margin10"
                             android:gravity="center"
-                            android:src="@drawable/ic_alphabet_b" />
+                            android:src="@drawable/ic_alphabet_b" />-->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/margin10"
+                            android:gravity="center"
+                            android:text="B"
+                            android:textSize="@dimen/textsize30"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"/>
 
                     </LinearLayout>
 
@@ -216,6 +234,7 @@
                         android:backgroundTint="@color/deepOrange800"
                         android:gravity="center"
                         android:orientation="vertical">
+<!--
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -223,7 +242,17 @@
                             android:layout_margin="@dimen/margin10"
                             android:gravity="center"
                             android:src="@drawable/ic_letter_c" />
+-->
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/margin10"
+                            android:gravity="center"
+                            android:text="C"
+                            android:textSize="@dimen/textsize30"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"/>
                     </LinearLayout>
 
                     <TextView
@@ -277,12 +306,21 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <ImageView
+                        <!--<ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="@dimen/margin10"
                             android:gravity="center"
-                            android:src="@drawable/ic_letter_d" />
+                            android:src="@drawable/ic_letter_d" />-->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/margin10"
+                            android:gravity="center"
+                            android:text="D"
+                            android:textSize="@dimen/textsize30"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"/>
 
                     </LinearLayout>
 

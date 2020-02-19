@@ -39,7 +39,7 @@ public class ScoreBoardAdapter extends RecyclerView.Adapter<ScoreBoardAdapter.Sc
     @Override
     public void onBindViewHolder(@NonNull ScoreBoardViewHolder holder, int position) {
         holder.tvTitle.setText(scoresBOArrayList.get(position).title);
-        holder.tvCategoryId.setText(String.valueOf(scoresBOArrayList.get(position).getCategoryId()));
+        holder.tvCategoryId.setText(String.valueOf(scoresBOArrayList.get(position).getCategoryTitle()));
         holder.tvPassScore.setText(String.valueOf(scoresBOArrayList.get(position).getPassingScore()));
 
         if(scoresBOArrayList.get(position).getScore() >= scoresBOArrayList.get(position).getPassingScore()){

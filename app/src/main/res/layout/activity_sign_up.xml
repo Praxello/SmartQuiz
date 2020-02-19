@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.SignUpActivity">
+    tools:context=".activity.SignUpActivity"
+    android:background="@color/grey">
 
     <include
         layout="@layout/toolbar"
@@ -30,6 +31,7 @@
         android:layout_marginBottom="@dimen/margin15"
         android:background="@color/white"
         android:gravity="center"
+        android:backgroundTint="@color/grey"
         android:orientation="vertical"
         tools:context=".activity.LoginActivity">
 

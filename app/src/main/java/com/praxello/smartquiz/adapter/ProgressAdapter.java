@@ -1,5 +1,6 @@
 package com.praxello.smartquiz.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.moos.library.HorizontalProgressView;
 import com.praxello.smartquiz.R;
+import com.praxello.smartquiz.activity.MyScoreActivity;
 import com.praxello.smartquiz.fragment.ProgressFragment;
 import com.praxello.smartquiz.model.scorecard.AvailableBO;
 import java.util.ArrayList;
@@ -35,13 +37,14 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
         return new ProgressViewHolder(view);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ProgressViewHolder holder, int position) {
 
 
         holder.tvTitle.setText(availableBOArrayList.get(position).categoryTitle);
         try {
-            if (ProgressFragment.allAttemptsDataMap.containsKey(availableBOArrayList.get(position).getCategoryTitle())) {
+            if (MyScoreActivity.allAttemptsDataMap.containsKey(availableBOArrayList.get(position).getCategoryTitle())) {
                 //int done = ProgressFragment.allAttemptsDataMap.get(availableBOArrayList.get(position).getCategoryTitle());
                 float done = 1;
                 //calculate percetage
@@ -50,16 +53,24 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
                 float finalPerc = (done * 100f) / total;
 
                 holder.horizontalProgressView.setEndProgress(finalPerc);
-                holder.horizontalProgressView.setStartColor(Color.parseColor("#FF8F5D"));
-                holder.horizontalProgressView.setEndColor(Color.parseColor("#F54EA2"));
-                holder.horizontalProgressView.setTrackEnabled(true);
+              //  holder.horizontalProgressView.setStartColor(R.color.yellow800);
+               // holder.horizontalProgressView.setEndColor(R.color.green);
+                holder.horizontalProgressView.setStartColor(Color.parseColor("#f9a825"));
+                holder.horizontalProgressView.setEndColor(Color.parseColor("#43a047"));
+
+                //holder.horizontalProgressView.setTrackEnabled(true);
                 holder.horizontalProgressView.startProgressAnimation();
             } else {
                 holder.horizontalProgressView.setStartProgress(0);
                 holder.horizontalProgressView.setEndProgress(0);
-                holder.horizontalProgressView.setStartColor(Color.parseColor("#FF8F5D"));
-                holder.horizontalProgressView.setEndColor(Color.parseColor("#F54EA2"));
-                holder.horizontalProgressView.setTrackEnabled(true);
+                holder.horizontalProgressView.setStartColor(Color.parseColor("#f9a825"));
+                holder.horizontalProgressView.setEndColor(Color.parseColor("#43a047"));
+
+                holder.horizontalProgressView.setStartColor(R.color.yellow800);
+                holder.horizontalProgressView.setEndColor(R.color.green);
+
+
+                //holder.horizontalProgressView.setTrackEnabled(true);
                 holder.horizontalProgressView.startProgressAnimation();
 
             }
@@ -67,9 +78,10 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
             e.printStackTrace();
             holder.horizontalProgressView.setStartProgress(0);
             holder.horizontalProgressView.setEndProgress(0);
-            holder.horizontalProgressView.setStartColor(Color.parseColor("#FF8F5D"));
-            holder.horizontalProgressView.setEndColor(Color.parseColor("#F54EA2"));
-            holder.horizontalProgressView.setTrackEnabled(true);
+           // holder.horizontalProgressView.setStartColor(R.color.yellow800);
+            //holder.horizontalProgressView.setEndColor(R.color.green);
+            holder.horizontalProgressView.setStartColor(Color.parseColor("#f9a825"));
+            holder.horizontalProgressView.setEndColor(Color.parseColor("#43a047"));
             holder.horizontalProgressView.startProgressAnimation();
         }
 

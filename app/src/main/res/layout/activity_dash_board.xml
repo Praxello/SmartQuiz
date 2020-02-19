@@ -7,12 +7,41 @@
     android:orientation="vertical"
     tools:context=".activity.DashBoardActivity">
 
+
     <ImageView
         android:id="@+id/ivbackgroundimg"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin250"
         android:background="@drawable/smartquizbg"
         android:scaleType="fitXY" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin2"
+        android:background="@color/white"
+        android:layout_below="@id/ivbackgroundimg"
+        android:layout_marginTop="-200dp"
+        />
+
+    <ImageView
+        android:id="@+id/iv_share"
+        android:layout_width="@dimen/margin30"
+        android:layout_height="@dimen/margin30"
+        android:layout_margin="@dimen/margin10"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_share" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_title"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin10"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="@dimen/textsize30"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -27,6 +56,7 @@
         app:cardCornerRadius="@dimen/margin1"
         app:cardElevation="@dimen/margin5"
         app:cardPreventCornerOverlap="true">
+
 
         <LinearLayout
             android:layout_width="match_parent"

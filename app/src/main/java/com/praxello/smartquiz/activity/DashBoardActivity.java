@@ -3,9 +3,9 @@ package com.praxello.smartquiz.activity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,9 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.praxello.smartquiz.AllKeys;
 import com.praxello.smartquiz.CommonMethods;
 import com.praxello.smartquiz.R;
@@ -23,7 +24,6 @@ import com.praxello.smartquiz.activity.quiz.QuizActivity;
 import com.praxello.smartquiz.model.GetExamResponse;
 import com.praxello.smartquiz.services.ApiRequestHelper;
 import com.praxello.smartquiz.services.SmartQuiz;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -38,10 +38,11 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     @BindView(R.id.ll_myscore)
     public LinearLayout llMyScore;
     @BindView(R.id.ll_about)
-            public LinearLayout llAbout;
+    public LinearLayout llAbout;
     @BindView(R.id.ll_account)
-            public LinearLayout llAccount;
-
+    public LinearLayout llAccount;
+    @BindView(R.id.iv_share)
+    public ImageView ivShare;
     SmartQuiz smartQuiz;
     private static String TAG="DashBoardActivity";
     AlertDialog alertDialog;
@@ -64,6 +65,13 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         llMyScore.setOnClickListener(this);
         llAbout.setOnClickListener(this);
         llAccount.setOnClickListener(this);
+        ivShare.setOnClickListener(this);
+
+        TextView tvTitle = findViewById(R.id.tv_title);
+        Typeface face = Typeface.createFromAsset(getAssets(),
+                "fonts/greatvibes-regular.otf");
+        tvTitle.setTypeface(face);
+
     }
 
     @Override
@@ -121,6 +129,15 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
                 break;*/
 
+            case R.id.iv_share:
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody = "Here is the share content body";
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+                break;
+
             case R.id.ll_logout:
                 new android.app.AlertDialog.Builder(DashBoardActivity.this)
                         .setTitle(R.string.app_name)
@@ -166,7 +183,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                         alertDialog.dismiss();
                         Log.e(TAG, "onSuccess: "+getExamResponse.getResponsecode());
                         Log.e(TAG, "onSuccess: "+getExamResponse.getMessage());
-                        Log.e(TAG, "onSuccess: "+getExamResponse.getData().size());
+                       // Log.e(TAG, "onSuccess: "+getExamResponse.getData().size());
 
                         if(getExamResponse.getResponsecode()==200){
                             Intent intent=new Intent(DashBoardActivity.this, QuizActivity.class);
@@ -174,7 +191,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                             intent.putExtra("data",getExamResponse.getData());
                             startActivity(intent);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                             overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                            overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
 
                         }else{
                             Toast.makeText(DashBoardActivity.this, getExamResponse.getMessage(), Toast.LENGTH_SHORT).show();

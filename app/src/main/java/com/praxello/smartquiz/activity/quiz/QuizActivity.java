@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.praxello.smartquiz.R;
+import com.praxello.smartquiz.model.QuizBOExam;
 import com.praxello.smartquiz.model.allquestion.QuestionBO;
 import com.praxello.smartquiz.services.SmartQuiz;
 import com.praxello.smartquiz.model.allquestion.AllQuestionResponse;
@@ -24,7 +25,6 @@ import com.praxello.smartquiz.model.allquestion.QuizBO;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
-
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -37,8 +37,9 @@ public class QuizActivity extends AppCompatActivity {
     public int totalScore = 0;
     public int currentQuesPos = 0;
     SmartQuiz smartQuiz;
-    public static final String TAG="QuizActivity";
+    public static final String TAG = "QuizActivity";
     QuizBO quizBO;
+    QuizBOExam quizBOExam;
     ArrayList<QuestionBO> questionBO;
 
     @Override
@@ -50,11 +51,11 @@ public class QuizActivity extends AppCompatActivity {
         //basic intialisation...
         initViews();
 
-        Log.e(TAG, "onCreate:size getIntent "+getIntent().getParcelableArrayListExtra("data_test") );
+        Log.e(TAG, "onCreate:size getIntent " + getIntent().getParcelableArrayListExtra("data_test"));
 
-        if(getIntent().getParcelableExtra("data")!=null){
+        if (getIntent().getParcelableExtra("data") != null) {
             //questionBO=getIntent().getParcelableArrayListExtra("data");
-            quizBO=getIntent().getParcelableExtra("data");
+            quizBO = getIntent().getParcelableExtra("data");
             loadQuizFragment();
         }
 
@@ -62,9 +63,9 @@ public class QuizActivity extends AppCompatActivity {
         // allquestions();
     }
 
-    private void initViews(){
+    private void initViews() {
         //Toolbar intialisation...
-        Toolbar toolbar=findViewById(R.id.toolbar_title);
+        Toolbar toolbar = findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -72,20 +73,11 @@ public class QuizActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.BLACK);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
-        progressBar=findViewById(R.id.progressBar);
-        tvError=findViewById(R.id.tv_error);
+        progressBar = findViewById(R.id.progressBar);
+        tvError = findViewById(R.id.tv_error);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                finish();
-                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
 
    /* public void allquestions() {
 
@@ -132,11 +124,11 @@ public class QuizActivity extends AppCompatActivity {
     }*/
 
     public void loadQuizFragment() {
-        Log.e(TAG, "loadQuizFragment: " );
+        Log.e(TAG, "loadQuizFragment: ");
         QuizFragment quizFragment = new QuizFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("question",quizBO.getQuestions().get(currentQuesPos));
-        bundle.putParcelable("quiz_bo",quizBO);
+        bundle.putParcelable("question", quizBO.getQuestions().get(currentQuesPos));
+        bundle.putParcelable("quiz_bo", quizBO);
         quizFragment.setArguments(bundle);
         loadFragment(quizFragment);
     }
@@ -151,8 +143,19 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-       // getMenuInflater().inflate(R.menu.menu_my_score, menu);
+        // getMenuInflater().inflate(R.menu.menu_my_score, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -66,6 +66,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     boolean isQuestionAnswered = false;
     SmartQuiz smartQuiz;
     private final static String TAG = "QuizFragment";
+    long secInMilliSeconds = 0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         Bundle arguments = getArguments();
         if (arguments != null) {
             question = arguments.getParcelable("question");
-            quizBO=arguments.getParcelable("quiz_bo");
+            quizBO = arguments.getParcelable("quiz_bo");
             //Log.e(TAG, "onCreate: QuizFragment"+question );
             //Log.e(TAG, "onCreate: quizBO "+quizBO.getQuestionTimeout() );
         }
@@ -135,9 +136,9 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         tvOption4.setText(question.getOption4());
         tvAnswer.setText(question.getAnswerDetails());
 
-            if (((QuizActivity) getContext()).quizBO.getQuestions().size() - 1 == ((QuizActivity) getContext()).currentQuesPos) {
-                tvNext.setText("Submit");
-            }
+        if (((QuizActivity) getContext()).quizBO.getQuestions().size() - 1 == ((QuizActivity) getContext()).currentQuesPos) {
+            tvNext.setText("Submit");
+        }
 
             /*if (quizBOArrayList.size() - 1 == ((QuizActivity) getContext()).currentQuesPos) {
                 tvNext.setText("Submit");
@@ -234,10 +235,12 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             }
             disableClicks();
         });
-        Log.e(TAG, "onViewCreated: quiz question timout"+quizBO.getQuestionTimeout() );
-        if(quizBO.getQuestionTimeout()!=0){
+        Log.e(TAG, "onViewCreated: quiz question timout" + quizBO.getQuestionTimeout());
+        if (quizBO.getQuestionTimeout() != 0) {
             startFirstTimer(quizBO.getQuestionTimeout());
-        }
+        }/*else{
+            startFirstTimer(quizBO.getQuizTimeout());
+        }*/
 
 
         tvNext.setOnClickListener(view1 -> {
@@ -252,7 +255,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
                 Log.e(TAG, "onViewCreated: "+map );
                 savequiz(map);*/
-                  savequiz("1",""+((QuizActivity) getContext()).totalScore,""+question.quizId);
+                savequiz("1", "" + ((QuizActivity) getContext()).totalScore, "" + question.quizId);
             } else {
                 ((QuizActivity) getContext()).currentQuesPos++;
                 ((QuizActivity) getContext()).loadQuizFragment();
@@ -286,22 +289,23 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-      private void savequiz(String userid,String score,String quizid) {
+    private void savequiz(String userid, String score, String quizid) {
         if (CommonMethods.isNetworkAvailable(getContext())) {
             //CustomProgressDialog pd = new CustomProgressDialog(mContext);
             //pd.show();
-            Map<String,String> params=new HashMap<>();
-            params.put("userid",userid);
-            params.put("score",score);
-            params.put("quizid",quizid);
+            Map<String, String> params = new HashMap<>();
+            params.put("userid", userid);
+            params.put("score", score);
+            params.put("quizid", quizid);
             smartQuiz.getApiRequestHelper().savequiz(params, new ApiRequestHelper.OnRequestComplete() {
                 @Override
                 public void onSuccess(Object object) {
                     //if (pd.isShowing()) pd.dismiss();/
-                    UserData userData = (UserData) object;Log.e("in", "success");
+                    UserData userData = (UserData) object;
+                    Log.e("in", "success");
 
-                    Log.e(TAG, "onSuccess: "+userData.getMessage() );
-                    Log.e(TAG, "onSuccess: "+userData.getResponsecode() );
+                    Log.e(TAG, "onSuccess: " + userData.getMessage());
+                    Log.e(TAG, "onSuccess: " + userData.getResponsecode());
                     if (userData != null) {
                         if (userData.getResponsecode() == 200) {
                             Toast.makeText(getContext(), "Answers submitted", Toast.LENGTH_SHORT).show();
@@ -314,7 +318,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                                     .show();
                         } else {
                             if (userData.getMessage() != null && !TextUtils.isEmpty(userData.getMessage()))
-                            Toast.makeText(getContext(), userData.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), userData.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(getContext(), AllKeys.SERVER_MESSAGE, Toast.LENGTH_SHORT).show();
@@ -323,7 +327,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
                 @Override
                 public void onFailure(String apiResponse) {
-                   // Log.e("in", "error " + apiResponse);
+                    // Log.e("in", "error " + apiResponse);
 
                     Toast.makeText(getContext(), apiResponse, Toast.LENGTH_SHORT).show();
                 }
@@ -338,7 +342,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         mp.start();
     }
 
-    private void startFirstTimer(long sec) {
+   /* private void startFirstTimer(long sec) {
         long calculatedSec = sec * 1000 + 1000;
         cFirstTimer = new CountDownTimer(calculatedSec, 1000) {
             @Override
@@ -348,7 +352,35 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                 //Log.e("seconds", "" + seconds);
                 long minutes = seconds / 60;
                 seconds %= 60;
-                tvTimer.setText(String.format("%02d", seconds));
+                tvTimer.setText(String.format("%02d", seconds,"%02d",minutes));
+                //tvTimer.setText(String.format("",minutes,":",seconds));
+            }
+
+            @Override
+            public void onFinish() {
+                isQuestionAnswered = true;
+                showCorrectAnswer();
+                playAudio(false);
+                disableClicks();
+            }
+        };
+        cFirstTimer.start();
+    }*/
+
+    private void startFirstTimer(long sec) {
+        secInMilliSeconds = sec * 1000;
+        cFirstTimer = new CountDownTimer(secInMilliSeconds, 1000) {
+            @Override
+            public void onTick(long l) {
+                secInMilliSeconds = l;
+                int minutes = (int) secInMilliSeconds / 60000;
+                int seconds = (int) secInMilliSeconds % 60000 / 1000;
+                String timeLeftText;
+                timeLeftText = "" + minutes;
+                timeLeftText += ":";
+                if (seconds < 10) timeLeftText += "0";
+                timeLeftText += seconds;
+                tvTimer.setText(timeLeftText);
             }
 
             @Override
@@ -395,11 +427,11 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                 } else {
                     cardView1.setVisibility(View.VISIBLE);
                     cardView1.setBackgroundColor(getResources().getColor(R.color.green));
-                    if(!temp.equals("")) {
+                    if (!temp.equals("")) {
                         cardView4.setVisibility(View.VISIBLE);
                         cardView4.setBackgroundColor(getResources().getColor(R.color.red));
                         tvOption4.setText(temp);
-                    }else{
+                    } else {
                         cardView4.setVisibility(View.GONE);
                     }
                     cardView3.setVisibility(View.GONE);
@@ -418,11 +450,11 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                 } else {
                     cardView2.setVisibility(View.VISIBLE);
                     cardView2.setBackgroundColor(getResources().getColor(R.color.green));
-                    if(!temp.equals("")) {
+                    if (!temp.equals("")) {
                         cardView4.setVisibility(View.VISIBLE);
                         cardView4.setBackgroundColor(getResources().getColor(R.color.red));
                         tvOption4.setText(temp);
-                    }else{
+                    } else {
                         cardView4.setVisibility(View.GONE);
                     }
                     cardView3.setVisibility(View.GONE);
@@ -441,11 +473,11 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                 } else {
                     cardView3.setVisibility(View.VISIBLE);
                     cardView3.setBackgroundColor(getResources().getColor(R.color.green));
-                    if(!temp.equals("")) {
+                    if (!temp.equals("")) {
                         cardView4.setVisibility(View.VISIBLE);
                         cardView4.setBackgroundColor(getResources().getColor(R.color.red));
                         tvOption4.setText(temp);
-                    }else{
+                    } else {
                         cardView4.setVisibility(View.GONE);
                     }
                     cardView2.setVisibility(View.GONE);
@@ -464,11 +496,11 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                 } else {
                     cardView4.setVisibility(View.VISIBLE);
                     cardView4.setBackgroundColor(getResources().getColor(R.color.green));
-                    if(!temp.equals("")) {
+                    if (!temp.equals("")) {
                         cardView2.setVisibility(View.VISIBLE);
                         cardView2.setBackgroundColor(getResources().getColor(R.color.red));
                         tvOption2.setText(temp);
-                    }else{
+                    } else {
                         cardView2.setVisibility(View.GONE);
                     }
                     cardView3.setVisibility(View.GONE);
@@ -479,10 +511,9 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     }
 
     private void disableClicks() {
-        if(quizBO.getQuestionTimeout()!=0){
+        if (quizBO.getQuestionTimeout() != 0) {
             cFirstTimer.cancel();
         }
-        //showCorrectAnswer();
         rlOption1.setFocusable(false);
         rlOption2.setFocusable(false);
         rlOption3.setFocusable(false);
@@ -493,7 +524,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         rlOption4.setClickable(false);
         ivAnswer.setVisibility(View.VISIBLE);
         tvAnswer.setVisibility(View.VISIBLE);
-        tvTimer.setVisibility(View.GONE);
+        tvTimer.setVisibility(View.VISIBLE);
     }
 
     @Override

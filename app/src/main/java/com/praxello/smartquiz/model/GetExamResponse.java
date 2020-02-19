@@ -3,20 +3,17 @@ package com.praxello.smartquiz.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
-import com.praxello.smartquiz.model.allquestion.QuestionBO;
-
-import java.util.ArrayList;
+import com.praxello.smartquiz.model.allquestion.QuizBO;
 
 public class GetExamResponse implements Parcelable {
     public String Message;
-    public ArrayList<QuestionBO> Data;
+    //public ArrayList<QuestionBO> Data;
+    public QuizBO Data;
     public int Responsecode;
 
     protected GetExamResponse(Parcel in) {
         Message = in.readString();
-        Data = in.createTypedArrayList(QuestionBO.CREATOR);
+        Data = in.readParcelable(QuizBO.class.getClassLoader());
         Responsecode = in.readInt();
     }
 
@@ -40,11 +37,11 @@ public class GetExamResponse implements Parcelable {
         Message = message;
     }
 
-    public ArrayList<QuestionBO> getData() {
+    public QuizBO getData() {
         return Data;
     }
 
-    public void setData(ArrayList<QuestionBO> data) {
+    public void setData(QuizBO data) {
         Data = data;
     }
 
@@ -56,12 +53,6 @@ public class GetExamResponse implements Parcelable {
         Responsecode = responsecode;
     }
 
-    @NonNull
-    @Override
-    public String toString() {
-        return this.getResponsecode()+"\n get data"+getData()+"\n getMessage "+getMessage();
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -70,7 +61,7 @@ public class GetExamResponse implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(Message);
-        dest.writeTypedList(Data);
+        dest.writeParcelable(Data, flags);
         dest.writeInt(Responsecode);
     }
 }

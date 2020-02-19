@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import com.praxello.smartquiz.R;
+import com.praxello.smartquiz.activity.MyScoreActivity;
 import com.praxello.smartquiz.adapter.ProgressAdapter;
 import com.praxello.smartquiz.model.scorecard.AttemptsBO;
 import com.praxello.smartquiz.model.scorecard.AvailableBO;
@@ -50,53 +51,17 @@ public class ProgressFragment extends Fragment {
         //basic intialisation..
         initViews();
 
-        //load available data...
-        loadData();
+        if(MyScoreActivity.availableBOArrayList!=null){
+            ProgressAdapter progressAdapter=new ProgressAdapter(getContext(), MyScoreActivity.availableBOArrayList);
+            rvProgress.setAdapter(progressAdapter);
+        }
+
 
         return view;
     }
 
     private void initViews(){
         rvProgress.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
-    private void loadData(){
-        smartQuiz.getApiRequestHelper().getscorecard("1",new ApiRequestHelper.OnRequestComplete() {
-            @Override
-            public void onSuccess(Object object) {
-                ScoreCardResponse scoreCardResponse=(ScoreCardResponse) object;
-
-                Log.e(TAG, "onSuccess: "+scoreCardResponse.getResponsecode());
-                Log.e(TAG, "onSuccess: "+scoreCardResponse.getMessage());
-                Log.e(TAG, "onSuccess: "+scoreCardResponse);
-
-                if(scoreCardResponse.getResponsecode()==200){
-                    Toast.makeText(getContext(), scoreCardResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    if(scoreCardResponse.getAvailable()!=null){
-
-                        allAttemptsDataMap=new HashMap<>();
-                        ProgressFragment.attemptsBOArrayList=scoreCardResponse.getAttempts();
-                        if(scoreCardResponse.getAttempts()!=null){
-                            for(AttemptsBO temp:ProgressFragment.attemptsBOArrayList){
-                                allAttemptsDataMap.put(temp.categoryTitle,temp.total);
-                            }
-                        }
-                        //allAttemptsDataMap=  scoreCardResponse.getAttempts();
-
-                        availableBOArrayList=scoreCardResponse.getAvailable();
-                        ProgressAdapter progressAdapter=new ProgressAdapter(getContext(),scoreCardResponse.getAvailable());
-                        rvProgress.setAdapter(progressAdapter);
-                    }
-                }else{
-                    Toast.makeText(getContext(), scoreCardResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(String apiResponse) {
-                Toast.makeText(getContext(), apiResponse, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override

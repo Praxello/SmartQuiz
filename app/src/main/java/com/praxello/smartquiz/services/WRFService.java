@@ -30,7 +30,7 @@ public interface WRFService {
     Call<UserData> savequiz(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
-    @POST("~tailor/smartquiz/user/getexam.php")
+    @POST("~tailor/smartquiz/user/getexam1.php")
     Call<GetExamResponse> getTest(@Field("quizid") String quizid);
 
     @GET("~tailor/smartquiz/user/forgetpassword.php")
