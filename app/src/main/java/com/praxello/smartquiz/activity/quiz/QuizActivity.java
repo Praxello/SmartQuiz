@@ -16,13 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.praxello.smartquiz.R;
-import com.praxello.smartquiz.model.QuizBOExam;
-import com.praxello.smartquiz.model.allquestion.QuestionBO;
 import com.praxello.smartquiz.services.SmartQuiz;
-import com.praxello.smartquiz.model.allquestion.AllQuestionResponse;
 import com.praxello.smartquiz.model.allquestion.QuizBO;
-
-import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 

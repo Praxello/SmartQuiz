@@ -3,6 +3,7 @@ package com.praxello.smartquiz.activity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -17,13 +18,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.praxello.smartquiz.AllKeys;
 import com.praxello.smartquiz.CommonMethods;
 import com.praxello.smartquiz.R;
 import com.praxello.smartquiz.activity.quiz.QuizActivity;
 import com.praxello.smartquiz.model.GetExamResponse;
+import com.praxello.smartquiz.model.categories.GetCategoriesBO;
+import com.praxello.smartquiz.model.categories.GetCategoriesResponse;
 import com.praxello.smartquiz.services.ApiRequestHelper;
 import com.praxello.smartquiz.services.SmartQuiz;
+
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -44,8 +51,11 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     @BindView(R.id.iv_share)
     public ImageView ivShare;
     SmartQuiz smartQuiz;
-    private static String TAG="DashBoardActivity";
+    private static String TAG = "DashBoardActivity";
     AlertDialog alertDialog;
+    public static ArrayList<GetCategoriesBO> getCategoriesBOArraylist=new ArrayList<>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +66,9 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
         //basic intialisation..
         initViews();
+
+        //load Categories data
+        loadCategoriesData();
     }
 
     private void initViews() {
@@ -71,6 +84,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         Typeface face = Typeface.createFromAsset(getAssets(),
                 "fonts/greatvibes-regular.otf");
         tvTitle.setTypeface(face);
+
 
     }
 
@@ -96,22 +110,23 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 ViewGroup viewGroup = findViewById(android.R.id.content);
                 View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.layout_dialog_view, viewGroup, false);
                 builder.setView(dialogView);
-                EditText etQuizID=dialogView.findViewById(R.id.etquizid);
-                AppCompatButton btnSubmit=dialogView.findViewById(R.id.btnsubmit);
+
+                EditText etQuizID = dialogView.findViewById(R.id.etquizid);
+                AppCompatButton btnSubmit = dialogView.findViewById(R.id.btnsubmit);
 
                 btnSubmit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(etQuizID.getText().toString().isEmpty()){
+                        if (etQuizID.getText().toString().isEmpty()) {
                             etQuizID.setError("Quiz Id required");
                             etQuizID.requestFocus();
                             etQuizID.setFocusable(true);
-                        }else{
+                        } else {
                             loadTest(etQuizID.getText().toString());
                         }
                     }
                 });
-                 alertDialog = builder.create();
+                alertDialog = builder.create();
                 alertDialog.show();
 
                 break;
@@ -151,16 +166,16 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                                 // Continue with delete operation
                                 CommonMethods.setPreference(DashBoardActivity.this, AllKeys.USER_ID, AllKeys.DNF);
                                 CommonMethods.setPreference(DashBoardActivity.this, AllKeys.FIRST_NAME, AllKeys.DNF);
-                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.LAST_NAME,AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.LAST_NAME, AllKeys.DNF);
                                 CommonMethods.setPreference(DashBoardActivity.this, AllKeys.MOBILE, AllKeys.DNF);
-                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.EMAIL,AllKeys.DNF);
-                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.CITY,AllKeys.DNF);
-                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.STATE,AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.EMAIL, AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.CITY, AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.STATE, AllKeys.DNF);
                                 CommonMethods.setPreference(DashBoardActivity.this, AllKeys.COUNTRY, AllKeys.DNF);
                                 CommonMethods.setPreference(DashBoardActivity.this, AllKeys.PINCODE, AllKeys.DNF);
-                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.DATEOFBIRTH,AllKeys.DNF);
+                                CommonMethods.setPreference(DashBoardActivity.this, AllKeys.DATEOFBIRTH, AllKeys.DNF);
                                 CommonMethods.setPreference(DashBoardActivity.this, AllKeys.ADDRESS, AllKeys.DNF);
-                                Intent intent=new Intent(DashBoardActivity.this,LoginActivity.class);
+                                Intent intent = new Intent(DashBoardActivity.this, LoginActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
@@ -176,35 +191,67 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    private void loadTest(String quizid){
-        smartQuiz.getApiRequestHelper().getTest(quizid,new ApiRequestHelper.OnRequestComplete() {
-                    @Override
-                    public void onSuccess(Object object) {
-                        GetExamResponse getExamResponse=(GetExamResponse) object;
-                        alertDialog.dismiss();
-                        Log.e(TAG, "onSuccess: "+getExamResponse.getResponsecode());
-                        Log.e(TAG, "onSuccess: "+getExamResponse.getMessage());
-                       // Log.e(TAG, "onSuccess: "+getExamResponse.getData().size());
+    private void loadTest(String quizid) {
+        smartQuiz.getApiRequestHelper().getTest(quizid, new ApiRequestHelper.OnRequestComplete() {
+            @Override
+            public void onSuccess(Object object) {
+                GetExamResponse getExamResponse = (GetExamResponse) object;
+                alertDialog.dismiss();
+                Log.e(TAG, "onSuccess: " + getExamResponse.getResponsecode());
+                Log.e(TAG, "onSuccess: " + getExamResponse.getMessage());
+                // Log.e(TAG, "onSuccess: "+getExamResponse.getData().size());
 
-                        if(getExamResponse.getResponsecode()==200){
-                            Intent intent=new Intent(DashBoardActivity.this, QuizActivity.class);
-                            //intent.putParcelableArrayListExtra("data_test",getExamResponse.getData());
-                            intent.putExtra("data",getExamResponse.getData());
-                            startActivity(intent);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                if (getExamResponse.getResponsecode() == 200) {
+                    Intent intent = new Intent(DashBoardActivity.this, QuizActivity.class);
+                    //intent.putParcelableArrayListExtra("data_test",getExamResponse.getData());
+                    intent.putExtra("data", getExamResponse.getData());
+                    startActivity(intent);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
 
-                        }else{
-                            Toast.makeText(DashBoardActivity.this, getExamResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                } else {
+                    Toast.makeText(DashBoardActivity.this, getExamResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(String apiResponse) {
+                Toast.makeText(DashBoardActivity.this, apiResponse, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void loadCategoriesData() {
+       // getCategoriesBOArraylist=new ArrayList<>();
+        getCategoriesBOArraylist.add(new GetCategoriesBO(0,"Select Category",1));
+
+        smartQuiz.getApiRequestHelper().getCategories( new ApiRequestHelper.OnRequestComplete() {
+            @Override
+            public void onSuccess(Object object) {
+                GetCategoriesResponse getCategoriesResponse = (GetCategoriesResponse) object;
+                //alertDialog.dismiss();
+                Log.e(TAG, "onSuccess: " + getCategoriesResponse.getResponsecode());
+                Log.e(TAG, "onSuccess: " + getCategoriesResponse.getMessage());
+                // Log.e(TAG, "onSuccess: "+getExamResponse.getData().size());
+
+                if (getCategoriesResponse.getResponsecode() == 200) {
+                    if(getCategoriesResponse.getData()!=null){
+                          DashBoardActivity.getCategoriesBOArraylist=getCategoriesResponse.Data;
                     }
+                 } else {
+                    Toast.makeText(DashBoardActivity.this, getCategoriesResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
 
-                    @Override
-                    public void onFailure(String apiResponse) {
-                        Toast.makeText(DashBoardActivity.this, apiResponse, Toast.LENGTH_SHORT).show();
-                    }
-                });
-         }
+            @Override
+            public void onFailure(String apiResponse) {
+                Toast.makeText(DashBoardActivity.this, apiResponse, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
 
     boolean doubleBackToExitPressedOnce = false;
 
@@ -224,7 +271,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void run() {
 
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }

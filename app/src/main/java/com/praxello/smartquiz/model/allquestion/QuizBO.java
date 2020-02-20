@@ -14,6 +14,7 @@ public class QuizBO implements Parcelable {
     public int categoryId ;
     public String title;
     public String details;
+    public String passingScore;
     public int questionTimeout;
     public int quizTimeout;
     public String createdAt;
@@ -35,6 +36,7 @@ public class QuizBO implements Parcelable {
         updatedAt = in.readString();
         isActive = in.readInt();
         categoryTitle = in.readString();
+        passingScore = in.readString();
         Questions = in.createTypedArrayList(QuestionBO.CREATOR);
     }
 
@@ -55,6 +57,15 @@ public class QuizBO implements Parcelable {
             return quizId;
         }
     */
+
+    public String getPassingScore() {
+        return passingScore;
+    }
+
+    public void setPassingScore(String passingScore) {
+        this.passingScore = passingScore;
+    }
+
     public int getQuizId() {
         return quizId;
     }
@@ -176,6 +187,7 @@ public class QuizBO implements Parcelable {
         dest.writeString(updatedAt);
         dest.writeInt(isActive);
         dest.writeString(categoryTitle);
+        dest.writeString(passingScore);
         dest.writeTypedList(Questions);
     }
 }

@@ -1,7 +1,10 @@
 package com.praxello.smartquiz.services;
 
+import com.praxello.smartquiz.model.CommonResponse;
 import com.praxello.smartquiz.model.GetExamResponse;
+import com.praxello.smartquiz.model.MyAllQuizResponse;
 import com.praxello.smartquiz.model.allquestion.AllQuestionResponse;
+import com.praxello.smartquiz.model.categories.GetCategoriesResponse;
 import com.praxello.smartquiz.model.login.LoginResponse;
 import com.praxello.smartquiz.model.quiz.UserData;
 import com.praxello.smartquiz.model.scorecard.ScoreCardResponse;
@@ -48,6 +51,25 @@ public interface WRFService {
     @POST("~tailor/smartquiz/user/scorecard.php")
     Call<ScoreCardResponse> getscorecard(@Field("userid") String userid);
 
+    @FormUrlEncoded
+    @POST("~tailor/smartquiz/user/myallquiz.php")
+    Call<MyAllQuizResponse> getAllQuestion(@FieldMap Map<String, String> params);
+
+    @GET("~tailor/smartquiz/user/getcategories.php")
+    Call<GetCategoriesResponse> getCategories();
+
+    @FormUrlEncoded
+    @POST("~tailor/smartquiz/user/createquiz.php")
+    Call<CommonResponse> createQuiz(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("~tailor/smartquiz/user/updatequiz.php")
+    Call<CommonResponse> updateQuiz(@FieldMap Map<String, String> params);
+
+
+    @FormUrlEncoded
+    @POST("~tailor/smartquiz/user/deletequiz.php")
+    Call<CommonResponse> deleteQuiz(@FieldMap Map<String, String> params);
 
 
 }

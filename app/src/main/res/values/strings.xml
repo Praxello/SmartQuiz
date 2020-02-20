@@ -35,4 +35,13 @@
     <string name="title">Title:</string>
     <string name="categoryid">CategoryID#:</string>
     <string name="passingscore">Pass score#:</string>
+    <string name="my_quiz">My Quiz</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="add">Add</string>
+    <string name="quiz_title">Quiz title</string>
+    <string name="timeout">Timeout</string>
+    <string name="passing_score">Passing score</string>
+    <string name="quiz_description">Quiz description</string>
+    <string name="create_quiz">Create Quiz</string>
 </resources>

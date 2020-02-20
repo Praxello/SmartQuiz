@@ -10,8 +10,11 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;import com.praxello.smartquiz.AllKeys;
 import com.praxello.smartquiz.ConfigUrl;
+import com.praxello.smartquiz.model.CommonResponse;
 import com.praxello.smartquiz.model.GetExamResponse;
+import com.praxello.smartquiz.model.MyAllQuizResponse;
 import com.praxello.smartquiz.model.allquestion.AllQuestionResponse;
+import com.praxello.smartquiz.model.categories.GetCategoriesResponse;
 import com.praxello.smartquiz.model.login.LoginResponse;
 import com.praxello.smartquiz.model.quiz.UserData;
 import com.praxello.smartquiz.model.scorecard.ScoreCardResponse;
@@ -85,6 +88,31 @@ public class ApiRequestHelper {
         call_api_test(onRequestComplete, call);
     }
 
+    public void getAllQuestion(Map<String, String> params, final OnRequestComplete onRequestComplete) {
+        Call<MyAllQuizResponse> call = WRFService.getAllQuestion(params);
+        call_api_all_question(onRequestComplete, call);
+    }
+
+    public void createQuiz(Map<String, String> params, final OnRequestComplete onRequestComplete) {
+        Call<CommonResponse> call = WRFService.createQuiz(params);
+        call_api_create_quiz(onRequestComplete, call);
+    }
+
+    public void updateQuiz(Map<String, String> params, final OnRequestComplete onRequestComplete) {
+        Call<CommonResponse> call = WRFService.updateQuiz(params);
+        call_api_create_quiz(onRequestComplete, call);
+    }
+
+    public void deleteQuiz(Map<String, String> params, final OnRequestComplete onRequestComplete) {
+        Call<CommonResponse> call = WRFService.deleteQuiz(params);
+        call_api_create_quiz(onRequestComplete, call);
+    }
+
+    public void getCategories(final OnRequestComplete onRequestComplete) {
+        Call<GetCategoriesResponse> call = WRFService.getCategories();
+        call_api_all_categories(onRequestComplete, call);
+    }
+
     public void forgetPassword(Map<String, String> params, final OnRequestComplete onRequestComplete) {
         Call<UserData> call = WRFService.forgetpassword(params);
         call_api_for_quiz(onRequestComplete, call);
@@ -110,6 +138,29 @@ public class ApiRequestHelper {
         call_api_for_quiz(onRequestComplete, call);
     }*/
 
+    private void call_api_create_quiz(final OnRequestComplete onRequestComplete, Call<CommonResponse> call) {
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
+                    onRequestComplete.onSuccess(response.body());
+                } else {
+                    try {
+                        onRequestComplete.onFailure(Html.fromHtml(response.errorBody().string()) + "");
+                    } catch (IOException e) {
+                        onRequestComplete.onFailure("Unproper Response");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                handle_fail_response(t, onRequestComplete);
+            }
+        });
+    }
+
     private void call_api_for_scoreboard(final OnRequestComplete onRequestComplete, Call<ScoreCardResponse> call) {
         call.enqueue(new Callback<ScoreCardResponse>() {
             @Override
@@ -128,6 +179,29 @@ public class ApiRequestHelper {
 
             @Override
             public void onFailure(Call<ScoreCardResponse> call, Throwable t) {
+                handle_fail_response(t, onRequestComplete);
+            }
+        });
+    }
+
+    private void call_api_all_categories(final OnRequestComplete onRequestComplete, Call<GetCategoriesResponse> call) {
+        call.enqueue(new Callback<GetCategoriesResponse>() {
+            @Override
+            public void onResponse(Call<GetCategoriesResponse> call, Response<GetCategoriesResponse> response) {
+                if (response.isSuccessful()) {
+                    onRequestComplete.onSuccess(response.body());
+                } else {
+                    try {
+                        onRequestComplete.onFailure(Html.fromHtml(response.errorBody().string()) + "");
+                    } catch (IOException e) {
+                        onRequestComplete.onFailure("Unproper Response");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetCategoriesResponse> call, Throwable t) {
                 handle_fail_response(t, onRequestComplete);
             }
         });
@@ -202,6 +276,30 @@ public class ApiRequestHelper {
             }
         });
     }
+
+    private void call_api_all_question(final OnRequestComplete onRequestComplete, Call<MyAllQuizResponse> call) {
+        call.enqueue(new Callback<MyAllQuizResponse>() {
+            @Override
+            public void onResponse(Call<MyAllQuizResponse> call, Response<MyAllQuizResponse> response) {
+                if (response.isSuccessful()) {
+                    onRequestComplete.onSuccess(response.body());
+                } else {
+                    try {
+                        onRequestComplete.onFailure(Html.fromHtml(response.errorBody().string()) + "");
+                    } catch (IOException e) {
+                        onRequestComplete.onFailure("Unproper Response");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MyAllQuizResponse> call, Throwable t) {
+                handle_fail_response(t, onRequestComplete);
+            }
+        });
+    }
+
 
     private void call_api_login(final OnRequestComplete onRequestComplete, Call<LoginResponse> call) {
         call.enqueue(new Callback<LoginResponse>() {
