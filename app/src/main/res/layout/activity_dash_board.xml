@@ -30,7 +30,7 @@
         android:layout_height="@dimen/margin30"
         android:layout_margin="@dimen/margin10"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_share" />
+        android:src="@drawable/ic_share_24" />
 
     <TextView
         android:layout_width="match_parent"

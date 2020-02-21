@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -16,27 +17,20 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.praxello.smartquiz.AllKeys;
 import com.praxello.smartquiz.CommonMethods;
 import com.praxello.smartquiz.R;
 import com.praxello.smartquiz.adapter.CustomSpinnerAdapter;
-import com.praxello.smartquiz.adapter.MyQuizAdapter;
 import com.praxello.smartquiz.model.CommonResponse;
 import com.praxello.smartquiz.model.allquestion.QuizBO;
-import com.praxello.smartquiz.model.categories.GetCategoriesBO;
-import com.praxello.smartquiz.model.quiz.UserData;
 import com.praxello.smartquiz.services.ApiRequestHelper;
 import com.praxello.smartquiz.services.SmartQuiz;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CreateQuizActivity extends AppCompatActivity implements View.OnClickListener{
+public class AddQuizActivity extends AppCompatActivity implements View.OnClickListener{
 
     @BindView(R.id.et_quiz_title)
     EditText etQuizTitle;
@@ -54,9 +48,7 @@ public class CreateQuizActivity extends AppCompatActivity implements View.OnClic
     int stCategoryId;
     private QuizBO quizBO;
     Toolbar toolbar;
-
-
-    public static final String TAG="CreateQuizActivity";
+    public static final String TAG="AddQuizActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +70,6 @@ public class CreateQuizActivity extends AppCompatActivity implements View.OnClic
         }else{
             toolbar.setTitle("Create Quiz");
         }
-
     }
 
     private void initViews(){
@@ -94,14 +85,14 @@ public class CreateQuizActivity extends AppCompatActivity implements View.OnClic
         etTimeOut.setText("0");
 
         if(DashBoardActivity.getCategoriesBOArraylist!=null){
-            CustomSpinnerAdapter customSpinnerAdapter=new CustomSpinnerAdapter(CreateQuizActivity.this,DashBoardActivity.getCategoriesBOArraylist);
+            CustomSpinnerAdapter customSpinnerAdapter=new CustomSpinnerAdapter(AddQuizActivity.this,DashBoardActivity.getCategoriesBOArraylist);
             spinCategory.setAdapter(customSpinnerAdapter);
         }
 
         spinCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(CreateQuizActivity.this, "Category Id"+DashBoardActivity.getCategoriesBOArraylist.get(position).getCategoryId(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddQuizActivity.this, "Category Id"+DashBoardActivity.getCategoriesBOArraylist.get(position).getCategoryId(), Toast.LENGTH_SHORT).show();
                 stCategoryId=DashBoardActivity.getCategoriesBOArraylist.get(position).getCategoryId();
             }
 
@@ -120,29 +111,28 @@ public class CreateQuizActivity extends AppCompatActivity implements View.OnClic
         etQuizDescription.setText(quizBO.getDetails());
     }
 
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btncreatequiz:
-                /*if(getIntent().getParcelableExtra("data")!=null) {
+
+                if(getIntent().getStringExtra("type").equals("add")){
                     if(isValidated()){
                         addQuiz();
                     }
-                }else{
-
-                }*/
-                if(isValidated()){
-                    updateQuiz();
+                }else if(getIntent().getStringExtra("type").equals("update")){
+                    if(isValidated()){
+                        updateQuiz();
+                    }
                 }
+
                 break;
         }
     }
 
     private void addQuiz(){
         Map<String,String> params=new HashMap<>();
-        params.put("userId", CommonMethods.getPrefrence(CreateQuizActivity.this, AllKeys.USER_ID));
+        params.put("userId", CommonMethods.getPrefrence(AddQuizActivity.this, AllKeys.USER_ID));
         params.put("categoryId", String.valueOf(stCategoryId));
         params.put("title",etQuizTitle.getText().toString());
         params.put("details",etQuizDescription.getText().toString());
@@ -161,24 +151,34 @@ public class CreateQuizActivity extends AppCompatActivity implements View.OnClic
                 Log.e(TAG, "onSuccess: "+commonResponse.getMessage());
 
                 if(commonResponse.getResponsecode()==200){
-                    Toast.makeText(CreateQuizActivity.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddQuizActivity.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    //clear all data of editext.
+                    clearAllData();
                     //finish();
                       //overridePendingTransition(R.anim.bottom_up, R.anim.bottom_down);
                 }else{
-                    Toast.makeText(CreateQuizActivity.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddQuizActivity.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(String apiResponse) {
-                Toast.makeText(CreateQuizActivity.this, apiResponse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddQuizActivity.this, apiResponse, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    private void clearAllData(){
+          etQuizTitle.setText("");
+          etTimeOut.setText("");
+          etPassingScore.setText("");
+          etQuizDescription.setText("");
+    }
+
     private void updateQuiz(){
             Map<String,String> params=new HashMap<>();
-            params.put("userId", CommonMethods.getPrefrence(CreateQuizActivity.this, AllKeys.USER_ID));
+            params.put("userId", CommonMethods.getPrefrence(AddQuizActivity.this, AllKeys.USER_ID));
             params.put("categoryId", String.valueOf(stCategoryId));
             params.put("title",etQuizTitle.getText().toString());
             params.put("details",etQuizDescription.getText().toString());
@@ -198,37 +198,36 @@ public class CreateQuizActivity extends AppCompatActivity implements View.OnClic
                     Log.e(TAG, "onSuccess: "+commonResponse.getMessage());
 
                     if(commonResponse.getResponsecode()==200){
-                       Toast.makeText(CreateQuizActivity.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                       Toast.makeText(AddQuizActivity.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                          finish();
                       /*  MyQuizAdapter.quizBO.setTitle(etQuizTitle.getText().toString());
                         MyQuizAdapter.quizBO.setDetails(etQuizTitle.getText().toString());
                         MyQuizAdapter.quizBO.setPassingScore(etPassingScore.getText().toString());
                         MyQuizAdapter.quizBO.setCategoryTitle(spinCategory.getSelectedItem().toString());
                       */
-                        Intent intent = new Intent();
-                        intent.putExtra("editTextValue", "value_here");
-                        setResult(RESULT_OK, intent);
-                        finish();
 
                         quizBO.setTitle(etQuizTitle.getText().toString());
                         quizBO.setDetails(etQuizTitle.getText().toString());
                         quizBO.setPassingScore(etPassingScore.getText().toString());
                         quizBO.setCategoryTitle(spinCategory.getSelectedItem().toString());
 
+                        Intent returnIntent = new Intent();
+                        setResult(Activity.RESULT_OK,returnIntent);
+                        finish();
+
                         //finish();
                         //overridePendingTransition(R.anim.bottom_up, R.anim.bottom_down);
                     }else{
-                        Toast.makeText(CreateQuizActivity.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddQuizActivity.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(String apiResponse) {
-                    Toast.makeText(CreateQuizActivity.this, apiResponse, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddQuizActivity.this, apiResponse, Toast.LENGTH_SHORT).show();
                 }
             });
     }
-
 
     private boolean isValidated(){
         if(etQuizTitle.getText().toString().isEmpty()){
@@ -246,6 +245,11 @@ public class CreateQuizActivity extends AppCompatActivity implements View.OnClic
         if(etQuizDescription.getText().toString().isEmpty()){
             etQuizDescription.setError("Quiz description required!");
             etQuizDescription.requestFocus();
+            return false;
+        }
+
+        if(stCategoryId==0){
+            Toast.makeText(smartQuiz, "Please select category!", Toast.LENGTH_SHORT).show();
             return false;
         }
 

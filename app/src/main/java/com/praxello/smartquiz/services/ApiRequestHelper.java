@@ -11,6 +11,7 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;import com.praxello.smartquiz.AllKeys;
 import com.praxello.smartquiz.ConfigUrl;
 import com.praxello.smartquiz.model.CommonResponse;
+import com.praxello.smartquiz.model.CreateQuestionResponse;
 import com.praxello.smartquiz.model.GetExamResponse;
 import com.praxello.smartquiz.model.MyAllQuizResponse;
 import com.praxello.smartquiz.model.allquestion.AllQuestionResponse;
@@ -133,10 +134,38 @@ public class ApiRequestHelper {
         call_api_for_scoreboard(onRequestComplete, call);
     }
 
+    public void createquizquestion(Map<String, String> params, final OnRequestComplete onRequestComplete) {
+        Call<CreateQuestionResponse> call = WRFService.createQuestion(params);
+        call_api_for_create_question(onRequestComplete, call);
+    }
+
     /*public void savequiz(String userid,String score,String quizid, final OnRequestComplete onRequestComplete) {
         Call<UserData> call = WRFService.savequiz(userid,score,quizid);
         call_api_for_quiz(onRequestComplete, call);
     }*/
+
+    private void call_api_for_create_question(final OnRequestComplete onRequestComplete, Call<CreateQuestionResponse> call) {
+        call.enqueue(new Callback<CreateQuestionResponse>() {
+            @Override
+            public void onResponse(Call<CreateQuestionResponse> call, Response<CreateQuestionResponse> response) {
+                if (response.isSuccessful()) {
+                    onRequestComplete.onSuccess(response.body());
+                } else {
+                    try {
+                        onRequestComplete.onFailure(Html.fromHtml(response.errorBody().string()) + "");
+                    } catch (IOException e) {
+                        onRequestComplete.onFailure("Unproper Response");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateQuestionResponse> call, Throwable t) {
+                handle_fail_response(t, onRequestComplete);
+            }
+        });
+    }
 
     private void call_api_create_quiz(final OnRequestComplete onRequestComplete, Call<CommonResponse> call) {
         call.enqueue(new Callback<CommonResponse>() {

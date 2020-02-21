@@ -1,6 +1,7 @@
 package com.praxello.smartquiz.services;
 
 import com.praxello.smartquiz.model.CommonResponse;
+import com.praxello.smartquiz.model.CreateQuestionResponse;
 import com.praxello.smartquiz.model.GetExamResponse;
 import com.praxello.smartquiz.model.MyAllQuizResponse;
 import com.praxello.smartquiz.model.allquestion.AllQuestionResponse;
@@ -66,10 +67,13 @@ public interface WRFService {
     @POST("~tailor/smartquiz/user/updatequiz.php")
     Call<CommonResponse> updateQuiz(@FieldMap Map<String, String> params);
 
-
     @FormUrlEncoded
     @POST("~tailor/smartquiz/user/deletequiz.php")
     Call<CommonResponse> deleteQuiz(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("~tailor/smartquiz/user/createquizquestion.php")
+    Call<CreateQuestionResponse> createQuestion(@FieldMap Map<String, String> params);
 
 
 }

@@ -1,5 +1,7 @@
 package com.praxello.smartquiz.model.categories;
 
+import androidx.annotation.NonNull;
+
 public class GetCategoriesBO {
     public int categoryId;
     public String categoryTitle;
@@ -36,5 +38,11 @@ public class GetCategoriesBO {
 
     public void setIsActive(int isActive) {
         this.isActive = isActive;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return ""+getCategoryId()+"\n "+getCategoryTitle()+"\n isActive "+isActive;
     }
 }

@@ -44,4 +44,12 @@
     <string name="passing_score">Passing score</string>
     <string name="quiz_description">Quiz description</string>
     <string name="create_quiz">Create Quiz</string>
+    <string name="question">Question</string>
+    <string name="option_1">Option 1</string>
+    <string name="option_2">Option 2</string>
+    <string name="option_3">Option 3</string>
+    <string name="option_4">Option 4</string>
+    <string name="media_link">Media link</string>
+    <string name="details_of_answer">Details of answer</string>
+    <string name="create_question">Create Question</string>
 </resources>

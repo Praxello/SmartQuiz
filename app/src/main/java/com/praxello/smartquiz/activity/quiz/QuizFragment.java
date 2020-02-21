@@ -255,7 +255,12 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
                 Log.e(TAG, "onViewCreated: "+map );
                 savequiz(map);*/
-                savequiz("1", "" + ((QuizActivity) getContext()).totalScore, "" + question.quizId);
+                if(getArguments().getString("type")!=null){
+                    Toast.makeText(smartQuiz, "These was only a demo quiz.", Toast.LENGTH_SHORT).show();
+                }else{
+                   savequiz("1", "" + ((QuizActivity) getContext()).totalScore, "" + question.quizId);
+                }
+
             } else {
                 ((QuizActivity) getContext()).currentQuesPos++;
                 ((QuizActivity) getContext()).loadQuizFragment();

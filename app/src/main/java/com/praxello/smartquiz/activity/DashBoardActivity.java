@@ -53,7 +53,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     SmartQuiz smartQuiz;
     private static String TAG = "DashBoardActivity";
     AlertDialog alertDialog;
-    public static ArrayList<GetCategoriesBO> getCategoriesBOArraylist=new ArrayList<>();
+    public static ArrayList<GetCategoriesBO> getCategoriesBOArraylist=new ArrayList<GetCategoriesBO>();
 
 
 
@@ -80,12 +80,12 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         llAccount.setOnClickListener(this);
         ivShare.setOnClickListener(this);
 
+        DashBoardActivity.getCategoriesBOArraylist.add(new GetCategoriesBO(0,"Select Category",1));
+
+        Log.e(TAG, "initViews: "+DashBoardActivity.getCategoriesBOArraylist.get(0) );
         TextView tvTitle = findViewById(R.id.tv_title);
-        Typeface face = Typeface.createFromAsset(getAssets(),
-                "fonts/greatvibes-regular.otf");
+        Typeface face = Typeface.createFromAsset(getAssets(), "fonts/greatvibes-regular.otf");
         tvTitle.setTypeface(face);
-
-
     }
 
     @Override
@@ -202,12 +202,17 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 // Log.e(TAG, "onSuccess: "+getExamResponse.getData().size());
 
                 if (getExamResponse.getResponsecode() == 200) {
-                    Intent intent = new Intent(DashBoardActivity.this, QuizActivity.class);
-                    //intent.putParcelableArrayListExtra("data_test",getExamResponse.getData());
-                    intent.putExtra("data", getExamResponse.getData());
-                    startActivity(intent);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                    if(getExamResponse.getData().getQuestions()!=null){
+                        Intent intent = new Intent(DashBoardActivity.this, QuizActivity.class);
+                        //intent.putParcelableArrayListExtra("data_test",getExamResponse.getData());
+                        intent.putExtra("data", getExamResponse.getData());
+                        startActivity(intent);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                    }else{
+                        Toast.makeText(smartQuiz, "Test not available!", Toast.LENGTH_SHORT).show();
+                    }
+
 
                 } else {
                     Toast.makeText(DashBoardActivity.this, getExamResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -224,7 +229,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
     private void loadCategoriesData() {
        // getCategoriesBOArraylist=new ArrayList<>();
-        getCategoriesBOArraylist.add(new GetCategoriesBO(0,"Select Category",1));
 
         smartQuiz.getApiRequestHelper().getCategories( new ApiRequestHelper.OnRequestComplete() {
             @Override
@@ -237,7 +241,12 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
                 if (getCategoriesResponse.getResponsecode() == 200) {
                     if(getCategoriesResponse.getData()!=null){
-                          DashBoardActivity.getCategoriesBOArraylist=getCategoriesResponse.Data;
+
+                        for(int i=0;i<getCategoriesResponse.getData().size();i++){
+                            DashBoardActivity.getCategoriesBOArraylist.add(getCategoriesResponse.Data.get(i));
+                        }
+
+                        Log.e(TAG, "onSuccess: "+DashBoardActivity.getCategoriesBOArraylist.toString() );
                     }
                  } else {
                     Toast.makeText(DashBoardActivity.this, getCategoriesResponse.getMessage(), Toast.LENGTH_SHORT).show();

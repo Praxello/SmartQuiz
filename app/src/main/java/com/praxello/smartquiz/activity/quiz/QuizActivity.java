@@ -58,7 +58,12 @@ public class QuizActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setTitle("Smart Quiz");
+        if(getIntent().getStringExtra("type")==null){
+            toolbar.setTitle("Smart Quiz");
+        }else{
+            toolbar.setTitle("Quiz Preview");
+        }
+
         toolbar.setTitleTextColor(Color.BLACK);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
@@ -118,6 +123,7 @@ public class QuizActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putParcelable("question", quizBO.getQuestions().get(currentQuesPos));
         bundle.putParcelable("quiz_bo", quizBO);
+        bundle.putString("type",getIntent().getStringExtra("type"));
         quizFragment.setArguments(bundle);
         loadFragment(quizFragment);
     }

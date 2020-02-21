@@ -105,8 +105,9 @@ public class MyQuizActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_addquiz:
-                Intent intent = new Intent(MyQuizActivity.this, CreateQuizActivity.class);
+                Intent intent = new Intent(MyQuizActivity.this, AddQuizActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("type","add");
                 startActivity(intent);
                 overridePendingTransition(R.anim.bottom_up, R.anim.bottom_down);
                 break;
@@ -119,25 +120,13 @@ public class MyQuizActivity extends AppCompatActivity implements View.OnClickLis
         if(requestCode==1){
             if(MyQuizAdapter.quizBO!=null){
                 myQuizAdapter.notifyDataSetChanged();
-                //rvMyQuiz.notifyAll();
             }
-            if(quizBOArrayList!=null){
-
-                myQuizAdapter=new MyQuizAdapter(MyQuizActivity.this,quizBOArrayList);
-                rvMyQuiz.setAdapter(myQuizAdapter);
-            }
-
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(MyQuizAdapter.quizBO!=null){
-            myQuizAdapter.notifyDataSetChanged();
-            //rvMyQuiz.notifyAll();
-        }
-
     }
 
 
