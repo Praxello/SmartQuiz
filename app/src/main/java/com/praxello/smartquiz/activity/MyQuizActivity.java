@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -24,7 +23,6 @@ import com.praxello.smartquiz.model.allquestion.QuizBO;
 import com.praxello.smartquiz.services.ApiRequestHelper;
 import com.praxello.smartquiz.services.SmartQuiz;
 import com.praxello.smartquiz.widget.slidingitemrecyclerview.SlidingItemMenuRecyclerView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -123,12 +121,6 @@ public class MyQuizActivity extends AppCompatActivity implements View.OnClickLis
             }
         }
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

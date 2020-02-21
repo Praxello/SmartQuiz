@@ -36,7 +36,6 @@ import butterknife.ButterKnife;
 
 public class AddNewQuestionActivity extends AppCompatActivity implements View.OnClickListener{
 
-
     private static String TAG="AddNewQuestionActivity";
     public static SmartQuiz smartQuiz;
 
@@ -261,6 +260,7 @@ public class AddNewQuestionActivity extends AppCompatActivity implements View.On
 
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){

@@ -75,5 +75,12 @@ public interface WRFService {
     @POST("~tailor/smartquiz/user/createquizquestion.php")
     Call<CreateQuestionResponse> createQuestion(@FieldMap Map<String, String> params);
 
+    @FormUrlEncoded
+    @POST("~tailor/smartquiz/user/updatequizquestion.php")
+    Call<CreateQuestionResponse> updateQuestion(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("~tailor/smartquiz/user/deletequizquestion.php")
+    Call<CommonResponse> deleteQuizQuestion(@FieldMap Map<String, String> params);
 
 }

@@ -109,6 +109,11 @@ public class ApiRequestHelper {
         call_api_create_quiz(onRequestComplete, call);
     }
 
+    public void deleteQuizQuestion(Map<String, String> params, final OnRequestComplete onRequestComplete) {
+        Call<CommonResponse> call = WRFService.deleteQuizQuestion(params);
+        call_api_create_quiz(onRequestComplete, call);
+    }
+
     public void getCategories(final OnRequestComplete onRequestComplete) {
         Call<GetCategoriesResponse> call = WRFService.getCategories();
         call_api_all_categories(onRequestComplete, call);
@@ -138,6 +143,12 @@ public class ApiRequestHelper {
         Call<CreateQuestionResponse> call = WRFService.createQuestion(params);
         call_api_for_create_question(onRequestComplete, call);
     }
+
+    public void updatequizquestion(Map<String, String> params, final OnRequestComplete onRequestComplete) {
+        Call<CreateQuestionResponse> call = WRFService.updateQuestion(params);
+        call_api_for_create_question(onRequestComplete, call);
+    }
+
 
     /*public void savequiz(String userid,String score,String quizid, final OnRequestComplete onRequestComplete) {
         Call<UserData> call = WRFService.savequiz(userid,score,quizid);

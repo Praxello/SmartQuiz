@@ -52,4 +52,5 @@
     <string name="media_link">Media link</string>
     <string name="details_of_answer">Details of answer</string>
     <string name="create_question">Create Question</string>
+    <string name="update">Update</string>
 </resources>

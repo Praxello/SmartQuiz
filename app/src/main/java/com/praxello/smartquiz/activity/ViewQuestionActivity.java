@@ -1,17 +1,21 @@
 package com.praxello.smartquiz.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.praxello.smartquiz.R;
+import com.praxello.smartquiz.adapter.ViewQuestionAdapter;
 import com.praxello.smartquiz.model.allquestion.QuizBO;
 import com.praxello.smartquiz.services.SmartQuiz;
 import com.praxello.smartquiz.widget.slidingitemrecyclerview.SlidingItemMenuRecyclerView;
@@ -58,7 +62,13 @@ public class ViewQuestionActivity extends AppCompatActivity implements View.OnCl
 
         //button intialisation..
         btnAddQuizQuestion.setOnClickListener(this);
-        rvCreateQuizQuestion.setLayoutManager(new LinearLayoutManager(this));
+        rvCreateQuizQuestion.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+
+        //Setting data to adapter.....
+        if(quizBO.getQuestions()!=null){
+            ViewQuestionAdapter viewQuestionAdapter=new ViewQuestionAdapter(ViewQuestionActivity.this,quizBO.getQuestions());
+            rvCreateQuizQuestion.setAdapter(viewQuestionAdapter);
+        }
     }
 
     @Override
@@ -72,5 +82,22 @@ public class ViewQuestionActivity extends AppCompatActivity implements View.OnCl
                 overridePendingTransition(R.anim.bottom_up, R.anim.bottom_down);
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                overridePendingTransition(R.anim.bottom_up, R.anim.bottom_down);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.bottom_up, R.anim.bottom_down);
     }
 }
