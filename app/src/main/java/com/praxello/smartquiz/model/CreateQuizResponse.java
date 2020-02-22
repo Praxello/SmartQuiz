@@ -1,15 +1,13 @@
 package com.praxello.smartquiz.model;
 
-import com.praxello.smartquiz.model.allquestion.QuestionBO;
+import com.praxello.smartquiz.model.allquestion.QuizBO;
 
-import java.util.ArrayList;
-
-public class CreateQuestionResponse {
+public class CreateQuizResponse {
 
     public int Responsecode;
     public int Id;
     public String Message;
-    public ArrayList<QuestionBO> NewRecord;
+    public QuizBO NewRecord;
 
     public int getResponsecode() {
         return Responsecode;
@@ -35,11 +33,11 @@ public class CreateQuestionResponse {
         Message = message;
     }
 
-    public ArrayList<QuestionBO> getNewRecord() {
+    public QuizBO getNewRecord() {
         return NewRecord;
     }
 
-    public void setNewRecord(ArrayList<QuestionBO> newRecord) {
+    public void setNewRecord(QuizBO newRecord) {
         NewRecord = newRecord;
     }
 }

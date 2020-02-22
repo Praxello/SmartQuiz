@@ -2,15 +2,26 @@ package com.praxello.smartquiz.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.praxello.smartquiz.AllKeys;
 import com.praxello.smartquiz.CommonMethods;
 import com.praxello.smartquiz.R;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
         tvTitle.setTypeface(face);
         //Toast.makeText(this, "token" + token, Toast.LENGTH_SHORT).show();
 
-        /* New Handler to start the Menu-Activity
-         * and close this Splash-Screen after some seconds.*/
+      //  requestPermissions();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -47,4 +58,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }, SPLASH_DISPLAY_DURATION);
     }
+
+
+
+
 }

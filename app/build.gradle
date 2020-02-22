@@ -71,4 +71,8 @@ dependencies {
     //Sliding recycler view
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 
+    //For runtime permission
+    implementation 'com.karumi:dexter:4.2.0'
+
+
 }

@@ -1,8 +1,11 @@
 package com.praxello.smartquiz.adapter;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -17,6 +21,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.praxello.smartquiz.R;
 import com.praxello.smartquiz.activity.MyQuizActivity;
 import com.praxello.smartquiz.activity.ViewQuestionActivity;
@@ -55,18 +67,38 @@ public class ViewQuestionAdapter extends RecyclerView.Adapter<ViewQuestionAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewQuestionViewHolder holder, int position) {
+
         //Setting data to category adapter...
         setDataToAdapter(holder);
 
         //Getting data from radio button
         getRadioButtonData(holder);
 
+        if(questionBOArrayList.get(position).getQuestionType()==2){
+            holder.llMediaLink.setVisibility(View.VISIBLE);
+            holder.etMediaLink.setVisibility(View.VISIBLE);
+            holder.btnMediaLink.setVisibility(View.VISIBLE);
+            holder.etMediaLink.setEnabled(false);
+        }else if(questionBOArrayList.get(position).getQuestionType()==3){
+            holder.llMediaLink.setVisibility(View.VISIBLE);
+            holder.etMediaLink.setVisibility(View.VISIBLE);
+            holder.btnMediaLink.setVisibility(View.GONE);
+            holder.etMediaLink.setEnabled(true);
+        }else{
+            holder.llMediaLink.setVisibility(View.GONE);
+        }
+
+        holder.spinCategory.setSelection(questionBOArrayList.get(position).getQuestionType()-1);
         holder.etQuestion.setText(questionBOArrayList.get(position).getQuestion());
         holder.etOption1.setText(questionBOArrayList.get(position).getOption1());
         holder.etOption2.setText(questionBOArrayList.get(position).getOption2());
         holder.etOption3.setText(questionBOArrayList.get(position).getOption3());
         holder.etOption4.setText(questionBOArrayList.get(position).getOption4());
-        holder.etMediaLink.setText(questionBOArrayList.get(position).getMediaUrl());
+        if(ViewQuestionActivity.selectedImagePath!=null){
+            holder.etMediaLink.setText(questionBOArrayList.get(position).getMediaUrl());
+        }else{
+            holder.etMediaLink.setText(ViewQuestionActivity.selectedImagePath);
+        }
         holder.etDetails.setText(questionBOArrayList.get(position).getAnswerDetails());
 
         if(questionBOArrayList.get(position).getAnswer()==1){
@@ -113,6 +145,13 @@ public class ViewQuestionAdapter extends RecyclerView.Adapter<ViewQuestionAdapte
             }
         });
 
+        holder.btnMediaLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ViewQuestionActivity) context).onClickCalled();
+            }
+        });
+
     }
 
     @Override
@@ -120,7 +159,7 @@ public class ViewQuestionAdapter extends RecyclerView.Adapter<ViewQuestionAdapte
         return questionBOArrayList.size();
     }
 
-    public class ViewQuestionViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewQuestionViewHolder extends RecyclerView.ViewHolder{
 
         @BindView(R.id.spin_category)
         Spinner spinCategory;
@@ -134,8 +173,7 @@ public class ViewQuestionAdapter extends RecyclerView.Adapter<ViewQuestionAdapte
         EditText etOption3;
         @BindView(R.id.et_option4)
         EditText etOption4;
-        @BindView(R.id.et_medialink)
-        EditText etMediaLink;
+        public static EditText etMediaLink;
         @BindView(R.id.et_details)
         EditText etDetails;
         @BindView(R.id.radioGroup)
@@ -152,10 +190,16 @@ public class ViewQuestionAdapter extends RecyclerView.Adapter<ViewQuestionAdapte
         AppCompatButton btnUpdateQuestion;
         @BindView(R.id.btn_deletequestion)
         AppCompatButton btnDeleteQuestion;
+        @BindView(R.id.btn_medialink)
+        AppCompatButton btnMediaLink;
+        @BindView(R.id.ll_medialink)
+        LinearLayout llMediaLink;
+
 
         public ViewQuestionViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+            etMediaLink=itemView.findViewById(R.id.et_medialink);
         }
     }
 
@@ -170,6 +214,19 @@ public class ViewQuestionAdapter extends RecyclerView.Adapter<ViewQuestionAdapte
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 stCategoryId=position+1;
+                if(stCategoryId==2){
+                    holder.llMediaLink.setVisibility(View.VISIBLE);
+                    holder.etMediaLink.setVisibility(View.VISIBLE);
+                    holder.btnMediaLink.setVisibility(View.VISIBLE);
+                    holder.etMediaLink.setEnabled(false);
+                }else if(stCategoryId==3){
+                    holder.llMediaLink.setVisibility(View.VISIBLE);
+                    holder.etMediaLink.setVisibility(View.VISIBLE);
+                    holder.btnMediaLink.setVisibility(View.GONE);
+                    holder.etMediaLink.setEnabled(true);
+                }else{
+                    holder.llMediaLink.setVisibility(View.GONE);
+                }
                 //Toast.makeText(AddNewQuestionActivity.this, "Category Id"+stCategoryId, Toast.LENGTH_SHORT).show();
             }
 
@@ -229,7 +286,24 @@ public class ViewQuestionAdapter extends RecyclerView.Adapter<ViewQuestionAdapte
 
                 if(createQuestionResponse.getResponsecode()==200){
                     Toast.makeText(context, createQuestionResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    if(ViewQuestionActivity.selectedImagePath!=null){
+                        ((ViewQuestionActivity) context).uploadImageRetrofit();
 
+                        QuestionBO questionBO=new QuestionBO(questionBOArrayList.get(position).getQuestionId(),
+                                questionBOArrayList.get(position).getQuestionType(),
+                                questionBOArrayList.get(position).getQuizId(),
+                                holder.etQuestion.getText().toString(),
+                                holder.etOption1.getText().toString(),
+                                holder.etOption2.getText().toString(),
+                                holder.etOption3.getText().toString(),
+                                holder.etOption4.getText().toString(),
+                                selectedRadioBtn,
+                                holder.etDetails.getText().toString(),
+                                1,
+                                holder.etMediaLink.getText().toString());
+                        notifyItemChanged(position,questionBO);
+                        questionBOArrayList.add(position,questionBO);
+                    }
                 }else{
                     Toast.makeText(context, createQuestionResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -297,13 +371,13 @@ public class ViewQuestionAdapter extends RecyclerView.Adapter<ViewQuestionAdapte
             Toast.makeText(context, "Option4 required!", Toast.LENGTH_SHORT).show();
             return false;
         }
-
+/*
         if(stCategoryId!=0){
             if(holder.etMediaLink.getText().toString().isEmpty()){
                 Toast.makeText(context, "Media link required!", Toast.LENGTH_SHORT).show();
                 return false;
             }
-        }
+        }*/
 
         if(holder.etDetails.getText().toString().isEmpty()){
             Toast.makeText(context, "Details required!", Toast.LENGTH_SHORT).show();

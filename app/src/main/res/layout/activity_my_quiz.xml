@@ -26,6 +26,7 @@
     <com.praxello.smartquiz.widget.slidingitemrecyclerview.SlidingItemMenuRecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin15"
         android:layout_below="@id/toolbar_myquiz"
         android:id="@+id/rv_myquiz"/>
 

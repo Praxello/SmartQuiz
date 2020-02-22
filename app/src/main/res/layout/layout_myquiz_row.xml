@@ -8,16 +8,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/margin10">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/cv_createquiz"
             android:layout_margin="@dimen/margin5"
             android:background="#9e9e9e"
-            app:cardCornerRadius="@dimen/margin10"
+            app:cardCornerRadius="@dimen/margin15"
             app:cardElevation="@dimen/margin5"
+            app:cardBackgroundColor="@color/grey"
             app:cardPreventCornerOverlap="true">
 
             <!--  <ImageView
@@ -37,18 +38,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:id="@+id/ll_createquizquestion">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin5"
                         android:orientation="horizontal">
-
+<!--
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/title" />
+                            android:text="@string/title" />-->
 
                         <TextView
                             android:id="@+id/tv_title"
@@ -57,7 +59,7 @@
                             android:layout_marginLeft="@dimen/margin5"
                             android:text="@string/title"
                             android:textColor="@color/green100"
-                            android:textSize="@dimen/textsize16"
+                            android:textSize="@dimen/textsize18"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -88,7 +90,7 @@
 
                         </LinearLayout>
 
-                        <LinearLayout
+                       <!-- <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -108,8 +110,63 @@
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
 
+                        </LinearLayout>-->
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin5"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/question"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:id="@+id/tv_no_of_questions"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/margin5"
+                                android:text="@string/categoryid"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/textsize16"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/passingscore"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:id="@+id/tv_passcore"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/margin5"
+                                android:text="@string/passingscore"
+                                android:textColor="@color/black"
+                                android:textStyle="bold" />
+
                         </LinearLayout>
                     </LinearLayout>
+
 
                     <TextView
                         android:id="@+id/tv_details"
@@ -141,13 +198,13 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <View
+              <!--  <View
                     android:layout_width="0.5dp"
                     android:layout_height="match_parent"
                     android:background="@color/grey100"
                     android:layout_marginTop="@dimen/margin5"
                     android:layout_marginBottom="@dimen/margin5"/>
-
+-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -157,41 +214,38 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:id="@+id/tv_time"
                         android:text="300"
                         android:gravity="center"
                         android:textColor="@color/red"
-                        android:drawableBottom="@drawable/ic_timer" />
+                        android:drawableLeft="@drawable/ic_timer" />
 
-                    <View
+                   <!-- <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:background="@color/grey100"
                         android:layout_marginTop="@dimen/margin10"
                         android:layout_marginLeft="@dimen/margin3"
-                        android:layout_marginRight="@dimen/margin3"/>
-
+                        android:layout_marginRight="@dimen/margin3"/>-->
                     <ImageView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/margin5"
                         android:layout_weight="1"
                         android:id="@+id/iv_preview"
                         android:layout_margin="@dimen/margin10"
                         android:background="@drawable/ic_preview"
                         android:layout_gravity="center"/>
 
-                    <View
+                    <!--<View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:background="@color/grey100"
                         android:layout_marginLeft="@dimen/margin3"
-                        android:layout_marginRight="@dimen/margin3"/>
-
-
+                        android:layout_marginRight="@dimen/margin3"/>-->
                     <ImageView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/margin5"
                         android:layout_weight="1"
                         android:id="@+id/iv_share"
                         android:layout_margin="@dimen/margin10"
@@ -200,6 +254,7 @@
 
                 </LinearLayout>
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 
@@ -213,7 +268,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/deepOrange800">
+            android:background="@color/red200">
 
             <TextView
                 android:id="@+id/button_delete"
@@ -221,7 +276,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="@string/delete"
-                android:textColor="@android:color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/textsize16" />
         </FrameLayout>
 
@@ -229,7 +284,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/deepgreen800">
+            android:background="@color/green200">
 
             <TextView
                 android:id="@+id/button_edit"
@@ -237,7 +292,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="@string/edit"
-                android:textColor="@android:color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/textsize16" />
         </FrameLayout>
     </FrameLayout>

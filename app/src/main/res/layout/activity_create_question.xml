@@ -29,4 +29,23 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar_create_question"
         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/toolbar_create_question"
+        android:id="@+id/ll_nodata"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/no_question_found_please_click_on_add_button_to_create_quiz"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:gravity="center"/>
+
+    </LinearLayout>
 </RelativeLayout>

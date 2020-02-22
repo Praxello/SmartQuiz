@@ -1,6 +1,8 @@
 package com.praxello.smartquiz.services;
 
 import android.text.Html;
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -12,6 +14,7 @@ import com.google.gson.stream.JsonWriter;import com.praxello.smartquiz.AllKeys;
 import com.praxello.smartquiz.ConfigUrl;
 import com.praxello.smartquiz.model.CommonResponse;
 import com.praxello.smartquiz.model.CreateQuestionResponse;
+import com.praxello.smartquiz.model.CreateQuizResponse;
 import com.praxello.smartquiz.model.GetExamResponse;
 import com.praxello.smartquiz.model.MyAllQuizResponse;
 import com.praxello.smartquiz.model.allquestion.AllQuestionResponse;
@@ -24,6 +27,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,7 +46,7 @@ public class ApiRequestHelper {
 
     private static ApiRequestHelper instance;
     private SmartQuiz application;
-    private WRFService WRFService;
+    private SmartQuizServices SmartQuizServices;
     static Gson gson;
 
 
@@ -70,90 +75,124 @@ public class ApiRequestHelper {
     }
 
     public void allquestions(Map<String, String> params, final OnRequestComplete onRequestComplete) {
-        Call<AllQuestionResponse> call = WRFService.allquestions(params);
+        Call<AllQuestionResponse> call = SmartQuizServices.allquestions(params);
         call_api(onRequestComplete, call);
     }
 
     public void login(String username,String uuid,String password, final OnRequestComplete onRequestComplete) {
-        Call<LoginResponse> call = WRFService.login(username,uuid,password);
+        Call<LoginResponse> call = SmartQuizServices.login(username,uuid,password);
         call_api_login(onRequestComplete, call);
     }
 
     public void savequiz(Map<String, String> params, final OnRequestComplete onRequestComplete) {
-        Call<UserData> call = WRFService.savequiz(params);
+        Call<UserData> call = SmartQuizServices.savequiz(params);
         call_api_for_quiz(onRequestComplete, call);
     }
 
     public void getTest(String quizid, final OnRequestComplete onRequestComplete) {
-        Call<GetExamResponse> call = WRFService.getTest(quizid);
+        Call<GetExamResponse> call = SmartQuizServices.getTest(quizid);
         call_api_test(onRequestComplete, call);
     }
 
     public void getAllQuestion(Map<String, String> params, final OnRequestComplete onRequestComplete) {
-        Call<MyAllQuizResponse> call = WRFService.getAllQuestion(params);
+        Call<MyAllQuizResponse> call = SmartQuizServices.getAllQuestion(params);
         call_api_all_question(onRequestComplete, call);
     }
 
     public void createQuiz(Map<String, String> params, final OnRequestComplete onRequestComplete) {
-        Call<CommonResponse> call = WRFService.createQuiz(params);
-        call_api_create_quiz(onRequestComplete, call);
+        Call<CreateQuizResponse> call = SmartQuizServices.createQuiz(params);
+        call_api_create_my_quiz(onRequestComplete, call);
     }
 
     public void updateQuiz(Map<String, String> params, final OnRequestComplete onRequestComplete) {
-        Call<CommonResponse> call = WRFService.updateQuiz(params);
+        Call<CommonResponse> call = SmartQuizServices.updateQuiz(params);
         call_api_create_quiz(onRequestComplete, call);
     }
 
     public void deleteQuiz(Map<String, String> params, final OnRequestComplete onRequestComplete) {
-        Call<CommonResponse> call = WRFService.deleteQuiz(params);
+        Call<CommonResponse> call = SmartQuizServices.deleteQuiz(params);
         call_api_create_quiz(onRequestComplete, call);
     }
 
     public void deleteQuizQuestion(Map<String, String> params, final OnRequestComplete onRequestComplete) {
-        Call<CommonResponse> call = WRFService.deleteQuizQuestion(params);
+        Call<CommonResponse> call = SmartQuizServices.deleteQuizQuestion(params);
         call_api_create_quiz(onRequestComplete, call);
     }
 
     public void getCategories(final OnRequestComplete onRequestComplete) {
-        Call<GetCategoriesResponse> call = WRFService.getCategories();
+        Call<GetCategoriesResponse> call = SmartQuizServices.getCategories();
         call_api_all_categories(onRequestComplete, call);
     }
 
     public void forgetPassword(Map<String, String> params, final OnRequestComplete onRequestComplete) {
-        Call<UserData> call = WRFService.forgetpassword(params);
+        Call<UserData> call = SmartQuizServices.forgetpassword(params);
         call_api_for_quiz(onRequestComplete, call);
     }
 
     public void adduserprofile(Map<String, String> params, final OnRequestComplete onRequestComplete) {
-        Call<UserData> call = WRFService.adduserprofile(params);
+        Call<UserData> call = SmartQuizServices.adduserprofile(params);
         call_api_for_quiz(onRequestComplete, call);
     }
 
     public void updateuserprofile(Map<String, String> params, final OnRequestComplete onRequestComplete) {
-        Call<LoginResponse> call = WRFService.updateuserprofile(params);
+        Call<LoginResponse> call = SmartQuizServices.updateuserprofile(params);
         call_api_for_update(onRequestComplete, call);
     }
 
     public void getscorecard(String userid, final OnRequestComplete onRequestComplete) {
-        Call<ScoreCardResponse> call = WRFService.getscorecard(userid);
+        Call<ScoreCardResponse> call = SmartQuizServices.getscorecard(userid);
         call_api_for_scoreboard(onRequestComplete, call);
     }
 
     public void createquizquestion(Map<String, String> params, final OnRequestComplete onRequestComplete) {
-        Call<CreateQuestionResponse> call = WRFService.createQuestion(params);
+        Call<CreateQuestionResponse> call = SmartQuizServices.createQuestion(params);
         call_api_for_create_question(onRequestComplete, call);
     }
 
     public void updatequizquestion(Map<String, String> params, final OnRequestComplete onRequestComplete) {
-        Call<CreateQuestionResponse> call = WRFService.updateQuestion(params);
+        Call<CreateQuestionResponse> call = SmartQuizServices.updateQuestion(params);
         call_api_for_create_question(onRequestComplete, call);
     }
 
 
     /*public void savequiz(String userid,String score,String quizid, final OnRequestComplete onRequestComplete) {
-        Call<UserData> call = WRFService.savequiz(userid,score,quizid);
+        Call<UserData> call = SmartQuizServices.savequiz(userid,score,quizid);
         call_api_for_quiz(onRequestComplete, call);
     }*/
+
+    public void uploadimage(Map<String, RequestBody> params, final OnRequestComplete onRequestComplete) {
+        Call<ResponseBody> call = SmartQuizServices.uploadimage(params);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+//                    Log.e("res", "" + response.code() + "||" + response.message() + "||" + response.body() + "||" + response.headers() + "||" + response.isSuccessful() + "||" + response.raw());
+                    if (response.code() == 200 || response.isSuccessful()) {
+                        onRequestComplete.onSuccess(null);
+                    } else {
+                        try {
+                            if (response.errorBody() != null && !TextUtils.isEmpty(response.errorBody().toString()))
+                                onRequestComplete.onFailure(Html.fromHtml(response.errorBody().string()) + "");
+                            else
+                                onRequestComplete.onFailure(AllKeys.UNPROPER_RESPONSE);
+                        } catch (IOException e) {
+                            onRequestComplete.onFailure(AllKeys.UNPROPER_RESPONSE);
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                handle_fail_response(t, onRequestComplete);
+            }
+        });
+    }
+
+
 
     private void call_api_for_create_question(final OnRequestComplete onRequestComplete, Call<CreateQuestionResponse> call) {
         call.enqueue(new Callback<CreateQuestionResponse>() {
@@ -173,6 +212,29 @@ public class ApiRequestHelper {
 
             @Override
             public void onFailure(Call<CreateQuestionResponse> call, Throwable t) {
+                handle_fail_response(t, onRequestComplete);
+            }
+        });
+    }
+
+    private void call_api_create_my_quiz(final OnRequestComplete onRequestComplete, Call<CreateQuizResponse> call) {
+        call.enqueue(new Callback<CreateQuizResponse>() {
+            @Override
+            public void onResponse(Call<CreateQuizResponse> call, Response<CreateQuizResponse> response) {
+                if (response.isSuccessful()) {
+                    onRequestComplete.onSuccess(response.body());
+                } else {
+                    try {
+                        onRequestComplete.onFailure(Html.fromHtml(response.errorBody().string()) + "");
+                    } catch (IOException e) {
+                        onRequestComplete.onFailure("Unproper Response");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateQuizResponse> call, Throwable t) {
                 handle_fail_response(t, onRequestComplete);
             }
         });
@@ -449,7 +511,7 @@ public class ApiRequestHelper {
                         .baseUrl(ConfigUrl.BASE_URL1)
                         .addConverterFactory(GsonConverterFactory.create(gson));
         Retrofit retrofit = builder.client(httpClient.build()).build();
-        WRFService = retrofit.create(WRFService.class);
+        SmartQuizServices = retrofit.create(SmartQuizServices.class);
     }
 
     /**

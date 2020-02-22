@@ -2,6 +2,7 @@ package com.praxello.smartquiz.services;
 
 import com.praxello.smartquiz.model.CommonResponse;
 import com.praxello.smartquiz.model.CreateQuestionResponse;
+import com.praxello.smartquiz.model.CreateQuizResponse;
 import com.praxello.smartquiz.model.GetExamResponse;
 import com.praxello.smartquiz.model.MyAllQuizResponse;
 import com.praxello.smartquiz.model.allquestion.AllQuestionResponse;
@@ -12,15 +13,24 @@ import com.praxello.smartquiz.model.scorecard.ScoreCardResponse;
 
 import java.util.Map;
 
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PartMap;
 import retrofit2.http.QueryMap;
 
-public interface WRFService {
+public interface SmartQuizServices {
+
+    @Multipart
+    @POST("~tailor/smartquiz/uploadimage.php")
+    Call<ResponseBody> uploadimage(@PartMap Map<String, RequestBody> params);
+
 
     @GET("~tailor/smartquiz/user/allquestions.php")
     Call<AllQuestionResponse> allquestions(@QueryMap Map<String, String> params);
@@ -61,7 +71,7 @@ public interface WRFService {
 
     @FormUrlEncoded
     @POST("~tailor/smartquiz/user/createquiz.php")
-    Call<CommonResponse> createQuiz(@FieldMap Map<String, String> params);
+    Call<CreateQuizResponse> createQuiz(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
     @POST("~tailor/smartquiz/user/updatequiz.php")
@@ -71,8 +81,12 @@ public interface WRFService {
     @POST("~tailor/smartquiz/user/deletequiz.php")
     Call<CommonResponse> deleteQuiz(@FieldMap Map<String, String> params);
 
-    @FormUrlEncoded
+ /*   @FormUrlEncoded
     @POST("~tailor/smartquiz/user/createquizquestion.php")
+    Call<CreateQuestionResponse> createQuestion(@FieldMap Map<String, String> params);
+  */
+    @FormUrlEncoded
+    @POST("~tailor/smartquiz/user/createquizquestion1.php")
     Call<CreateQuestionResponse> createQuestion(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded

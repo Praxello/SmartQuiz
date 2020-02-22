@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,6 +21,8 @@ import com.praxello.smartquiz.CommonMethods;
 import com.praxello.smartquiz.R;
 import com.praxello.smartquiz.adapter.CustomSpinnerAdapter;
 import com.praxello.smartquiz.model.CommonResponse;
+import com.praxello.smartquiz.model.CreateQuestionResponse;
+import com.praxello.smartquiz.model.CreateQuizResponse;
 import com.praxello.smartquiz.model.allquestion.QuizBO;
 import com.praxello.smartquiz.services.ApiRequestHelper;
 import com.praxello.smartquiz.services.SmartQuiz;
@@ -109,6 +110,7 @@ public class AddQuizActivity extends AppCompatActivity implements View.OnClickLi
         etTimeOut.setText(String.valueOf(quizBO.getQuestionTimeout()));
         etPassingScore.setText(quizBO.getPassingScore());
         etQuizDescription.setText(quizBO.getDetails());
+        spinCategory.setSelection(quizBO.getCategoryId());
     }
 
     @Override
@@ -145,20 +147,23 @@ public class AddQuizActivity extends AppCompatActivity implements View.OnClickLi
         smartQuiz.getApiRequestHelper().createQuiz(params,new ApiRequestHelper.OnRequestComplete() {
             @Override
             public void onSuccess(Object object) {
-                CommonResponse commonResponse=(CommonResponse) object;
+                CreateQuizResponse createQuizResponse=(CreateQuizResponse) object;
 
-                Log.e(TAG, "onSuccess: "+commonResponse.getResponsecode());
-                Log.e(TAG, "onSuccess: "+commonResponse.getMessage());
+                Log.e(TAG, "onSuccess: "+createQuizResponse.getResponsecode());
+                Log.e(TAG, "onSuccess: "+createQuizResponse.getMessage());
 
-                if(commonResponse.getResponsecode()==200){
-                    Toast.makeText(AddQuizActivity.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                if(createQuizResponse.getResponsecode()==200){
+                    Toast.makeText(AddQuizActivity.this, createQuizResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(AddQuizActivity.this,ViewQuestionActivity.class);
+                    intent.putExtra("data",createQuizResponse.getNewRecord());
+                    startActivity(intent);
+                    finish();
+                    overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
 
                     //clear all data of editext.
                     clearAllData();
-                    //finish();
-                      //overridePendingTransition(R.anim.bottom_up, R.anim.bottom_down);
                 }else{
-                    Toast.makeText(AddQuizActivity.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddQuizActivity.this, createQuizResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 

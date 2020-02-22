@@ -24,4 +24,5 @@
     <dimen name="textsize30">30sp</dimen>
     <dimen name="margin2">2dp</dimen>
     <dimen name="margin80">80dp</dimen>
+    <dimen name="textsize18">18sp</dimen>
 </resources>

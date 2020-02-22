@@ -184,7 +184,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/ll_medialink">
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -197,8 +198,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="@string/media_link"
-                        android:imeOptions="actionNext"
-                        android:inputType="textCapSentences|textMultiLine"
                         android:scrollHorizontally="false" />
                 </com.google.android.material.textfield.TextInputLayout>
 

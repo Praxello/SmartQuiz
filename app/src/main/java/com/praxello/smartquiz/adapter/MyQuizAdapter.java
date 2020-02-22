@@ -10,10 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praxello.smartquiz.R;
 import com.praxello.smartquiz.activity.ViewQuestionActivity;
@@ -59,6 +59,12 @@ public class MyQuizAdapter extends RecyclerView.Adapter<MyQuizAdapter.MyQuizView
         holder.tvCategoryId.setText(String.valueOf(quizBOArrayList.get(position).getCategoryTitle()));
         holder.tvPassScore.setText(String.valueOf(quizBOArrayList.get(position).getPassingScore()));
         holder.tvTime.setText(String.valueOf(quizBOArrayList.get(position).getQuestionTimeout())+" sec");
+        if(quizBOArrayList.get(position).getQuestions()!=null){
+            holder.tvNoOfQuestion.setText(String.valueOf(quizBOArrayList.get(position).getQuestions().size()));
+        }else{
+            holder.tvNoOfQuestion.setText("-");
+        }
+
 
         String date = quizBOArrayList.get(position).getCreatedAt();
         SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -143,7 +149,7 @@ public class MyQuizAdapter extends RecyclerView.Adapter<MyQuizAdapter.MyQuizView
             }
         });
 
-        holder.cvCreateQuiz.setOnClickListener(new View.OnClickListener() {
+        holder.llCreateQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                     Activity activity = (Activity) context;
@@ -161,8 +167,6 @@ public class MyQuizAdapter extends RecyclerView.Adapter<MyQuizAdapter.MyQuizView
     public int getItemCount() {
         return quizBOArrayList.size();
     }
-
-
 
     public class MyQuizViewHolder extends RecyclerView.ViewHolder {
 
@@ -182,12 +186,14 @@ public class MyQuizAdapter extends RecyclerView.Adapter<MyQuizAdapter.MyQuizView
         TextView tvEdit;
         @BindView(R.id.tv_time)
         TextView tvTime;
+        @BindView(R.id.tv_no_of_questions)
+        TextView tvNoOfQuestion;
         @BindView(R.id.iv_share)
         ImageView ivShare;
         @BindView(R.id.iv_preview)
         ImageView ivPreview;
-        @BindView(R.id.cv_createquiz)
-        CardView cvCreateQuiz;
+        @BindView(R.id.ll_createquizquestion)
+        LinearLayout llCreateQuestion;
 
         public MyQuizViewHolder(@NonNull View itemView) {
             super(itemView);

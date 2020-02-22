@@ -20,6 +20,21 @@ public class QuestionBO implements Parcelable {
     public int isActive;
     public String mediaUrl;
 
+    public QuestionBO(int questionId, int questionType, int quizId, String question, String option1, String option2, String option3, String option4, int answer, String answerDetails, int isActive, String mediaUrl) {
+        this.questionId = questionId;
+        this.questionType = questionType;
+        this.quizId = quizId;
+        this.question = question;
+        this.option1 = option1;
+        this.option2 = option2;
+        this.option3 = option3;
+        this.option4 = option4;
+        this.answer = answer;
+        this.answerDetails = answerDetails;
+        this.isActive = isActive;
+        this.mediaUrl = mediaUrl;
+    }
+
     protected QuestionBO(Parcel in) {
         questionId = in.readInt();
         questionType = in.readInt();
@@ -71,7 +86,7 @@ public class QuestionBO implements Parcelable {
         this.quizId = quizId;
     }
 
-    public String getQuestion() {
+    public String   getQuestion() {
         return question;
     }
 
