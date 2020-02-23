@@ -69,6 +69,7 @@ public class ViewQuestionActivity extends AppCompatActivity implements View.OnCl
     private int GALLERY = 1, CAMERA = 2;
     String imageBase64String;
     public static String  selectedImagePath;
+    public static ViewQuestionAdapter viewQuestionAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +103,7 @@ public class ViewQuestionActivity extends AppCompatActivity implements View.OnCl
         //Setting data to adapter.....
         if(getIntent().getParcelableExtra("data")!=null){
             if(quizBO.getQuestions()!=null){
-                ViewQuestionAdapter viewQuestionAdapter=new ViewQuestionAdapter(ViewQuestionActivity.this,quizBO.getQuestions());
+                viewQuestionAdapter=new ViewQuestionAdapter(ViewQuestionActivity.this,quizBO.getQuestions());
                 rvCreateQuizQuestion.setAdapter(viewQuestionAdapter);
             }else{
                 llNoData.setVisibility(View.VISIBLE);

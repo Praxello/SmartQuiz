@@ -37,8 +37,8 @@ public class MyQuizActivity extends AppCompatActivity implements View.OnClickLis
     public static SmartQuiz smartQuiz;
     @BindView(R.id.btn_addquiz)
     AppCompatButton btnAddQuiz;
-    MyQuizAdapter myQuizAdapter;
-    ArrayList<QuizBO> quizBOArrayList;
+    public static MyQuizAdapter myQuizAdapter;
+    public static ArrayList<QuizBO> quizBOArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

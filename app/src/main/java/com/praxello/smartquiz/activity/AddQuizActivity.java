@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -21,7 +20,6 @@ import com.praxello.smartquiz.CommonMethods;
 import com.praxello.smartquiz.R;
 import com.praxello.smartquiz.adapter.CustomSpinnerAdapter;
 import com.praxello.smartquiz.model.CommonResponse;
-import com.praxello.smartquiz.model.CreateQuestionResponse;
 import com.praxello.smartquiz.model.CreateQuizResponse;
 import com.praxello.smartquiz.model.allquestion.QuizBO;
 import com.praxello.smartquiz.services.ApiRequestHelper;
@@ -47,6 +45,7 @@ public class AddQuizActivity extends AppCompatActivity implements View.OnClickLi
     AppCompatButton btnCreateQuiz;
     SmartQuiz smartQuiz;
     int stCategoryId;
+    String stCategoryName;
     private QuizBO quizBO;
     Toolbar toolbar;
     public static final String TAG="AddQuizActivity";
@@ -95,6 +94,7 @@ public class AddQuizActivity extends AppCompatActivity implements View.OnClickLi
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(AddQuizActivity.this, "Category Id"+DashBoardActivity.getCategoriesBOArraylist.get(position).getCategoryId(), Toast.LENGTH_SHORT).show();
                 stCategoryId=DashBoardActivity.getCategoriesBOArraylist.get(position).getCategoryId();
+                stCategoryName=DashBoardActivity.getCategoriesBOArraylist.get(position).getCategoryTitle();
             }
 
             @Override
@@ -153,6 +153,26 @@ public class AddQuizActivity extends AppCompatActivity implements View.OnClickLi
                 Log.e(TAG, "onSuccess: "+createQuizResponse.getMessage());
 
                 if(createQuizResponse.getResponsecode()==200){
+
+                    QuizBO quizBO1=new QuizBO(createQuizResponse.getNewRecord().getQuizId(),
+                            createQuizResponse.getNewRecord().getUserId(),
+                            stCategoryId,
+                            etQuizTitle.getText().toString(),
+                            etQuizDescription.getText().toString(),
+                            etPassingScore.getText().toString(),
+                            Integer.parseInt(etTimeOut.getText().toString()),
+                            Integer.parseInt(etTimeOut.getText().toString()),
+                            createQuizResponse.getNewRecord().getCreatedAt(),
+                            createQuizResponse.getNewRecord().getUpdatedAt(),
+                            1,
+                            stCategoryName,
+                            createQuizResponse.getNewRecord().getQuestions());
+
+                    MyQuizActivity.quizBOArrayList.add(quizBO1);
+                    MyQuizActivity.myQuizAdapter.notifyDataSetChanged();
+                    finish();
+                    overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_translate);
+
                     Toast.makeText(AddQuizActivity.this, createQuizResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(AddQuizActivity.this,ViewQuestionActivity.class);
                     intent.putExtra("data",createQuizResponse.getNewRecord());
@@ -205,23 +225,24 @@ public class AddQuizActivity extends AppCompatActivity implements View.OnClickLi
                     if(commonResponse.getResponsecode()==200){
                        Toast.makeText(AddQuizActivity.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                          finish();
-                      /*  MyQuizAdapter.quizBO.setTitle(etQuizTitle.getText().toString());
-                        MyQuizAdapter.quizBO.setDetails(etQuizTitle.getText().toString());
-                        MyQuizAdapter.quizBO.setPassingScore(etPassingScore.getText().toString());
-                        MyQuizAdapter.quizBO.setCategoryTitle(spinCategory.getSelectedItem().toString());
-                      */
+                        QuizBO quizBO1=new QuizBO(quizBO.getQuizId(),
+                                quizBO.getUserId(),
+                                stCategoryId,
+                                etQuizTitle.getText().toString(),
+                                etQuizDescription.getText().toString(),
+                                etPassingScore.getText().toString(),
+                                Integer.parseInt(etTimeOut.getText().toString()),
+                                Integer.parseInt(etTimeOut.getText().toString()),
+                                quizBO.getCreatedAt(),
+                                quizBO.getUpdatedAt(),
+                                1,
+                                stCategoryName,
+                                quizBO.getQuestions());
 
-                        quizBO.setTitle(etQuizTitle.getText().toString());
-                        quizBO.setDetails(etQuizTitle.getText().toString());
-                        quizBO.setPassingScore(etPassingScore.getText().toString());
-                        quizBO.setCategoryTitle(spinCategory.getSelectedItem().toString());
-
-                        Intent returnIntent = new Intent();
-                        setResult(Activity.RESULT_OK,returnIntent);
+                        int position=getIntent().getIntExtra("position",0);
+                        MyQuizActivity.quizBOArrayList.set(position,quizBO1);
                         finish();
-
-                        //finish();
-                        //overridePendingTransition(R.anim.bottom_up, R.anim.bottom_down);
+                        overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_translate);
                     }else{
                         Toast.makeText(AddQuizActivity.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }

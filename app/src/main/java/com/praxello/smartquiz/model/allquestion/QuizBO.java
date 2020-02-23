@@ -52,6 +52,22 @@ public class QuizBO implements Parcelable {
         }
     };
 
+    public QuizBO(int quizId, int userId, int categoryId, String title, String details, String passingScore, int questionTimeout, int quizTimeout, String createdAt, String updatedAt, int isActive, String categoryTitle, ArrayList<QuestionBO> questions) {
+        this.quizId = quizId;
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.title = title;
+        this.details = details;
+        this.passingScore = passingScore;
+        this.questionTimeout = questionTimeout;
+        this.quizTimeout = quizTimeout;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.isActive = isActive;
+        this.categoryTitle = categoryTitle;
+        Questions = questions;
+    }
+
     /* @Override
         public int hashCode() {
             return quizId;

@@ -283,11 +283,25 @@ public class AddNewQuestionActivity extends AppCompatActivity implements View.On
                 if(createQuestionResponse.getResponsecode()==200){
                     AddNewQuestionActivity.questionBOArrayList=createQuestionResponse.getNewRecord();
                     Toast.makeText(AddNewQuestionActivity.this, createQuestionResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                   /* Intent intent=new Intent(AddNewQuestionActivity.this,ViewQuestionActivity.class);
-                    startActivity(intent);
-                    finish();
-                    overridePendingTransition(R.anim.bottom_up, R.anim.bottom_down);*/
 
+/*
+                    QuestionBO questionBO=new QuestionBO(createQuestionResponse.getNewRecord().get(0).getQuestionId(),
+                            createQuestionResponse.getNewRecord().get(0).getQuestionType(),
+                            createQuestionResponse.getNewRecord().get(0).getQuizId(),
+                            createQuestionResponse.getNewRecord().get(0).getQuestion(),
+                            createQuestionResponse.getNewRecord().get(0).getOption1(),
+                            createQuestionResponse.getNewRecord().get(0).getOption2(),
+                            createQuestionResponse.getNewRecord().get(0).getOption3(),
+                            createQuestionResponse.getNewRecord().get(0).getOption4(),
+                            createQuestionResponse.getNewRecord().get(0).getAnswer(),
+                            createQuestionResponse.getNewRecord().get(0).getAnswerDetails(),
+                            createQuestionResponse.getNewRecord().get(0).getIsActive(),
+                            createQuestionResponse.getNewRecord().get(0).getMediaUrl()
+                    );
+
+                    MyQuizActivity.quizBOArrayList.get(0).getQuestions().add(questionBO);
+                    ViewQuestionActivity.viewQuestionAdapter.notifyDataSetChanged();
+*/
 
                     //uploading image data..
                     if(selectedImagePath!=null){

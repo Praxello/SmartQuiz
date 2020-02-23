@@ -112,6 +112,7 @@ public class MyQuizAdapter extends RecyclerView.Adapter<MyQuizAdapter.MyQuizView
                 //intent.putExtra("data",quizBOArrayList.get(position));
                 quizBO=quizBOArrayList.get(position);
                 intent.putExtra("data",quizBO);
+                intent.putExtra("position",position);
                 intent.putExtra("type","update");
                 ((Activity) context).startActivityForResult(intent,1);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
