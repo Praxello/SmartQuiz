@@ -11,7 +11,7 @@ public class CreateQuestionResponse {
     public String Message;
     public ArrayList<QuestionBO> NewRecord;
 
-    public int getResponsecode() {
+    public int  getResponsecode() {
         return Responsecode;
     }
 

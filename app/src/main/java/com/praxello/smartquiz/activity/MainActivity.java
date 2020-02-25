@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
                 if(CommonMethods.getPrefrence(MainActivity.this, AllKeys.USER_ID).equals(AllKeys.DNF)){
-                    Intent mainIntent = new Intent(MainActivity.this, LoginActivity.class);
+                    Intent mainIntent = new Intent(MainActivity.this, WelcomeSliderActivity.class);
                     startActivity(mainIntent);
                     finish();
                     overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);

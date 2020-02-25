@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.DashBoardActivity">
+
+
+    <ImageView
+        android:id="@+id/ivbackgroundimg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin250"
+        android:background="@drawable/smartquizbg"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/report_card"
+        android:textColor="@color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
+        android:textStyle="italic|bold"
+        android:textSize="@dimen/textsize20"
+        android:layout_marginLeft="@dimen/margin15"
+        android:layout_marginTop="@dimen/margin50"
+        android:gravity="center_horizontal" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ivbackgroundimg"
+        android:layout_marginLeft="@dimen/margin30"
+        android:layout_marginTop="-160dp"
+        android:layout_marginRight="@dimen/margin30"
+        android:background="@color/white"
+        android:gravity="center"
+        android:layout_above="@id/llbottom"
+        android:orientation="vertical"
+        tools:context=".activity.LoginActivity">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#9e9e9e"
+            android:elevation="@dimen/margin10"
+            app:cardElevation="@dimen/margin10"
+            app:cardPreventCornerOverlap="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <com.praxello.smartquiz.widget.ColorArcProgressBar
+                android:layout_width="@dimen/margin150dp"
+                android:layout_height="@dimen/margin150dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/progressBar"
+                app:is_need_content="true"
+                app:max_value="100"
+                android:layout_marginTop="@dimen/margin15"
+                app:back_width="10dp"
+                app:front_width="10dp"
+                app:total_engle="270"
+                app:front_color1="@color/colorPrimaryDark"
+                app:front_color2="@color/yellow800"
+                app:front_color3="@color/red200"
+                app:string_unit="Result"
+                app:back_color="@color/grey100" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardview4"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginLeft="@dimen/margin10"
+                android:layout_marginRight="@dimen/margin10"
+                android:elevation="@dimen/margin5"
+                android:visibility="visible"
+                app:cardCornerRadius="@dimen/margin10"
+                app:cardElevation="@dimen/margin5"
+                app:cardPreventCornerOverlap="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Your Result"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:padding="@dimen/margin5"
+                        android:textSize="@dimen/textsize18"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_result"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:padding="@dimen/margin5"
+                        android:textSize="@dimen/textsize18"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llbottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnhome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:layout_marginRight="@dimen/margin5"
+            android:layout_margin="@dimen/margin1"
+            android:layout_marginTop="@dimen/margin10"
+            android:background="@color/green100"
+            android:text="@string/home"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnnextsession"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/margin5"
+            android:layout_margin="@dimen/margin1"
+            android:layout_marginTop="@dimen/margin10"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/next_session"
+            android:textStyle="bold"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</RelativeLayout>

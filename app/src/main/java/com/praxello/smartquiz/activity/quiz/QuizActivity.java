@@ -29,7 +29,7 @@ public class QuizActivity extends AppCompatActivity {
     public int currentQuesPos = 0;
     SmartQuiz smartQuiz;
     public static final String TAG = "QuizActivity";
-    QuizBO quizBO;
+    public QuizBO quizBO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

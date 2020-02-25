@@ -138,7 +138,6 @@ public class QuizBO implements Parcelable {
         this.quizTimeout = quizTimeout;
     }
 
-
     public int getIsActive() {
         return isActive;
     }
@@ -172,7 +171,13 @@ public class QuizBO implements Parcelable {
     }
 
     public ArrayList<QuestionBO> getQuestions() {
+
+        if(this.Questions == null)
+        {
+            Questions = new ArrayList<>();
+        }
         return Questions;
+
     }
 
     public void setQuestions(ArrayList<QuestionBO> questions) {

@@ -280,7 +280,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
             return false;
         }
 
-        if(etMobileNumber.getText().toString().startsWith("1") || etMobileNumber.getText().toString().startsWith("2") ||
+        if(etMobileNumber.getText().toString().startsWith("1") || etMobileNumber.getText().toString().startsWith("welcomeone") ||
                 etMobileNumber.getText().toString().startsWith("3") || etMobileNumber.getText().toString().startsWith("4")
                 || etMobileNumber.getText().toString().startsWith("5")){
 

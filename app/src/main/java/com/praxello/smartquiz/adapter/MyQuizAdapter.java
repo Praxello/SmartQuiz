@@ -106,10 +106,12 @@ public class MyQuizAdapter extends RecyclerView.Adapter<MyQuizAdapter.MyQuizView
         holder.tvEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Activity activity = (Activity) context;
                 Intent intent=new Intent(context, AddQuizActivity.class);
                 //intent.putExtra("data",quizDataArrayList.get(position).getQuestions());
                 //intent.putExtra("data",quizBOArrayList.get(position));
+
                 quizBO=quizBOArrayList.get(position);
                 intent.putExtra("data",quizBO);
                 intent.putExtra("position",position);
@@ -156,8 +158,9 @@ public class MyQuizAdapter extends RecyclerView.Adapter<MyQuizAdapter.MyQuizView
                     Activity activity = (Activity) context;
                     Intent intent=new Intent(context, ViewQuestionActivity.class);
                     //intent.putExtra("data",quizDataArrayList.get(position).getQuestions());
+                    MyQuizActivity.mainQuizBO=quizBOArrayList.get(position);
                     intent.putExtra("data",quizBOArrayList.get(position));
-                    context.startActivity(intent);
+                    ((Activity) context).startActivityForResult(intent,3);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     activity.overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
             }

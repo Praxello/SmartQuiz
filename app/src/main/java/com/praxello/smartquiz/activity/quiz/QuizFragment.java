@@ -16,14 +16,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.praxello.smartquiz.AllKeys;
 import com.praxello.smartquiz.CommonMethods;
 import com.praxello.smartquiz.R;
 import com.praxello.smartquiz.activity.PreViewActivity;
+import com.praxello.smartquiz.fragment.ShowResultFragment;
 import com.praxello.smartquiz.model.allquestion.QuizBO;
 import com.praxello.smartquiz.services.ApiRequestHelper;
 import com.praxello.smartquiz.services.SmartQuiz;
@@ -129,6 +134,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
         tvQuestion.setText(question.getQuestion());
         tvOption1.setText(question.getOption1());
         tvOption2.setText(question.getOption2());
@@ -314,13 +320,14 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                     if (userData != null) {
                         if (userData.getResponsecode() == 200) {
                             Toast.makeText(getContext(), "Answers submitted", Toast.LENGTH_SHORT).show();
-                            new MaterialDialog.Builder(getContext())
+                           /* new MaterialDialog.Builder(getContext())
                                     .title("Your score")
                                     .content(((QuizActivity) getContext()).totalScore + "/" + ((QuizActivity) getContext()).quizBO.getQuestions().size())
                                     .positiveText("Ok")
                                     .cancelable(false)
                                     .onPositive((dialog, which) -> ((QuizActivity) getContext()).finish())
-                                    .show();
+                                    .show();*/
+                            loadQuizFragment();
                         } else {
                             if (userData.getMessage() != null && !TextUtils.isEmpty(userData.getMessage()))
                                 Toast.makeText(getContext(), userData.getMessage(), Toast.LENGTH_SHORT).show();
@@ -341,6 +348,27 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(getContext(), AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    public void loadQuizFragment() {
+        Log.e(TAG, "loadQuizFragment: ");
+        ShowResultFragment showResultFragment= new ShowResultFragment();
+        /*Bundle bundle = new Bundle();
+        bundle.putParcelable("quiz_bo", quizBO);
+        showResultFragment.setArguments(bundle);*/
+        loadFragment(showResultFragment);
+        getActivity().overridePendingTransition(R.anim.bottom_up, R.anim.bottom_down);
+        ((AppCompatActivity)getContext()).getSupportFragmentManager().popBackStack("", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
+    public void loadFragment(Fragment fragment) {
+        if (fragment != null) {
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayout, fragment);
+            fragmentTransaction.commitAllowingStateLoss();
+        }
+    }
+
 
     private void playAudio(boolean isCorrect) {
         MediaPlayer mp = MediaPlayer.create(getContext(), isCorrect ? R.raw.correct : R.raw.wrong);

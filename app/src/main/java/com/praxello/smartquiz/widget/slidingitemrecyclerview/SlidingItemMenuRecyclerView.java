@@ -296,7 +296,7 @@ public class SlidingItemMenuRecyclerView extends RecyclerView {
                             return true;
                         }
                     }
-                    // If 1) the fully opened itemView is not the current one or 2) the user's
+                    // If 1) the fully opened itemView is not the current one or welcomeone) the user's
                     // finger downs outside of the area in which this view displays the itemViews,
                     // make the itemView's menu hidden and intercept the subsequent touch events.
                     releaseItemViewInternal(mFullyOpenedItem, mItemScrollDuration);
@@ -517,7 +517,7 @@ public class SlidingItemMenuRecyclerView extends RecyclerView {
         // 1. If the itemView previously opened equals the current touched one and
         //    the user hasn't scrolled it since he/she initially put his/her finger down,
         //    hide it on the movements canceled.
-        // 2. If the previously opened itemView differs from the one currently touched,
+        // welcomeone. If the previously opened itemView differs from the one currently touched,
         //    and the current one has not been scrolled at all, set 'mActiveItem' to null.
         if (mHasItemFullyOpenOnActionDown) {
             if (mActiveItem == mFullyOpenedItem) {

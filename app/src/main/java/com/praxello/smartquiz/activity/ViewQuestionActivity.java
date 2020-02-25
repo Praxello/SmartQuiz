@@ -36,18 +36,18 @@ import com.praxello.smartquiz.AllKeys;
 import com.praxello.smartquiz.CommonMethods;
 import com.praxello.smartquiz.R;
 import com.praxello.smartquiz.adapter.ViewQuestionAdapter;
+import com.praxello.smartquiz.model.allquestion.QuestionBO;
 import com.praxello.smartquiz.model.allquestion.QuizBO;
 import com.praxello.smartquiz.services.ApiRequestHelper;
 import com.praxello.smartquiz.services.SmartQuiz;
 import com.praxello.smartquiz.widget.slidingitemrecyclerview.SlidingItemMenuRecyclerView;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.MultipartBody;
@@ -70,6 +70,7 @@ public class ViewQuestionActivity extends AppCompatActivity implements View.OnCl
     String imageBase64String;
     public static String  selectedImagePath;
     public static ViewQuestionAdapter viewQuestionAdapter;
+    public static ArrayList<QuestionBO> questionBOArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,12 @@ public class ViewQuestionActivity extends AppCompatActivity implements View.OnCl
 
         //basic intialisation..
         initViews();
+       /*
+        if(getIntent().getParcelableExtra("data")!=null) {
+            if (quizBO.getQuestions() != null) {
+                viewQuestionAdapter.notifyDataSetChanged();
+            }
+        }*/
     }
 
     private void initViews(){
@@ -101,18 +108,13 @@ public class ViewQuestionActivity extends AppCompatActivity implements View.OnCl
         rvCreateQuizQuestion.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
         //Setting data to adapter.....
-        if(getIntent().getParcelableExtra("data")!=null){
-            if(quizBO.getQuestions()!=null){
-                viewQuestionAdapter=new ViewQuestionAdapter(ViewQuestionActivity.this,quizBO.getQuestions());
+            if(MyQuizActivity.mainQuizBO.getQuestions()!=null){
+                viewQuestionAdapter=new ViewQuestionAdapter(ViewQuestionActivity.this,MyQuizActivity.mainQuizBO.getQuestions());
                 rvCreateQuizQuestion.setAdapter(viewQuestionAdapter);
             }else{
                 llNoData.setVisibility(View.VISIBLE);
                 rvCreateQuizQuestion.setVisibility(View.GONE);
             }
-        }else{
-            llNoData.setVisibility(View.VISIBLE);
-            rvCreateQuizQuestion.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -129,14 +131,18 @@ public class ViewQuestionActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    @Override
+  /*  @Override
     protected void onResume() {
         super.onResume();
-        if(AddNewQuestionActivity.questionBOArrayList!=null){
-            ViewQuestionAdapter viewQuestionAdapter=new ViewQuestionAdapter(ViewQuestionActivity.this,AddNewQuestionActivity.questionBOArrayList);
+        //Setting data to adapter.....
+        if(MyQuizActivity.mainQuizBO.getQuestions()!=null){
+            viewQuestionAdapter=new ViewQuestionAdapter(ViewQuestionActivity.this,MyQuizActivity.mainQuizBO.getQuestions());
             rvCreateQuizQuestion.setAdapter(viewQuestionAdapter);
+        }else{
+            llNoData.setVisibility(View.VISIBLE);
+            rvCreateQuizQuestion.setVisibility(View.GONE);
         }
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -163,6 +169,7 @@ public class ViewQuestionActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void requestPermissions() {
+
         Dexter.withActivity(this)
                 .withPermissions(
                         Manifest.permission.CAMERA,
@@ -291,6 +298,20 @@ public class ViewQuestionActivity extends AppCompatActivity implements View.OnCl
             // Log.e(TAG, "onActivityResult:decoded bitmap "+imageBase64String );
 
             //Toast.makeText(DashBoardActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+        }else if(requestCode==3){
+            //Setting data to adapter.....
+            if(getIntent().getParcelableExtra("data")!=null){
+                if(quizBO.getQuestions()!=null){
+                    viewQuestionAdapter=new ViewQuestionAdapter(ViewQuestionActivity.this,quizBO.getQuestions());
+                    rvCreateQuizQuestion.setAdapter(viewQuestionAdapter);
+                }else{
+                    llNoData.setVisibility(View.VISIBLE);
+                    rvCreateQuizQuestion.setVisibility(View.GONE);
+                }
+            }else{
+                llNoData.setVisibility(View.VISIBLE);
+                rvCreateQuizQuestion.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -348,7 +369,7 @@ public class ViewQuestionActivity extends AppCompatActivity implements View.OnCl
         if (height > reqHeight || width > reqWidth) {
             final int halfHeight = height / 2;
             final int halfWidth = width / 2;
-            // Calculate the largest inSampleSize value that is a power of 2 and
+            // Calculate the largest inSampleSize value that is a power of welcomeone and
             // keeps both
             // height and width larger than the requested height and width.
             while ((halfHeight / inSampleSize) > reqHeight

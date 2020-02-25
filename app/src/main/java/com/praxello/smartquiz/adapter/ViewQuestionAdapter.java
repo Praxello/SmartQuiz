@@ -288,8 +288,8 @@ public class ViewQuestionAdapter extends RecyclerView.Adapter<ViewQuestionAdapte
                     Toast.makeText(context, createQuestionResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     if(ViewQuestionActivity.selectedImagePath!=null){
                         ((ViewQuestionActivity) context).uploadImageRetrofit();
-
-                        QuestionBO questionBO=new QuestionBO(questionBOArrayList.get(position).getQuestionId(),
+                    }
+                      QuestionBO questionBO=new QuestionBO(questionBOArrayList.get(position).getQuestionId(),
                                 questionBOArrayList.get(position).getQuestionType(),
                                 questionBOArrayList.get(position).getQuizId(),
                                 holder.etQuestion.getText().toString(),
@@ -300,10 +300,12 @@ public class ViewQuestionAdapter extends RecyclerView.Adapter<ViewQuestionAdapte
                                 selectedRadioBtn,
                                 holder.etDetails.getText().toString(),
                                 1,
-                                holder.etMediaLink.getText().toString());
-                        notifyItemChanged(position,questionBO);
-                        questionBOArrayList.add(position,questionBO);
-                    }
+                                holder.etMediaLink.getText().toString()
+                        );
+                        MyQuizActivity.mainQuizBO.getQuestions().add(position,questionBO);
+                        notifyItemChanged(position,MyQuizActivity.mainQuizBO.getQuestions());
+                        MyQuizActivity.myQuizAdapter.notifyDataSetChanged();
+
                 }else{
                     Toast.makeText(context, createQuestionResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -314,7 +316,6 @@ public class ViewQuestionAdapter extends RecyclerView.Adapter<ViewQuestionAdapte
                 Toast.makeText(context, apiResponse, Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void deleteQuizQuestion(int questionId,int position){
@@ -331,9 +332,10 @@ public class ViewQuestionAdapter extends RecyclerView.Adapter<ViewQuestionAdapte
 
                 if(commonResponse.getResponsecode()==200){
                     Toast.makeText(context, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    questionBOArrayList.remove(position);
+                    MyQuizActivity.mainQuizBO.getQuestions().remove(position);
                     notifyItemRemoved(position);
-                    notifyItemRangeChanged(position,questionBOArrayList.size());
+                    notifyItemRangeChanged(position,MyQuizActivity.mainQuizBO.getQuestions().size());
+                    MyQuizActivity.myQuizAdapter.notifyDataSetChanged();
                 }else{
                     Toast.makeText(context, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }

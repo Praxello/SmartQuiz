@@ -53,6 +53,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -107,6 +108,7 @@ public class AddNewQuestionActivity extends AppCompatActivity implements View.On
     String imageBase64String;
     String selectedImagePath;
     public static ArrayList<QuestionBO> questionBOArrayList;
+    ArrayList<QuestionBO> questionBOSArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +134,8 @@ public class AddNewQuestionActivity extends AppCompatActivity implements View.On
     }
 
     private void initViews(){
+        questionBOSArrayList=new ArrayList<>();
+
         Toolbar toolbar=findViewById(R.id.toolbar_addnewquestion);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -144,7 +148,6 @@ public class AddNewQuestionActivity extends AppCompatActivity implements View.On
         btnCreateQuestion.setOnClickListener(this);
         btnMediaLink.setOnClickListener(this);
     }
-
 
     @Override
     public void onClick(View v) {
@@ -268,7 +271,7 @@ public class AddNewQuestionActivity extends AppCompatActivity implements View.On
         params.put("option4",etOption4.getText().toString());
         params.put("answer",String.valueOf(selectedRadioBtn));
         params.put("answerDetails",etDetails.getText().toString());
-        params.put("mediaUrl",etMediaLink.getText().toString());
+        params.put("mediaUrl","http://103.127.146.5/~tailor/smartquiz/questionpics/"+CommonMethods.getPrefrence(AddNewQuestionActivity.this,AllKeys.USER_ID)+".jpg");
 
         Log.e(TAG, "createQuestion: "+params );
 
@@ -284,7 +287,6 @@ public class AddNewQuestionActivity extends AppCompatActivity implements View.On
                     AddNewQuestionActivity.questionBOArrayList=createQuestionResponse.getNewRecord();
                     Toast.makeText(AddNewQuestionActivity.this, createQuestionResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
-/*
                     QuestionBO questionBO=new QuestionBO(createQuestionResponse.getNewRecord().get(0).getQuestionId(),
                             createQuestionResponse.getNewRecord().get(0).getQuestionType(),
                             createQuestionResponse.getNewRecord().get(0).getQuizId(),
@@ -299,9 +301,9 @@ public class AddNewQuestionActivity extends AppCompatActivity implements View.On
                             createQuestionResponse.getNewRecord().get(0).getMediaUrl()
                     );
 
-                    MyQuizActivity.quizBOArrayList.get(0).getQuestions().add(questionBO);
+                    MyQuizActivity.mainQuizBO.getQuestions().add(questionBO);
                     ViewQuestionActivity.viewQuestionAdapter.notifyDataSetChanged();
-*/
+                    MyQuizActivity.myQuizAdapter.notifyDataSetChanged();
 
                     //uploading image data..
                     if(selectedImagePath!=null){
@@ -478,7 +480,7 @@ public class AddNewQuestionActivity extends AppCompatActivity implements View.On
         if (height > reqHeight || width > reqWidth) {
             final int halfHeight = height / 2;
             final int halfWidth = width / 2;
-            // Calculate the largest inSampleSize value that is a power of 2 and
+            // Calculate the largest inSampleSize value that is a power of welcomeone and
             // keeps both
             // height and width larger than the requested height and width.
             while ((halfHeight / inSampleSize) > reqHeight

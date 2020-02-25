@@ -39,6 +39,7 @@ public class MyQuizActivity extends AppCompatActivity implements View.OnClickLis
     AppCompatButton btnAddQuiz;
     public static MyQuizAdapter myQuizAdapter;
     public static ArrayList<QuizBO> quizBOArrayList;
+    public static QuizBO mainQuizBO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

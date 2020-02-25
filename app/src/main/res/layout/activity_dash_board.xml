@@ -43,7 +43,25 @@
         android:textStyle="bold"
         android:textSize="@dimen/textsize30"/>
 
+
+    <TextView
+        android:id="@+id/tv_introslider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/cardview"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="@dimen/margin100"
+        android:drawableLeft="@drawable/ic_back"
+        android:drawableRight="@drawable/ic_next"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/margin15"
+        android:layout_marginRight="@dimen/margin15"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize18"
+        android:textStyle="bold" />
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/ivbackgroundimg"

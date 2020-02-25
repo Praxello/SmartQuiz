@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,12 +51,14 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     public LinearLayout llAccount;
     @BindView(R.id.iv_share)
     public ImageView ivShare;
+    @BindView(R.id.tv_introslider)
+    public TextView tvIntroSlider;
     SmartQuiz smartQuiz;
     private static String TAG = "DashBoardActivity";
     AlertDialog alertDialog;
     public static ArrayList<GetCategoriesBO> getCategoriesBOArraylist=new ArrayList<GetCategoriesBO>();
-
-
+    String[] array={"Use MCQs for quick objective test","Share with your students, collegeues easily","Use media for more interactive tests","Get your results on the spot"};
+    int i=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,21 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_dash_board);
         ButterKnife.bind(DashBoardActivity.this);
         smartQuiz = (SmartQuiz) getApplication();
+
+        new CountDownTimer(3000,1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {}
+
+            @Override
+            public void onFinish() {
+
+                tvIntroSlider.setText(array[i]);
+                i++;
+                if(i== array.length-1) i=0;
+                start();
+            }
+        }.start();
 
         //basic intialisation..
         initViews();
@@ -81,12 +99,14 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         ivShare.setOnClickListener(this);
 
         DashBoardActivity.getCategoriesBOArraylist.add(new GetCategoriesBO(0,"Select Category",1));
-
-        Log.e(TAG, "initViews: "+DashBoardActivity.getCategoriesBOArraylist.get(0) );
         TextView tvTitle = findViewById(R.id.tv_title);
         Typeface face = Typeface.createFromAsset(getAssets(), "fonts/greatvibes-regular.otf");
         tvTitle.setTypeface(face);
+
+        face = Typeface.createFromAsset(getAssets(), "fonts/noteworthy-bold.ttf");
+        tvIntroSlider.setTypeface(face);
     }
+
 
     @Override
     public void onClick(View v) {
