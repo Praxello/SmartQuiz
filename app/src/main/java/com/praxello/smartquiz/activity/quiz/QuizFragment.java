@@ -353,9 +353,9 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     public void loadQuizFragment() {
         Log.e(TAG, "loadQuizFragment: ");
         ShowResultFragment showResultFragment= new ShowResultFragment();
-        /*Bundle bundle = new Bundle();
+        Bundle bundle = new Bundle();
         bundle.putParcelable("quiz_bo", quizBO);
-        showResultFragment.setArguments(bundle);*/
+        showResultFragment.setArguments(bundle);
         loadFragment(showResultFragment);
         getActivity().overridePendingTransition(R.anim.bottom_up, R.anim.bottom_down);
         ((AppCompatActivity)getContext()).getSupportFragmentManager().popBackStack("", FragmentManager.POP_BACK_STACK_INCLUSIVE);

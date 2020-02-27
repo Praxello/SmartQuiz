@@ -57,9 +57,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tvForgotPassword.setOnClickListener(this);
         tvSignUp.setOnClickListener(this);
 
-        TextView tvTitle = findViewById(R.id.tv_title);
+       /* TextView tvTitle = findViewById(R.id.tv_title);
         Typeface face = Typeface.createFromAsset(getAssets(), "fonts/greatvibes-regular.otf");
-        tvTitle.setTypeface(face);
+        tvTitle.setTypeface(face);*/
     }
 
     @Override

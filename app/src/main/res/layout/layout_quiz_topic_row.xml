@@ -28,7 +28,7 @@
                 android:text="@string/general_quiz"
                 android:padding="@dimen/margin10"
                 android:layout_marginLeft="@dimen/margin30"
-                android:textStyle="bold"
+                android:textStyle="bold|italic"
                 android:textColor="@color/black"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse" />
 

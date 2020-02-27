@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,6 +39,7 @@ import com.praxello.smartquiz.AllKeys;
 import com.praxello.smartquiz.CommonMethods;
 import com.praxello.smartquiz.R;
 import com.praxello.smartquiz.adapter.ViewQuestionAdapter;
+import com.praxello.smartquiz.fragment.PreviewDialogFragment;
 import com.praxello.smartquiz.model.allquestion.QuestionBO;
 import com.praxello.smartquiz.model.allquestion.QuizBO;
 import com.praxello.smartquiz.services.ApiRequestHelper;
@@ -71,6 +75,7 @@ public class ViewQuestionActivity extends AppCompatActivity implements View.OnCl
     public static String  selectedImagePath;
     public static ViewQuestionAdapter viewQuestionAdapter;
     public static ArrayList<QuestionBO> questionBOArrayList;
+    public static String mediaUrl="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,14 +112,18 @@ public class ViewQuestionActivity extends AppCompatActivity implements View.OnCl
         btnAddQuizQuestion.setOnClickListener(this);
         rvCreateQuizQuestion.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
-        //Setting data to adapter.....
-            if(MyQuizActivity.mainQuizBO.getQuestions()!=null){
+        try{
+            //Setting data to adapter.....
+            if(MyQuizActivity.mainQuizBO.getQuestions()!=null || MyQuizActivity.mainQuizBO.getQuestions().size()>0){
                 viewQuestionAdapter=new ViewQuestionAdapter(ViewQuestionActivity.this,MyQuizActivity.mainQuizBO.getQuestions());
                 rvCreateQuizQuestion.setAdapter(viewQuestionAdapter);
             }else{
                 llNoData.setVisibility(View.VISIBLE);
                 rvCreateQuizQuestion.setVisibility(View.GONE);
             }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -161,8 +170,9 @@ public class ViewQuestionActivity extends AppCompatActivity implements View.OnCl
         overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
     }
 
-    public void onClickCalled() {
+    public void onClickCalled(String mediaUrl) {
         //first check for permissions then uploading....
+        ViewQuestionActivity.mediaUrl=mediaUrl;
         requestPermissions();
 
         // Call another acitivty here and pass some arguments to it.
@@ -211,7 +221,7 @@ public class ViewQuestionActivity extends AppCompatActivity implements View.OnCl
     private void showPictureDialog(){
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
         pictureDialog.setTitle("Select Action");
-        String[] pictureDialogItems = {"Capture photo from camera",
+        String[] pictureDialogItems = {"View","Capture photo from camera",
                 "Select photo from gallery"
         };
         pictureDialog.setItems(pictureDialogItems,
@@ -220,15 +230,34 @@ public class ViewQuestionActivity extends AppCompatActivity implements View.OnCl
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                takePhotoFromCamera();
+                                if(ViewQuestionActivity.mediaUrl==null || ViewQuestionActivity.mediaUrl.equals("")){
+                                    Toast.makeText(ViewQuestionActivity.this, "Image not available!", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    viewImagePreview();
+                                }
+
                                 break;
                             case 1:
+                                takePhotoFromCamera();
+                                break;
+                            case 2:
                                 choosePhotoFromGallary();
                                 break;
                         }
                     }
                 });
         pictureDialog.show();
+    }
+
+    private void viewImagePreview(){
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        DialogFragment dialogFragment = new PreviewDialogFragment();
+        dialogFragment.show(ft, "dialog");
     }
 
     public void choosePhotoFromGallary() {

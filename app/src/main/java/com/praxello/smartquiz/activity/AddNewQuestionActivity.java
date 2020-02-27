@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,10 +44,10 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.praxello.smartquiz.AllKeys;
 import com.praxello.smartquiz.CommonMethods;
 import com.praxello.smartquiz.R;
+import com.praxello.smartquiz.fragment.PreviewDialogFragment;
 import com.praxello.smartquiz.model.CreateQuestionResponse;
 import com.praxello.smartquiz.model.allquestion.QuestionBO;
 import com.praxello.smartquiz.model.allquestion.QuizBO;
-import com.praxello.smartquiz.model.quiz.UserData;
 import com.praxello.smartquiz.services.ApiRequestHelper;
 import com.praxello.smartquiz.services.SmartQuiz;
 
@@ -53,7 +55,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -177,11 +178,13 @@ public class AddNewQuestionActivity extends AppCompatActivity implements View.On
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 stCategoryId=position+1;
                 if(stCategoryId==2){
+                    etMediaLink.setHint("Media link");
                     llMediaLink.setVisibility(View.VISIBLE);
                     etMediaLink.setVisibility(View.VISIBLE);
                     btnMediaLink.setVisibility(View.VISIBLE);
                     etMediaLink.setEnabled(false);
                 }else if(stCategoryId==3){
+                    etMediaLink.setHint("Eg. 8MUgi5liyMU");
                     llMediaLink.setVisibility(View.VISIBLE);
                     etMediaLink.setVisibility(View.VISIBLE);
                     btnMediaLink.setVisibility(View.GONE);
@@ -279,7 +282,6 @@ public class AddNewQuestionActivity extends AppCompatActivity implements View.On
             @Override
             public void onSuccess(Object object) {
                 CreateQuestionResponse createQuestionResponse=(CreateQuestionResponse) object;
-
                 Log.e(TAG, "onSuccess: "+createQuestionResponse.getResponsecode());
                 Log.e(TAG, "onSuccess: "+createQuestionResponse.getMessage());
 
@@ -345,6 +347,7 @@ public class AddNewQuestionActivity extends AppCompatActivity implements View.On
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
+
                             case 0:
                                 takePhotoFromCamera();
                                 break;
@@ -356,6 +359,7 @@ public class AddNewQuestionActivity extends AppCompatActivity implements View.On
                 });
         pictureDialog.show();
     }
+
 
     public void choosePhotoFromGallary() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,

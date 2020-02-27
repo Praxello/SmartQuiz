@@ -14,7 +14,7 @@ public class QuizBO implements Parcelable {
     public int categoryId ;
     public String title;
     public String details;
-    public String passingScore;
+    public int passingScore;
     public int questionTimeout;
     public int quizTimeout;
     public String createdAt;
@@ -22,7 +22,6 @@ public class QuizBO implements Parcelable {
     public int isActive;
     public String categoryTitle;
     public ArrayList<QuestionBO> Questions;
-
 
     protected QuizBO(Parcel in) {
         quizId = in.readInt();
@@ -36,7 +35,7 @@ public class QuizBO implements Parcelable {
         updatedAt = in.readString();
         isActive = in.readInt();
         categoryTitle = in.readString();
-        passingScore = in.readString();
+        passingScore = in.readInt();
         Questions = in.createTypedArrayList(QuestionBO.CREATOR);
     }
 
@@ -52,7 +51,7 @@ public class QuizBO implements Parcelable {
         }
     };
 
-    public QuizBO(int quizId, int userId, int categoryId, String title, String details, String passingScore, int questionTimeout, int quizTimeout, String createdAt, String updatedAt, int isActive, String categoryTitle, ArrayList<QuestionBO> questions) {
+    public QuizBO(int quizId, int userId, int categoryId, String title, String details, int passingScore, int questionTimeout, int quizTimeout, String createdAt, String updatedAt, int isActive, String categoryTitle, ArrayList<QuestionBO> questions) {
         this.quizId = quizId;
         this.userId = userId;
         this.categoryId = categoryId;
@@ -69,19 +68,10 @@ public class QuizBO implements Parcelable {
     }
 
     /* @Override
-        public int hashCode() {
-            return quizId;
-        }
-    */
-
-    public String getPassingScore() {
-        return passingScore;
-    }
-
-    public void setPassingScore(String passingScore) {
-        this.passingScore = passingScore;
-    }
-
+            public int hashCode() {
+                return quizId;
+            }
+        */
     public int getQuizId() {
         return quizId;
     }
@@ -124,6 +114,14 @@ public class QuizBO implements Parcelable {
 
     public int getQuestionTimeout() {
         return questionTimeout;
+    }
+
+    public int getPassingScore() {
+        return passingScore;
+    }
+
+    public void setPassingScore(int passingScore) {
+        this.passingScore = passingScore;
     }
 
     public void setQuestionTimeout(int questionTimeout) {
@@ -171,13 +169,11 @@ public class QuizBO implements Parcelable {
     }
 
     public ArrayList<QuestionBO> getQuestions() {
-
         if(this.Questions == null)
         {
             Questions = new ArrayList<>();
         }
         return Questions;
-
     }
 
     public void setQuestions(ArrayList<QuestionBO> questions) {
@@ -208,7 +204,7 @@ public class QuizBO implements Parcelable {
         dest.writeString(updatedAt);
         dest.writeInt(isActive);
         dest.writeString(categoryTitle);
-        dest.writeString(passingScore);
+        dest.writeInt(passingScore);
         dest.writeTypedList(Questions);
     }
 }

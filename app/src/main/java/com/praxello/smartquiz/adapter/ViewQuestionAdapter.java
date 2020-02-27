@@ -21,14 +21,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.DexterError;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.PermissionRequestErrorListener;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.praxello.smartquiz.R;
 import com.praxello.smartquiz.activity.MyQuizActivity;
 import com.praxello.smartquiz.activity.ViewQuestionActivity;
@@ -36,11 +28,9 @@ import com.praxello.smartquiz.model.CommonResponse;
 import com.praxello.smartquiz.model.CreateQuestionResponse;
 import com.praxello.smartquiz.model.allquestion.QuestionBO;
 import com.praxello.smartquiz.services.ApiRequestHelper;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -148,7 +138,7 @@ public class ViewQuestionAdapter extends RecyclerView.Adapter<ViewQuestionAdapte
         holder.btnMediaLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ViewQuestionActivity) context).onClickCalled();
+                ((ViewQuestionActivity) context).onClickCalled(questionBOArrayList.get(position).getMediaUrl());
             }
         });
 
@@ -215,11 +205,13 @@ public class ViewQuestionAdapter extends RecyclerView.Adapter<ViewQuestionAdapte
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 stCategoryId=position+1;
                 if(stCategoryId==2){
+                    ViewQuestionViewHolder.etMediaLink.setHint("Media link");
                     holder.llMediaLink.setVisibility(View.VISIBLE);
                     holder.etMediaLink.setVisibility(View.VISIBLE);
                     holder.btnMediaLink.setVisibility(View.VISIBLE);
                     holder.etMediaLink.setEnabled(false);
                 }else if(stCategoryId==3){
+                    ViewQuestionViewHolder.etMediaLink.setHint("Eg. 8MUgi5liyMU");
                     holder.llMediaLink.setVisibility(View.VISIBLE);
                     holder.etMediaLink.setVisibility(View.VISIBLE);
                     holder.btnMediaLink.setVisibility(View.GONE);
@@ -302,9 +294,10 @@ public class ViewQuestionAdapter extends RecyclerView.Adapter<ViewQuestionAdapte
                                 1,
                                 holder.etMediaLink.getText().toString()
                         );
-                        MyQuizActivity.mainQuizBO.getQuestions().add(position,questionBO);
+                        MyQuizActivity.mainQuizBO.getQuestions().set(position,questionBO);
                         notifyItemChanged(position,MyQuizActivity.mainQuizBO.getQuestions());
                         MyQuizActivity.myQuizAdapter.notifyDataSetChanged();
+
 
                 }else{
                     Toast.makeText(context, createQuestionResponse.getMessage(), Toast.LENGTH_SHORT).show();

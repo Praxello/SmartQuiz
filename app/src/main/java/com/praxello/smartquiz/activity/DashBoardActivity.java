@@ -3,7 +3,6 @@ package com.praxello.smartquiz.activity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -19,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.praxello.smartquiz.AllKeys;
 import com.praxello.smartquiz.CommonMethods;
 import com.praxello.smartquiz.R;
@@ -29,9 +27,7 @@ import com.praxello.smartquiz.model.categories.GetCategoriesBO;
 import com.praxello.smartquiz.model.categories.GetCategoriesResponse;
 import com.praxello.smartquiz.services.ApiRequestHelper;
 import com.praxello.smartquiz.services.SmartQuiz;
-
 import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -59,6 +55,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     public static ArrayList<GetCategoriesBO> getCategoriesBOArraylist=new ArrayList<GetCategoriesBO>();
     String[] array={"Use MCQs for quick objective test","Share with your students, collegeues easily","Use media for more interactive tests","Get your results on the spot"};
     int i=0;
+    int count=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +83,9 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         initViews();
 
         //load Categories data
-        loadCategoriesData();
+        if(count==0){
+            loadCategoriesData();
+        }
     }
 
     private void initViews() {
@@ -106,7 +105,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         face = Typeface.createFromAsset(getAssets(), "fonts/noteworthy-bold.ttf");
         tvIntroSlider.setTypeface(face);
     }
-
 
     @Override
     public void onClick(View v) {
@@ -130,7 +128,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 ViewGroup viewGroup = findViewById(android.R.id.content);
                 View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.layout_dialog_view, viewGroup, false);
                 builder.setView(dialogView);
-
                 EditText etQuizID = dialogView.findViewById(R.id.etquizid);
                 AppCompatButton btnSubmit = dialogView.findViewById(R.id.btnsubmit);
 
@@ -148,7 +145,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 });
                 alertDialog = builder.create();
                 alertDialog.show();
-
                 break;
 
             case R.id.ll_account:
@@ -206,7 +202,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                         .setNegativeButton("No", null)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
-
                 break;
         }
     }
@@ -267,6 +262,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                         }
 
                         Log.e(TAG, "onSuccess: "+DashBoardActivity.getCategoriesBOArraylist.toString() );
+                        count++;
                     }
                  } else {
                     Toast.makeText(DashBoardActivity.this, getCategoriesResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -287,19 +283,18 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onBackPressed() {
         overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
+
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;
         }
-
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
-
             @Override
             public void run() {
-
+                //finishAffinity();
                 doubleBackToExitPressedOnce = false;
             }
         }, 2000);

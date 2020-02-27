@@ -57,15 +57,14 @@ public class MyQuizAdapter extends RecyclerView.Adapter<MyQuizAdapter.MyQuizView
 
         holder.tvTitle.setText(quizBOArrayList.get(position).title);
         holder.tvCategoryId.setText(String.valueOf(quizBOArrayList.get(position).getCategoryTitle()));
-        holder.tvPassScore.setText(String.valueOf(quizBOArrayList.get(position).getPassingScore()));
-        holder.tvTime.setText(String.valueOf(quizBOArrayList.get(position).getQuestionTimeout())+" sec");
+        holder.tvPassScore.setText(quizBOArrayList.get(position).getPassingScore() +"%");
+        holder.tvTime.setText(quizBOArrayList.get(position).getQuestionTimeout() +" sec");
         if(quizBOArrayList.get(position).getQuestions()!=null){
             holder.tvNoOfQuestion.setText(String.valueOf(quizBOArrayList.get(position).getQuestions().size()));
         }else{
             holder.tvNoOfQuestion.setText("-");
         }
-
-
+        
         String date = quizBOArrayList.get(position).getCreatedAt();
         SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         // Log.e(TAG, "simple date format: "+spf.toString());
@@ -148,7 +147,7 @@ public class MyQuizAdapter extends RecyclerView.Adapter<MyQuizAdapter.MyQuizView
                 String shareBody = "Here is the share content body";
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                ((Activity) context).startActivity(Intent.createChooser(sharingIntent, "Share via"));
+                context.startActivity(Intent.createChooser(sharingIntent, "Share via"));
             }
         });
 
