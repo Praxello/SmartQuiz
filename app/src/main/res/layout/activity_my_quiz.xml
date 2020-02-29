@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.MyQuizActivity">
+    tools:context=".activity.MyQuizActivity"
+    android:background="@color/grey">
 
     <include
         layout="@layout/toolbar"
@@ -23,7 +24,7 @@
         android:layout_margin="@dimen/margin5"
         android:layout_alignParentRight="true"/>
 
-    <com.praxello.smartquiz.widget.slidingitemrecyclerview.SlidingItemMenuRecyclerView
+    <com.praxello.smartmcq.widget.slidingitemrecyclerview.SlidingItemMenuRecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/margin15"

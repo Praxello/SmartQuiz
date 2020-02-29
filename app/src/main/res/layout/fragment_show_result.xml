@@ -54,7 +54,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-            <com.praxello.smartquiz.widget.ColorArcProgressBar
+            <com.praxello.smartmcq.widget.ColorArcProgressBar
                 android:layout_width="@dimen/margin150dp"
                 android:layout_height="@dimen/margin150dp"
                 android:layout_gravity="center_horizontal"

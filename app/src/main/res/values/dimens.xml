@@ -37,4 +37,6 @@
     <dimen name="desc_padding">40dp</dimen>
     <dimen name="margin120">120dp</dimen>
     <dimen name="margin500">500dp</dimen>
+    <dimen name="margin300">300dp</dimen>
+    <dimen name="textsize50">50sp</dimen>
 </resources>

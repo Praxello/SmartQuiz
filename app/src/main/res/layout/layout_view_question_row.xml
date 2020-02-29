@@ -184,35 +184,86 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/ll_medialink">
+                android:orientation="vertical"
+                android:id="@+id/ll_medialink"
+                android:layout_margin="@dimen/margin10">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:orientation="horizontal"
+                    android:id="@+id/ll_video"
+                    android:visibility="gone">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/et_medialink"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="@string/media_link"
-                        android:scrollHorizontally="false" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_medialink"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/margin40"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/margin10"
-                    android:layout_marginRight="@dimen/margin10"
-                    android:background="@drawable/yourbuttonbackground"
-                    android:button="@android:color/transparent"
-                    android:padding="@dimen/margin10"
-                    android:text="Media"
-                    android:textAllCaps="false" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_medialink"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="@string/media_link"
+                            android:scrollHorizontally="false" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_weight="1"
+                        android:id="@+id/btn_view_video"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin40"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/margin10"
+                        android:layout_marginRight="@dimen/margin10"
+                        android:background="@drawable/yourbuttonbackground"
+                        android:backgroundTint="@color/grey100"
+                        android:button="@android:color/transparent"
+                        android:padding="@dimen/margin10"
+                        android:text="@string/view_video"
+                        android:textAllCaps="false" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/ll_image"
+                    android:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_weight="1"
+                        android:id="@+id/btn_view_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin40"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/margin10"
+                        android:layout_marginRight="@dimen/margin10"
+                        android:background="@drawable/yourbuttonbackground"
+                        android:backgroundTint="@color/grey100"
+                        android:button="@android:color/transparent"
+                        android:padding="@dimen/margin10"
+                        android:text="@string/view_image"
+                        android:textAllCaps="false" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_medialink"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin40"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/margin10"
+                        android:layout_marginRight="@dimen/margin10"
+                        android:background="@drawable/yourbuttonbackground"
+                        android:button="@android:color/transparent"
+                        android:padding="@dimen/margin10"
+                        android:backgroundTint="@color/grey100"
+                        android:text="@string/upload"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

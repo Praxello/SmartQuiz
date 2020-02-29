@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.praxello.smartquiz">
+    package="com.praxello.smartmcq">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
-        android:name=".services.SmartQuiz"
+        android:name="com.praxello.smartmcq.services.SmartQuiz"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,61 +23,61 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.LoginActivity"
+        <activity android:name="com.praxello.smartmcq.activity.LoginActivity"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activity.AddNewQuestionActivity"
+            android:name="com.praxello.smartmcq.activity.AddNewQuestionActivity"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activity.ViewQuestionActivity"
+            android:name="com.praxello.smartmcq.activity.ViewQuestionActivity"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activity.AddQuizActivity"
+            android:name="com.praxello.smartmcq.activity.AddQuizActivity"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activity.MyQuizActivity"
+            android:name="com.praxello.smartmcq.activity.MyQuizActivity"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activity.MyScoreActivity"
+            android:name="com.praxello.smartmcq.activity.MyScoreActivity"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activity.UpdateProfileActivity"
+            android:name="com.praxello.smartmcq.activity.UpdateProfileActivity"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activity.SignUpActivity"
+            android:name="com.praxello.smartmcq.activity.SignUpActivity"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activity.ForgotPasswordActivity"
+            android:name="com.praxello.smartmcq.activity.ForgotPasswordActivity"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activity.DashBoardActivity"
+            android:name="com.praxello.smartmcq.activity.DashBoardActivity"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activity.QuizSubTopicsActivity"
+            android:name="com.praxello.smartmcq.activity.QuizSubTopicsActivity"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activity.QuizTopicsActvity"
-            android:screenOrientation="unspecified"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-
-        <activity
-            android:name=".activity.WelcomeSliderActivity"
+            android:name="com.praxello.smartmcq.activity.QuizTopicsActvity"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.praxello.smartmcq.activity.WelcomeSliderActivity"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+
+        <activity
+            android:name="com.praxello.smartmcq.activity.MainActivity"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
@@ -87,11 +87,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.quiz.QuizActivity"
+            android:name="com.praxello.smartmcq.activity.quiz.QuizActivity"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activity.PreViewActivity"
+            android:name="com.praxello.smartmcq.activity.PreViewActivity"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
