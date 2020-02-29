@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +38,7 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
         ButterKnife.bind(this);
         smartQuiz = (SmartQuiz) getApplication();
+
         //basic intialisation...
         initViews();
 
@@ -56,16 +58,16 @@ public class QuizActivity extends AppCompatActivity {
         //Toolbar intialisation...
         Toolbar toolbar = findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        if(getIntent().getStringExtra("type")==null){
+        if(getIntent().getStringExtra("type").equals("general")){
             toolbar.setTitle("Smart Quiz");
-        }else{
+        }else if(getIntent().getStringExtra("type").equals("preview")){
             toolbar.setTitle("Quiz Preview");
         }
 
         toolbar.setTitleTextColor(Color.BLACK);
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+        //toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
         progressBar = findViewById(R.id.progressBar);
         tvError = findViewById(R.id.tv_error);
@@ -142,21 +144,23 @@ public class QuizActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
-                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+                Toast.makeText(smartQuiz, "Please complete quiz!", Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
+        if(getIntent().getStringExtra("type").equals("preview")){
+            super.onBackPressed();
+        }else{
+
+        }
     }
 
 }

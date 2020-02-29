@@ -289,7 +289,8 @@ public class AddNewQuestionActivity extends AppCompatActivity implements View.On
                     AddNewQuestionActivity.questionBOArrayList=createQuestionResponse.getNewRecord();
                     Toast.makeText(AddNewQuestionActivity.this, createQuestionResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
-                        QuestionBO questionBO=new QuestionBO(createQuestionResponse.getNewRecord().get(0).getQuestionId(),
+
+                        QuestionBO questionBO = new QuestionBO(createQuestionResponse.getNewRecord().get(0).getQuestionId(),
                                 createQuestionResponse.getNewRecord().get(0).getQuestionType(),
                                 createQuestionResponse.getNewRecord().get(0).getQuizId(),
                                 createQuestionResponse.getNewRecord().get(0).getQuestion(),

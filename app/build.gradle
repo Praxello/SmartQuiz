@@ -73,5 +73,8 @@ dependencies {
     //For runtime permission
     implementation 'com.karumi:dexter:4.1.0'
 
+    //Material EdiText Libraries
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
 
 }

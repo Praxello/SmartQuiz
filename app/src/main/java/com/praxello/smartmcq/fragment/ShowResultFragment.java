@@ -53,20 +53,26 @@ public class ShowResultFragment extends Fragment {
 
         tvResult.setText(((QuizActivity) getContext()).totalScore + "/" + ((QuizActivity) getContext()).quizBO.getQuestions().size());
 
-        float finalPerc = (((QuizActivity) getContext()).totalScore * 100f) /((QuizActivity) getContext()).quizBO.getQuestions().size() ;
-        circleProgressView.setCurrentValues(finalPerc);
+        try{
+            float finalPerc = (((QuizActivity) getContext()).totalScore * 100f) /((QuizActivity) getContext()).quizBO.getQuestions().size() ;
+            circleProgressView.setCurrentValues(finalPerc);
 
-        if(finalPerc>=quizBO.getPassingScore()){
-            Glide.with(this).
-                    load(R.drawable.passed).
-                    diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true).into(imageView);
-        }else{
-            Glide.with(this).
-                    load(R.drawable.fail).
-                    diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true).into(imageView);
+            if(finalPerc>=quizBO.getPassingScore()){
+                Glide.with(this).
+                        load(R.drawable.passed).
+                        diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true).into(imageView);
+            }else{
+                Glide.with(this).
+                        load(R.drawable.fail).
+                        diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true).into(imageView);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
+
 
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override

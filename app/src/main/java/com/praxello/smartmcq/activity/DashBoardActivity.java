@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.praxello.smartmcq.AllKeys;
 import com.praxello.smartmcq.CommonMethods;
+import com.praxello.smartmcq.DemoFaceDistanceActivity;
 import com.praxello.smartmcq.R;
 import com.praxello.smartmcq.activity.quiz.QuizActivity;
 import com.praxello.smartmcq.model.GetExamResponse;
@@ -98,11 +99,11 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         ivShare.setOnClickListener(this);
 
         DashBoardActivity.getCategoriesBOArraylist.add(new GetCategoriesBO(0,"Select Category",1));
-        TextView tvTitle = findViewById(R.id.tv_title);
+        /*TextView tvTitle = findViewById(R.id.tv_title);
         Typeface face = Typeface.createFromAsset(getAssets(), "fonts/greatvibes-regular.otf");
-        tvTitle.setTypeface(face);
+        tvTitle.setTypeface(face);*/
 
-        face = Typeface.createFromAsset(getAssets(), "fonts/noteworthy-bold.ttf");
+        Typeface face = Typeface.createFromAsset(getAssets(), "fonts/noteworthy-bold.ttf");
         tvIntroSlider.setTypeface(face);
     }
 
@@ -162,12 +163,17 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.iv_share:
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                intent = new Intent(DashBoardActivity.this, DemoFaceDistanceActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+
+                /*Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 String shareBody = "Here is the share content body";
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));*/
                 break;
 
             case R.id.ll_logout:
@@ -221,6 +227,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                         Intent intent = new Intent(DashBoardActivity.this, QuizActivity.class);
                         //intent.putParcelableArrayListExtra("data_test",getExamResponse.getData());
                         intent.putExtra("data", getExamResponse.getData());
+                        intent.putExtra("type","general");
                         startActivity(intent);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
@@ -256,11 +263,11 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
                 if (getCategoriesResponse.getResponsecode() == 200) {
                     if(getCategoriesResponse.getData()!=null){
-
-                        for(int i=0;i<getCategoriesResponse.getData().size();i++){
-                            DashBoardActivity.getCategoriesBOArraylist.add(getCategoriesResponse.Data.get(i));
+                        if(DashBoardActivity.getCategoriesBOArraylist!=null){
+                            for(int i=0;i<getCategoriesResponse.getData().size();i++){
+                                DashBoardActivity.getCategoriesBOArraylist.add(getCategoriesResponse.Data.get(i));
+                            }
                         }
-
                         Log.e(TAG, "onSuccess: "+DashBoardActivity.getCategoriesBOArraylist.toString() );
                         count++;
                     }

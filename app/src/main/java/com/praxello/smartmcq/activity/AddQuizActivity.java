@@ -110,7 +110,14 @@ public class AddQuizActivity extends AppCompatActivity implements View.OnClickLi
         etTimeOut.setText(String.valueOf(quizBO.getQuestionTimeout()));
         etPassingScore.setText(String.valueOf(quizBO.getPassingScore()));
         etQuizDescription.setText(quizBO.getDetails());
-        spinCategory.setSelection(quizBO.getCategoryId());
+
+        for(int i=0;i<DashBoardActivity.getCategoriesBOArraylist.size();i++){
+            if(quizBO.getCategoryTitle().equals(DashBoardActivity.getCategoriesBOArraylist.get(i).getCategoryTitle())){
+                spinCategory.setSelection(i);
+                break;
+            }
+        }
+        //spinCategory.setPrompt("android");
     }
 
     @Override
@@ -170,6 +177,7 @@ public class AddQuizActivity extends AppCompatActivity implements View.OnClickLi
                                 createQuizResponse.getNewRecord().getQuestions());
 
                         MyQuizActivity.quizBOArrayList.add(quizBO1);
+                        MyQuizActivity.mainQuizBO=quizBO1;
                         MyQuizActivity.myQuizAdapter.notifyDataSetChanged();
                         finish();
                         overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_translate);
@@ -180,7 +188,7 @@ public class AddQuizActivity extends AppCompatActivity implements View.OnClickLi
 */
                     Toast.makeText(AddQuizActivity.this, createQuizResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(AddQuizActivity.this,ViewQuestionActivity.class);
-                    intent.putExtra("data",createQuizResponse.getNewRecord());
+                    intent.putExtra("data",quizBO1);
                     startActivity(intent);
                     finish();
                     overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
@@ -284,6 +292,12 @@ public class AddQuizActivity extends AppCompatActivity implements View.OnClickLi
             return false;
         }
 
+        int passingScore= Integer.parseInt(etPassingScore.getText().toString());
+        if(passingScore>100){
+            etPassingScore.setError("Passing score should be between 0 to 100!");
+            etPassingScore.requestFocus();
+            return false;
+        }
         return true;
     }
 

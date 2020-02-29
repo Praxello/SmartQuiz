@@ -62,7 +62,7 @@ public class MyQuizAdapter extends RecyclerView.Adapter<MyQuizAdapter.MyQuizView
         if(quizBOArrayList.get(position).getQuestionTimeout()==0){
             holder.tvTime.setText("NA");
         }else {
-            holder.tvTime.setText(quizBOArrayList.get(position).getQuestionTimeout() + "sec");
+            holder.tvTime.setText(quizBOArrayList.get(position).getQuestionTimeout() + " sec");
         }
 
         String date = quizBOArrayList.get(position).getCreatedAt();
@@ -89,7 +89,6 @@ public class MyQuizAdapter extends RecyclerView.Adapter<MyQuizAdapter.MyQuizView
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Continue with delete operation
-                                //deleteComment(commentsDataArrayList.get(position).getSessionId(), commentsDataArrayList.get(position).getCommentId(), position);
                                 deleteQuiz(quizBOArrayList.get(position).getQuizId(),position);
                             }
                         })

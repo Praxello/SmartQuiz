@@ -121,7 +121,6 @@
                         android:layout_width="@dimen/margin100"
                         android:layout_height="@dimen/margin50"
                         android:layout_marginTop="@dimen/margin10"
-                        android:background="@drawable/passed"
                         android:layout_gravity="right"
                         android:scaleType="fitXY" />
 

@@ -1,6 +1,11 @@
 package com.praxello.smartmcq.activity.quiz;
 
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -71,6 +76,9 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     SmartQuiz smartQuiz;
     private final static String TAG = "QuizFragment";
     long secInMilliSeconds = 0;
+    SensorManager mySensorManager;
+    Sensor myProximitySensor;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,11 +100,43 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         ButterKnife.bind(getContext(), view);
         smartQuiz = (SmartQuiz) getActivity().getApplication();
 
+        mySensorManager = (SensorManager) smartQuiz.getSystemService(Context.SENSOR_SERVICE);
+        myProximitySensor = mySensorManager.getDefaultSensor(
+                Sensor.TYPE_PROXIMITY);
+
+        if (myProximitySensor == null) {
+            Toast.makeText(smartQuiz, "No Proximity Sensor!", Toast.LENGTH_SHORT).show();
+        } else {
+            mySensorManager.registerListener(proximitySensorEventListener,
+                    myProximitySensor,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+        }
+
         //basic intilaisation...
         initView(view);
 
         return view;
     }
+
+    SensorEventListener proximitySensorEventListener
+            = new SensorEventListener() {
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            // TODO Auto-generated method stub
+        }
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            // TODO Auto-generated method stub
+            if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
+                if (event.values[0] == 0) {
+                    Toast.makeText(smartQuiz, "Near", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(smartQuiz, "Away", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    };
+
 
     private void initView(View view) {
 
@@ -204,6 +244,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             }
             disableClicks();
         });
+
         rlOption3.setOnClickListener(view1 -> {
             isQuestionAnswered = true;
             if (question.getAnswer() == 3) {
@@ -222,6 +263,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             }
             disableClicks();
         });
+
         rlOption4.setOnClickListener(view1 -> {
             isQuestionAnswered = true;
             if (question.getAnswer() == 4) {
@@ -260,7 +302,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
                 Log.e(TAG, "onViewCreated: "+map );
                 savequiz(map);*/
-                if(getArguments().getString("type")!=null){
+                if(getArguments().getString("type").equals("preview")){
                     Toast.makeText(smartQuiz, "These was only a demo quiz.", Toast.LENGTH_SHORT).show();
                 }else{
                    savequiz("1", "" + ((QuizActivity) getContext()).totalScore, "" + question.quizId);
@@ -318,7 +360,8 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                     Log.e(TAG, "onSuccess: " + userData.getResponsecode());
                     if (userData != null) {
                         if (userData.getResponsecode() == 200) {
-                            Toast.makeText(getContext(), "Answers submitted", Toast.LENGTH_SHORT).show();
+
+                            Toast.makeText(smartQuiz, "Answers submitted", Toast.LENGTH_SHORT).show();
                            /* new MaterialDialog.Builder(getContext())
                                     .title("Your score")
                                     .content(((QuizActivity) getContext()).totalScore + "/" + ((QuizActivity) getContext()).quizBO.getQuestions().size())
